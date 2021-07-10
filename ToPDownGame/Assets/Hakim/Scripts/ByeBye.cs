@@ -19,7 +19,6 @@ public class ByeBye : MonoBehaviour
             GeneralEvents.ennemyDown(gameObject.name);
         }
         behavior.sayhi -= say;
-
     }
     void Start()
     {
