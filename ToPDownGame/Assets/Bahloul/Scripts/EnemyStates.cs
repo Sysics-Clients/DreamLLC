@@ -37,7 +37,7 @@ public class EnemyStates : MonoBehaviour
     private int currentPos=0;
     [SerializeField]
     private float timeToWait;
-    public List<Vector3> Positions ;
+    public List<Transform> Positions ;
     public List<GameObject> listGuns;
     NavMeshAgent agent;
     private int activeGun;
@@ -46,7 +46,7 @@ public class EnemyStates : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        Positions.Add(transform.position);
+        Positions.Add(transform);
         agent = GetComponent<NavMeshAgent>();
         currentState = State.Idle;
         WaitIdle = StartCoroutine(WaitOnIdle());
@@ -84,8 +84,8 @@ public class EnemyStates : MonoBehaviour
                     toChase();
 
                 }
-                agent.SetDestination(Positions[currentPos]);
-                if (Vector3.Distance(transform.position, Positions[currentPos]) < 0.1f) //Reach Destination"
+                agent.SetDestination(Positions[currentPos].position);
+                if (Vector3.Distance(transform.position, Positions[currentPos].position) < 0.1f) //Reach Destination"
                 {
                     currentState = State.Idle;
                     enemyBehavior.enemyMovement(EnemyController.Movement.Idle);

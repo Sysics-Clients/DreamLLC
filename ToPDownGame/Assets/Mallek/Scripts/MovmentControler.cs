@@ -19,9 +19,16 @@ public class MovmentControler : MonoBehaviour
     private State _courentState;
     public PlayerBehavior playerBehavior;
 
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    private float gravityValue = -9.81f;
+    public float speedRotation;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
     }
@@ -35,52 +42,106 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.state -= changeState;
     }
     // Update is called once per frame
-    
-    void FixedUpdate()
+
+    /* void FixedUpdate()
+     {
+         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, mask);
+         if (isGrounded && velocity.y<0)
+         {
+             velocity.y = -2;
+         }
+
+         float x = -joystick.Vertical;
+         float y = joystick.Horizontal;
+
+         switch (_courentState)
+         {
+             case State.walk:
+                 {
+                     animator.SetBool("attack", false);
+                     animator.SetFloat("speed", y / 2);
+                     Vector3 move = transform.right * x + transform.forward * y;
+                     characterController.Move(move * speed * Time.deltaTime);
+                     break;
+                 }
+             case State.run: 
+                 {
+                     animator.SetBool("attack", false);
+                     animator.SetFloat("speed", y);
+                     Vector3 move = transform.right * x + transform.forward * y;
+                     characterController.Move(move * speed * Time.deltaTime);
+                     break;
+                 }
+             case State.attack:
+                 {
+                     animator.SetBool("attack", true);
+                     _courentState = State.walk;
+                     break;
+                 }
+             case State.die:
+                 {
+                     animator.SetBool("die", true);
+                     break;
+                 }
+         }
+
+
+         velocity.y += gravity * Time.deltaTime;
+         characterController.Move(velocity * Time.deltaTime);
+     }*/
+
+    private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, mask);
-        if (isGrounded && velocity.y<0)
+        groundedPlayer = characterController.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
         {
-            velocity.y = -2;
+            playerVelocity.y = 0f;
         }
 
-        float x = -joystick.Vertical;
-        float y = joystick.Horizontal;
 
-        switch (_courentState)
+        Vector3 move = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+
+
+        //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
+        animator.SetFloat("speed", 1);
+        if (move != Vector3.zero)
         {
-            case State.walk:
-                {
-                    animator.SetBool("attack", false);
-                    animator.SetFloat("speed", y / 2);
-                    Vector3 move = transform.right * x + transform.forward * y;
-                    characterController.Move(move * speed * Time.deltaTime);
-                    break;
-                }
-            case State.run: 
-                {
-                    animator.SetBool("attack", false);
-                    animator.SetFloat("speed", y);
-                    Vector3 move = transform.right * x + transform.forward * y;
-                    characterController.Move(move * speed * Time.deltaTime);
-                    break;
-                }
-            case State.attack:
-                {
-                    animator.SetBool("attack", true);
-                    _courentState = State.walk;
-                    break;
-                }
-            case State.die:
-                {
-                    animator.SetBool("die", true);
-                    break;
-                }
+            move.y = 0;
+            characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
+            animator.SetFloat("speed", 1);
+
+        }
+        else
+        {
+            animator.SetFloat("speed", 0);
         }
         
+        if (move != Vector3.zero && transform.forward.normalized != move.normalized)
+        {
+            LockOnTarget(move.normalized);
 
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        }
+
+
+
+        if (groundedPlayer == false)
+        {
+            playerVelocity.y = gravityValue * Time.deltaTime;
+            characterController.Move(playerVelocity);
+        }
+
+
+
+    }
+
+    void LockOnTarget(Vector3 _target)
+    {
+        
+            Quaternion startrotation = new Quaternion(0, 0, 0, 0);
+            Vector3 root = Vector3.Lerp(transform.forward, _target, speedRotation);
+            transform.forward = root;
+        
+
     }
 
     private void changeState(State state)
