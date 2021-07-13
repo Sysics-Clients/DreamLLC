@@ -55,11 +55,27 @@ public class EnemyStates : MonoBehaviour
         listGuns[0].SetActive(true);
     }
     void toChase() {
+        enemyBehavior.setEnemyFovColor(Color.yellow);
         StateImage.sprite = EnemyStatesSprites[1];
         currentState = State.Chasing;
         agent.speed = enemyBehavior.Item.runSpeed;
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
         changeGun(1);
+    }
+    void toIdle() {
+        currentState = State.Idle;
+        enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
+        changeGun(0);
+        WaitIdle = StartCoroutine(WaitOnIdle());
+    }
+    void toAttack() {
+        enemyBehavior.setEnemyFovColor(Color.red);
+        StateImage.sprite = EnemyStatesSprites[2];
+        currentState = State.Attack;
+        anim.SetBool("isShooting", true);
+        agent.speed = 0;
+        enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
+        changeGun(2);
     }
     private void changeGun(int i) {
         listGuns[activeGun].SetActive(false);
@@ -71,59 +87,58 @@ public class EnemyStates : MonoBehaviour
     {   
         switch (currentState) {
             case State.Idle:
-                if (enemyBehavior.fieldOfView())
+                if (enemyBehavior.canSeeThePlayer())
                 {
                     StopCoroutine(WaitIdle);
                     toChase();
                 }
-
                 break;
             case State.Roaming:
-                if (enemyBehavior.fieldOfView())
+                if (enemyBehavior.canSeeThePlayer())
                 {
                     toChase();
-
                 }
                 agent.SetDestination(Positions[currentPos].position);
                 if (Vector3.Distance(transform.position, Positions[currentPos].position) < 0.1f) //Reach Destination"
                 {
-                    currentState = State.Idle;
-                    enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
-                    changeGun(0);
-                    WaitIdle = StartCoroutine(WaitOnIdle());
-                    
+                    toIdle();
+
+
                 }
                 break;
             case State.Chasing:
-                if (Vector3.Distance(transform.position, playerTransform.position) > 10)
+                float distance = Vector3.Distance(transform.position, playerTransform.position);
+                if (distance > 10)
                 {
                     currentState = State.Roaming;
                     enemyBehavior.enemyMovement(EnemyController.Movement.Walk);
                     agent.speed = enemyBehavior.Item.walkSpeed;
 
                 }
-                else if (Vector3.Distance(transform.position, playerTransform.position) > 5)
+                else if (distance > 5)
                 {
                     agent.SetDestination(playerTransform.position);
                 }
                 else {
-                    StateImage.sprite = EnemyStatesSprites[2];
-                    currentState = State.Attack;
-                    anim.SetBool("isShooting", true);
-                    agent.speed = 0;
-                    enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
-
-                    changeGun(2);
+                    toAttack();
                 }
                 break;
             case State.Attack:
-                if (Vector3.Distance(transform.position, playerTransform.position) > 5) {
-                    toChase();
-                    anim.SetBool("isShooting", false);
-                }
-                else
-                {
-                    transform.LookAt(new Vector3( playerTransform.position.x,transform.position.y, playerTransform.position.z));
+                if (enemyBehavior.canSeeThePlayer())
+                    if (Vector3.Distance(transform.position, playerTransform.position) > 5)
+                    {
+                        toChase();
+                        anim.SetBool("isShooting", false);
+                        enemyBehavior.setEnemyFovColor(Color.yellow);
+                    }
+                    else
+                    {
+                        transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
+                    }
+                else {
+                    enemyBehavior.setEnemyFovColor(Color.yellow);
+                    toIdle();
+                    print("pijsdif");
                 }
                 break;
             case State.Death:
@@ -131,7 +146,8 @@ public class EnemyStates : MonoBehaviour
                 anim.SetBool("Die", true);
                 agent.speed = 0;
                 listGuns[activeGun].SetActive(false);
-                this.enabled = false;
+                enemyBehavior.disableOrEnableFieldOfView(false);
+                enabled = false;
                 break;
         }
     }
