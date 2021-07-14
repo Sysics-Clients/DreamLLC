@@ -11,8 +11,8 @@ public class EnemyBehavior : MonoBehaviour
     public EnemyState enemyState;
 
 
-    public delegate bool FieldOfView();
-    public FieldOfView fieldOfView;
+    public delegate bool CanSeeThePlayer();
+    public CanSeeThePlayer canSeeThePlayer;
 
     public delegate float GetCurrentHealth();
     public GetCurrentHealth currentHealth;
@@ -20,6 +20,18 @@ public class EnemyBehavior : MonoBehaviour
     public delegate void TakeDamage(float damage);
     public TakeDamage takeDamage;
 
+    public delegate void SetEnemyFovColor(Color color);
+    public SetEnemyFovColor setEnemyFovColor;
+
+    public delegate void DisableOrEnableFieldOfView(bool state);
+    public DisableOrEnableFieldOfView disableOrEnableFieldOfView;
+
+
+    public delegate GameObject GetBullet();
+    public GetBullet getBullet;
+
+    public delegate void ReturnBullet(GameObject bullet);
+    public ReturnBullet returnBullet;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) {
