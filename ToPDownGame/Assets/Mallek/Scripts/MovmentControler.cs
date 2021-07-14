@@ -23,6 +23,7 @@ public class MovmentControler : MonoBehaviour
     private bool groundedPlayer;
     private float gravityValue = -9.81f;
     public float speedRotation;
+    float slow;
 
 
     // Start is called before the first frame update
@@ -103,17 +104,24 @@ public class MovmentControler : MonoBehaviour
 
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
-        animator.SetFloat("speed", 1);
-        if (move != Vector3.zero)
+        //animator.SetFloat("speed", 1);
+        if (_courentState == State.roll)
+        {
+            characterController.Move(transform.forward * Time.smoothDeltaTime *10);
+        }
+        else if (move != Vector3.zero)
         {
             move.y = 0;
             characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
             animator.SetFloat("speed", 1);
-
+            slow = 1;
         }
         else
         {
-            animator.SetFloat("speed", 0);
+            if(slow>0.01f)
+                slow = slow*3 / 4;
+            
+            animator.SetFloat("speed", slow);
         }
         
         if (move != Vector3.zero && transform.forward.normalized != move.normalized)
@@ -121,7 +129,7 @@ public class MovmentControler : MonoBehaviour
             LockOnTarget(move.normalized);
 
         }
-
+        
 
 
         if (groundedPlayer == false)
@@ -144,6 +152,18 @@ public class MovmentControler : MonoBehaviour
 
     }
 
+    public void roll()
+    {
+        animator.SetBool("roll", true);
+        _courentState = State.roll;
+        
+    }
+
+    public void stopRoll()
+    {
+        _courentState = State.walk;
+        animator.SetBool("roll", false);
+    }
     private void changeState(State state)
     {
         _courentState = state;
@@ -167,7 +187,7 @@ public class MovmentControler : MonoBehaviour
     {
         walk,
         run,
-        attack,
+        roll,
         die
     }
 

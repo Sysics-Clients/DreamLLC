@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     const int maxHealth=100;
-    public int corentHelth;
+    public float corentHelth;
     public PlayerBehavior player;
     private void OnEnable()
     {
@@ -31,7 +31,7 @@ public class Health : MonoBehaviour
         }
     }
     
-    public void damege(int value)
+    public void damege(float value)
     {
         if (corentHelth > 0)
         {

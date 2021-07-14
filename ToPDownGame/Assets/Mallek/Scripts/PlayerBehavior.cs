@@ -6,7 +6,7 @@ using System;
 public class PlayerBehavior : MonoBehaviour
 {
 
-    public delegate void Damege(int value);
+    public delegate void Damege(float value);
     public Damege damege;
 
     public delegate void State(MovmentControler.State state);

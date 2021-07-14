@@ -5,41 +5,32 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public Transform gun;
-    public float range=20;
-    public int damege = 20;
     public PlayerBehavior playerBehavior;
+    public Animator animator;
+    BulletPool bulletPool;
 
    
     // Start is called before the first frame update
     void Start()
     {
-        
+        bulletPool = BulletPool.Instance;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            shoot();
-        }
     }
 
     public void shoot()
     {
-        if(playerBehavior!=null)
-            playerBehavior.state(MovmentControler.State.attack);
+        if(!animator.GetBool("attack"))
+            animator.SetBool("attack", true);
         
     }
     public void shot()
     {
-        print("hhhh");
-        RaycastHit raycastHit;
-        if (Physics.Raycast(gun.position, gun.forward, out raycastHit, range))
-        {
-            //Eney enemy=hit.transform.GetComponent<Enemy>();
-            //
-            
-        }
+        bulletPool.spownBullet(gun.transform.position,transform.forward);
+        animator.SetBool("attack", false);
     }
 }
