@@ -7,12 +7,7 @@ public class MovmentControler : MonoBehaviour
     public CharacterController characterController;
 
     public float speed=12;
-    public float gravity=-9.8f;
-    public Transform groundCheck;
-    public float groundDistance=0.4f;
-    public LayerMask mask;
-    Vector3 velocity;
-    bool isGrounded;
+
     Animator animator;
     public Joystick joystick;
 
@@ -23,7 +18,11 @@ public class MovmentControler : MonoBehaviour
     private bool groundedPlayer;
     private float gravityValue = -9.81f;
     public float speedRotation;
+
     float slow;
+    Transform target;
+    public float radius;
+    public LayerMask targetMask;
 
 
     // Start is called before the first frame update
@@ -32,6 +31,7 @@ public class MovmentControler : MonoBehaviour
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
+        StartCoroutine(FOVRoutine());
     }
 
     private void OnEnable()
@@ -123,8 +123,11 @@ public class MovmentControler : MonoBehaviour
             
             animator.SetFloat("speed", slow);
         }
-        
-        if (move != Vector3.zero && transform.forward.normalized != move.normalized)
+        if (target != null)
+        {
+            LockOnTarget((target.position- transform.position).normalized);
+        }
+        else if (move != Vector3.zero && transform.forward.normalized != move.normalized)
         {
             LockOnTarget(move.normalized);
 
@@ -191,4 +194,29 @@ public class MovmentControler : MonoBehaviour
         die
     }
 
+    private IEnumerator FOVRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.2f);
+
+        while (true)
+        {
+            yield return wait;
+            FieldOfViewCheck();
+        }
+    }
+
+    private void FieldOfViewCheck()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        
+        if (rangeChecks.Length != 0)
+        {
+            target = rangeChecks[0].transform;
+        }
+        else
+        {
+            target = null;
+        }
+        
+    }
 }

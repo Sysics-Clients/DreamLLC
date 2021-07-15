@@ -5,30 +5,41 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed=20;
-
+    Rigidbody rb;
     private void OnEnable()
     {
+        rb.velocity = transform.forward * speed;
         StartCoroutine(stop());
     }
+    private void Start()
+    {
+        
+    }
 
-
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.forward * Time.deltaTime * speed;
+        
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.tag == "enemy")
-        {
-            collision.gameObject.GetComponent<EnemyBehavior>().takeDamage(10);
-        }
-        this.gameObject.SetActive(false);
-    }
+    
 
+    
     IEnumerator stop()
     {
         yield return new WaitForSeconds(2);
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "enemy")
+        {
+            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(10);
+        }
+        this.gameObject.SetActive(false);
     }
 }

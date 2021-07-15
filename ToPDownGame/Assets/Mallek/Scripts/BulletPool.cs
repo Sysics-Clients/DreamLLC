@@ -24,9 +24,9 @@ public class BulletPool : MonoBehaviour
     {
 		GameObject gameObject = pooledObjects[0];
 		pooledObjects.RemoveAt(0);
-		gameObject.SetActive(true);
 		gameObject.transform.position = pos;
 		gameObject.transform.forward = direction;
+		gameObject.SetActive(true);
 		pooledObjects.Add(gameObject);
 		return gameObject;
     }	

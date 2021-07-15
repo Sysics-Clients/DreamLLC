@@ -24,13 +24,22 @@ public class Attack : MonoBehaviour
 
     public void shoot()
     {
-        if(!animator.GetBool("attack"))
+        if (!animator.GetBool("attack"))
+        {
             animator.SetBool("attack", true);
+            StartCoroutine("reload", 0.5f);
+        }
         
     }
     public void shot()
     {
         bulletPool.spownBullet(gun.transform.position,transform.forward);
+        
+    }
+
+    IEnumerator reload(float wait)
+    {
+        yield return new WaitForSeconds(wait);
         animator.SetBool("attack", false);
     }
 }

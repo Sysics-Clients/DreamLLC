@@ -4424,8 +4424,9 @@ GameObject:
   - component: {fileID: 8170187645542638625}
   - component: {fileID: 8170187645542638627}
   - component: {fileID: 8170187645542638626}
+  - component: {fileID: 1336269645}
   m_Layer: 0
-  m_Name: MainPlayer
+  m_Name: MainPlayer 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4544,15 +4545,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9053149709659843800}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d51a5e3c22b23f49986a07c6b071dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 8170187644964431508}
-  range: 20
-  damege: 20
   playerBehavior: {fileID: 8170187645542638625}
+  animator: {fileID: 0}
+--- !u!114 &1336269645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053149709659843800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab956f81a2bedea4891474a570d5c538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToPool: {fileID: 1061504794296090223, guid: 92e3a329210722c409a79278fd77a958,
+    type: 3}
+  nombreBullet: 20
+  pooledObjects: []
 --- !u!1 &9069031688516099798
 GameObject:
   m_ObjectHideFlags: 0
