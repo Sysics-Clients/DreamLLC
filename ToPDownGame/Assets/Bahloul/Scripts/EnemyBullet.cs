@@ -10,18 +10,17 @@ public class EnemyBullet : MonoBehaviour
     public GameObject sender;
     public GameObject BloodEffect;
     private EnemyBehavior enemyBehavior;
+    Coroutine cour;
     private void Start()
     {
         enemyBehavior = sender.GetComponent<EnemyBehavior>();
-        StartCoroutine(WaitToDestroy(TimeToDestroy));
-        print("jsqfdi");
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.collider.tag == "Player")
+        if (other.tag == "Player")
         {
-            //PlayerBehavior.instance.modifyHealth(sender.GetComponent<EnemyBehavior>().Item.damage);
-            Instantiate(BloodEffect,collision.transform.position,Quaternion.Euler(transform.rotation.eulerAngles));
+            other.GetComponent<PlayerBehavior>().damege((int)sender.GetComponent<EnemyBehavior>().Item.damage);
+            Instantiate(BloodEffect, transform.position, Quaternion.identity);
         }
         enemyBehavior.returnBullet(gameObject);
     }
@@ -30,12 +29,13 @@ public class EnemyBullet : MonoBehaviour
         if (enemyBehavior != null)
         {
             enemyBehavior.returnBullet(this.gameObject);
+            StopCoroutine(cour);
             
         }
     }
     private void OnEnable()
     {
-        StartCoroutine(WaitToDestroy(TimeToDestroy));
+        cour=StartCoroutine(WaitToDestroy(TimeToDestroy));
     }
 
     private IEnumerator WaitToDestroy(float TimeToDestroy)

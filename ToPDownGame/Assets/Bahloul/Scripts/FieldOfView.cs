@@ -25,6 +25,7 @@ public class FieldOfView : MonoBehaviour
         enemyBehavior.canSeeThePlayer += getCanSeePlayer;
         enemyBehavior.setEnemyFovColor += setFovColor;
         enemyBehavior.disableOrEnableFieldOfView += DisableOrEnableFieldOfView;
+        enemyBehavior.checkLongRange += FieldOfViewCheck;
 
     }
     private void OnDisable()
@@ -32,11 +33,12 @@ public class FieldOfView : MonoBehaviour
         enemyBehavior.canSeeThePlayer -= getCanSeePlayer;
         enemyBehavior.setEnemyFovColor -= setFovColor;
         enemyBehavior.disableOrEnableFieldOfView -= DisableOrEnableFieldOfView;
+        enemyBehavior.checkLongRange -= FieldOfViewCheck;
     }
     public void DisableOrEnableFieldOfView(bool state) { enabled = state; viewRenderer.enabled=false; }
     public bool getCanSeePlayer() { return canSeePlayer; }
     private void Start()
-    {
+    { 
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
@@ -57,34 +59,42 @@ public class FieldOfView : MonoBehaviour
         while (true)
         {
             yield return wait;
-            FieldOfViewCheck();
+            canSeePlayer= FieldOfViewCheck(radius,angle);
             DrawFieldOfView();
         }
     }
 
-    private void FieldOfViewCheck()
+    public bool FieldOfViewCheck(float rad,float angl)
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, rad, targetMask);
 
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+            if (Vector3.Angle(transform.forward, directionToTarget) < angl / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
+                {
+                    return true;
+                }
                 else
-                    canSeePlayer = false;
+                {
+                    return false;
+                }
             }
             else
-                canSeePlayer = false;
+            {
+                return false;
+            }
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
+        else 
+        {
+            return false;
+        }
     }
     void DrawFieldOfView() {
         int stepCount = Mathf.RoundToInt(angle * meshResolution);
