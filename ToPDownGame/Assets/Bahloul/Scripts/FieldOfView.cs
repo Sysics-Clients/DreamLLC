@@ -19,12 +19,13 @@ public class FieldOfView : MonoBehaviour
     public MeshFilter viewMeshFilter;
     public Renderer viewRenderer;
     Mesh viewMesh;
-    
+    public int edgeResolveIterations;
     private void OnEnable()
     {
         enemyBehavior.canSeeThePlayer += getCanSeePlayer;
         enemyBehavior.setEnemyFovColor += setFovColor;
         enemyBehavior.disableOrEnableFieldOfView += DisableOrEnableFieldOfView;
+        enemyBehavior.checkLongRange += FieldOfViewCheck;
 
     }
     private void OnDisable()
@@ -32,11 +33,12 @@ public class FieldOfView : MonoBehaviour
         enemyBehavior.canSeeThePlayer -= getCanSeePlayer;
         enemyBehavior.setEnemyFovColor -= setFovColor;
         enemyBehavior.disableOrEnableFieldOfView -= DisableOrEnableFieldOfView;
+        enemyBehavior.checkLongRange -= FieldOfViewCheck;
     }
     public void DisableOrEnableFieldOfView(bool state) { enabled = state; viewRenderer.enabled=false; }
     public bool getCanSeePlayer() { return canSeePlayer; }
     private void Start()
-    {
+    { 
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
@@ -57,43 +59,67 @@ public class FieldOfView : MonoBehaviour
         while (true)
         {
             yield return wait;
-            FieldOfViewCheck();
+            canSeePlayer= FieldOfViewCheck(radius,angle);
             DrawFieldOfView();
         }
     }
 
-    private void FieldOfViewCheck()
+    public bool FieldOfViewCheck(float rad,float angl)
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, rad, targetMask);
 
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+            if (Vector3.Angle(transform.forward, directionToTarget) < angl / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
+                {
+                    return true;
+                }
                 else
-                    canSeePlayer = false;
+                {
+                    return false;
+                }
             }
             else
-                canSeePlayer = false;
+            {
+                return false;
+            }
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
+        else 
+        {
+            return false;
+        }
     }
     void DrawFieldOfView() {
         int stepCount = Mathf.RoundToInt(angle * meshResolution);
         float stepAngleSize = angle / stepCount;
         List<Vector3> viewPoints = new List< Vector3 > ();
+        ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++) {
             float angl = transform.eulerAngles.y - angle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = viewCast(angl);
+            if (i > 0) {
+                if (oldViewCast.hit != newViewCast.hit) {
+                    EdgeInfo edge = findEdge(oldViewCast, newViewCast);
+                    if (edge.pointA != Vector3.zero) {
+                        viewPoints.Add(edge.pointA);
+                    }
+                    if (edge.pointB != Vector3.zero) {
+                        viewPoints.Add(edge.pointB);
+                    }
+                }
+            }
+
+
             viewPoints.Add(newViewCast.point);
+            oldViewCast = newViewCast;
+        
         }
         int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
@@ -112,6 +138,28 @@ public class FieldOfView : MonoBehaviour
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
+    }
+    EdgeInfo findEdge(ViewCastInfo minViewCast , ViewCastInfo maxViewCast) {
+        float minAngle = minViewCast.angle;
+        float maxAngle = maxViewCast.angle;
+        Vector3 minPoint = Vector3.zero;
+        Vector3 maxPoint = Vector3.zero;
+        for (int i = 0; i < edgeResolveIterations; i++) {
+            float angle = (minAngle + maxAngle) / 2;
+            ViewCastInfo newViewCast = viewCast(angle);
+            if (newViewCast.hit = minViewCast.hit)
+            {
+                minAngle = angle;
+                minPoint = newViewCast.point;
+            }
+            else {
+                maxAngle = angle;
+                maxPoint = newViewCast.point;
+            }
+            
+
+        }
+        return new EdgeInfo(minPoint, maxPoint);
     }
     ViewCastInfo viewCast(float globalAngle) {
         Vector3 dir = DirectionFromAngle(globalAngle, true);
@@ -147,6 +195,15 @@ public class FieldOfView : MonoBehaviour
             point = _point;
             dst = _dst;
             angle = _angle;
+        }
+    }
+    public struct EdgeInfo
+    {
+        public Vector3 pointA;
+        public Vector3 pointB;
+        public EdgeInfo(Vector3 _pointA, Vector3 _pointB) {
+            pointA = _pointA;
+            pointB = _pointB;
         }
     }
 }

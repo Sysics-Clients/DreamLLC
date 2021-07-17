@@ -13,9 +13,6 @@ public class ObjectPooler : MonoBehaviour
     [SerializeField]
     private int poolStartSize = 5;
 
-
-
-
     private void OnEnable()
     {
         enemyBehavior.returnBullet += ReturnCritter;

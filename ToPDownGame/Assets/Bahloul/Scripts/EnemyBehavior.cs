@@ -14,6 +14,9 @@ public class EnemyBehavior : MonoBehaviour
     public delegate bool CanSeeThePlayer();
     public CanSeeThePlayer canSeeThePlayer;
 
+    public delegate bool CheckLongRange(float radius,float angle);
+    public CheckLongRange checkLongRange;
+
     public delegate float GetCurrentHealth();
     public GetCurrentHealth currentHealth;
 
