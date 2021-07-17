@@ -7,12 +7,7 @@ public class MovmentControler : MonoBehaviour
     public CharacterController characterController;
 
     public float speed=12;
-    public float gravity=-9.8f;
-    public Transform groundCheck;
-    public float groundDistance=0.4f;
-    public LayerMask mask;
-    Vector3 velocity;
-    bool isGrounded;
+
     Animator animator;
     public Joystick joystick;
 
@@ -24,6 +19,11 @@ public class MovmentControler : MonoBehaviour
     private float gravityValue = -9.81f;
     public float speedRotation;
 
+    float slow;
+    Transform target;
+    public float radius;
+    public LayerMask targetMask;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class MovmentControler : MonoBehaviour
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
+        StartCoroutine(FOVRoutine());
     }
 
     private void OnEnable()
@@ -103,25 +104,35 @@ public class MovmentControler : MonoBehaviour
 
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
-        animator.SetFloat("speed", 1);
-        if (move != Vector3.zero)
+        //animator.SetFloat("speed", 1);
+        if (_courentState == State.roll)
+        {
+            characterController.Move(transform.forward * Time.smoothDeltaTime *10);
+        }
+        else if (move != Vector3.zero)
         {
             move.y = 0;
             characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
             animator.SetFloat("speed", 1);
-
+            slow = 1;
         }
         else
         {
-            animator.SetFloat("speed", 0);
+            if(slow>0.01f)
+                slow = slow*3 / 4;
+            
+            animator.SetFloat("speed", slow);
         }
-        
-        if (move != Vector3.zero && transform.forward.normalized != move.normalized)
+        if (target != null)
+        {
+            LockOnTarget((target.position- transform.position).normalized);
+        }
+        else if (move != Vector3.zero && transform.forward.normalized != move.normalized)
         {
             LockOnTarget(move.normalized);
 
         }
-
+        
 
 
         if (groundedPlayer == false)
@@ -144,6 +155,18 @@ public class MovmentControler : MonoBehaviour
 
     }
 
+    public void roll()
+    {
+        animator.SetBool("roll", true);
+        _courentState = State.roll;
+        
+    }
+
+    public void stopRoll()
+    {
+        _courentState = State.walk;
+        animator.SetBool("roll", false);
+    }
     private void changeState(State state)
     {
         _courentState = state;
@@ -167,8 +190,33 @@ public class MovmentControler : MonoBehaviour
     {
         walk,
         run,
-        attack,
+        roll,
         die
     }
 
+    private IEnumerator FOVRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.2f);
+
+        while (true)
+        {
+            yield return wait;
+            FieldOfViewCheck();
+        }
+    }
+
+    private void FieldOfViewCheck()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        
+        if (rangeChecks.Length != 0)
+        {
+            target = rangeChecks[0].transform;
+        }
+        else
+        {
+            target = null;
+        }
+        
+    }
 }

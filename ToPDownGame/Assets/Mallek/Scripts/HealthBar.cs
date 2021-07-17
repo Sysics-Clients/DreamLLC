@@ -30,7 +30,7 @@ public class HealthBar : MonoBehaviour
         
     }
      
-    private void setBar(int damege)
+    private void setBar(float damege)
     {
         slider.value -= damege;
     }
