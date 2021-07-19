@@ -8,7 +8,7 @@ public class Attack : MonoBehaviour
     public PlayerBehavior playerBehavior;
     public Animator animator;
     BulletPool bulletPool;
-
+    public float reloadPeriod;
    
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,15 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Test Shoot On Pc
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            if (!animator.GetBool("attack"))
+            {
+                animator.SetBool("attack", true);
+                StartCoroutine("reload", reloadPeriod);
+            }
+        }
     }
 
     public void shoot()

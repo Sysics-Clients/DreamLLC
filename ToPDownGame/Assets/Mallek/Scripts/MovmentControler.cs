@@ -98,8 +98,11 @@ public class MovmentControler : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-
-
+        //Test roll On PC
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            roll();
+        }
         Vector3 move = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
 
 
@@ -123,11 +126,11 @@ public class MovmentControler : MonoBehaviour
             
             animator.SetFloat("speed", slow);
         }
-        if (target != null)
+        if (target != null&&_courentState!=State.roll)
         {
             LockOnTarget((target.position- transform.position).normalized);
         }
-        else if (move != Vector3.zero && transform.forward.normalized != move.normalized)
+        else if (move != Vector3.zero && transform.forward.normalized != move.normalized )
         {
             LockOnTarget(move.normalized);
 
@@ -157,7 +160,7 @@ public class MovmentControler : MonoBehaviour
 
     public void roll()
     {
-        animator.SetBool("roll", true);
+        animator.SetTrigger("roll");
         _courentState = State.roll;
         
     }
@@ -165,7 +168,7 @@ public class MovmentControler : MonoBehaviour
     public void stopRoll()
     {
         _courentState = State.walk;
-        animator.SetBool("roll", false);
+      
     }
     private void changeState(State state)
     {
