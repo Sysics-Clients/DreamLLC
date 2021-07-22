@@ -8,10 +8,13 @@ public class BulletPool : MonoBehaviour
 	public GameObject objectToPool;
 	public int nombreBullet;
     public List<GameObject> pooledObjects;
-	
-	void Awake()
-	{
+
+    private void Awake()
+    {
 		Instance = this;
+	}
+    public void start()
+	{
 		for (int i = 0; i < nombreBullet; i++)
 		{
 			GameObject obj = Instantiate(objectToPool);

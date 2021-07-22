@@ -9,12 +9,19 @@ public class Attack : MonoBehaviour
     public Animator animator;
     BulletPool bulletPool;
     public float reloadPeriod;
+    public WeaponItem weapon;
    
     // Start is called before the first frame update
     void Start()
     {
-        bulletPool = BulletPool.Instance;
         animator = GetComponent<Animator>();
+        animator.runtimeAnimatorController = weapon.animator;
+        Instantiate(weapon.Prefab,gun);
+        bulletPool = BulletPool.Instance;
+        bulletPool.objectToPool = weapon.bullet;
+        reloadPeriod = weapon.reload;
+        bulletPool.start();
+        
     }
 
     // Update is called once per frame

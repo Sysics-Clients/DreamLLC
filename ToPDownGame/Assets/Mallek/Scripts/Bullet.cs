@@ -6,10 +6,12 @@ public class Bullet : MonoBehaviour
 {
     public float speed=20;
     Rigidbody rb;
+    public float damege;
+
     private void OnEnable()
     {
         rb.velocity = transform.forward * speed;
-        StartCoroutine(stop());
+        StartCoroutine(stop(2));
     }
     private void Start()
     {
@@ -28,17 +30,18 @@ public class Bullet : MonoBehaviour
     
 
     
-    IEnumerator stop()
+    IEnumerator stop(float time)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        //print(other.transform.name);
         if (other.transform.tag == "enemy")
         {
-            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(10);
+            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
         }
         this.gameObject.SetActive(false);
     }
