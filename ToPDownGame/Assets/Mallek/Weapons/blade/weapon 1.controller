@@ -9,7 +9,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 94e9501bad6db004381a309c696edf5a,
+    m_Motion: {fileID: -203655887218126122, guid: 1f318cb5656fa03439f3072cac3c6cdf,
       type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
@@ -18,7 +18,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: cb1efca9657e9c044b394d04b0354154,
+    m_Motion: {fileID: -203655887218126122, guid: ccfcbfbb5cde8ac4eb039c349cf9eb8c,
       type: 3}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
@@ -27,7 +27,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: ed7e52b503001654d999449db04602da,
+    m_Motion: {fileID: -203655887218126122, guid: 2086bccba7a640844abf8af4fd6a4896,
       type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
@@ -172,7 +172,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player
+  m_Name: weapon 1
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Blend
@@ -180,25 +180,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: roll
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: attack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
+  - m_Name: die
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -215,7 +221,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: attackLayer
     m_StateMachine: {fileID: 3332028922399017638}
-    m_Mask: {fileID: 31900000, guid: dd0f92895e6af6b4abd96656ffdc95d8, type: 2}
+    m_Mask: {fileID: 31900000, guid: 7297e083ae1c91341b752c8cf73c6740, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -389,8 +395,8 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Firing Rifle
-  m_Speed: 4
+  m_Name: Stabbing
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1049366862731260859}
@@ -403,7 +409,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 06ee67e3a7dfde840854e14210e99118,
+  m_Motion: {fileID: -203655887218126122, guid: c78c9299f9226b943b5b0a2124e34094,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

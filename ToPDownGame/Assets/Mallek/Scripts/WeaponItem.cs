@@ -9,5 +9,5 @@ public class WeaponItem : ScriptableObject
     public GameObject Prefab;
     public GameObject bullet;
     public RuntimeAnimatorController animator;
-    public float reload;
+    public int reload;
 }

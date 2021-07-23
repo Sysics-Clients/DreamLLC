@@ -104,8 +104,12 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
+#if UNITY_EDITOR
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+#endif
+#if UNITY_ANDROID
         Vector3 move = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-
+#endif
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
