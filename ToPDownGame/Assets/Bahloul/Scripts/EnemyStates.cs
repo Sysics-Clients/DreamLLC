@@ -181,7 +181,6 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Chasing:
-                print("chasing");
                 float distance = Vector3.Distance(transform.position, playerTransform.position);
                 bool check = enemyBehavior.checkLongRange(13,180);
                 if (enemyBehavior.canSeeThePlayer())
@@ -204,7 +203,6 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Attack:
-                print("attack");
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));

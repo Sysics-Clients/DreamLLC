@@ -70,7 +70,6 @@ public class EnemyBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             takeDamage(20);
-            print("take damage");
         }
     }
 
