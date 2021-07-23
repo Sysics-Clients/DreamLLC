@@ -18,14 +18,20 @@ public class EnemyController : MonoBehaviour
         Idle,
         Walk,
         Run,
+        Crouch,
+        Die,
     }
     private Movement currentMovement = Movement.Idle;
     private Animator anim;
 
-    public void changeMovement(Movement move) { 
+    public void changeMovement(Movement move) {
+        
         currentMovement = move;
+        if (move != Movement.Crouch && anim.GetBool("isCrouching") == true)
+            anim.SetBool("isCrouching", false);
         switch (move)
         {
+
             case Movement.Idle:
                 anim.SetFloat("Speed", 0f);
                 break;
@@ -35,6 +41,13 @@ public class EnemyController : MonoBehaviour
             case Movement.Run:
                 anim.SetFloat("Speed", 1f);
                 break;
+            case Movement.Crouch:
+                anim.SetBool("isCrouching",true);
+                break;
+            case Movement.Die:
+                anim.SetBool("Die", true);
+                break;
+                
         }
     }
     void Start()

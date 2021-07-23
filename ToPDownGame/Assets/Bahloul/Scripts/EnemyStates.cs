@@ -13,10 +13,15 @@ public class EnemyStates : MonoBehaviour
     private void OnEnable()
     {
         enemyBehavior.enemyState += changeState;
+        enemyBehavior.toHide += toHide;
+        enemyBehavior.getCurrentState += getCurrentState;
+
     }
     private void OnDisable()
     {
         enemyBehavior.enemyState -= changeState;
+        enemyBehavior.toHide -= toHide;
+        enemyBehavior.getCurrentState -= getCurrentState;
     }
 
     public enum State
@@ -27,21 +32,28 @@ public class EnemyStates : MonoBehaviour
         Attack,
         Death,
     }
+    public EnemyStates.State getCurrentState() { return currentState; }
     public void changeState(State s) { currentState = s; }
+    public LayerMask ObstacleLayer;
+    public LayerMask EnemyLayer;
     Animator anim;
     Transform playerTransform;
     public List<Sprite> EnemyStatesSprites;
     public Image StateImage;
     Coroutine WaitIdle;
+    Coroutine WaitHide;
     private State currentState;
     private int currentPos=0;
     [SerializeField]
-    private float timeToWait;
+    private float timeToWaitIdle;
+    [SerializeField]
+    private float timeToWaitHide;
     public List<Transform> Positions ;
     public List<GameObject> listGuns;
     NavMeshAgent agent;
     private int activeGun;
     private Vector3 LastPlayerPosition;
+    private Vector3 PosToHide;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +67,57 @@ public class EnemyStates : MonoBehaviour
         StateImage.sprite = EnemyStatesSprites[0];
         activeGun = 0;
         listGuns[0].SetActive(true);
+        LastPlayerPosition = playerTransform.position;
+    }
+    public void toHelp(Vector3 position) {
+
+        anim.SetBool("isShooting", false);
+        agent.SetDestination(position);
+        enemyBehavior.enemyMovement(EnemyController.Movement.Run);
+        enemyBehavior.setEnemyFovColor(Color.yellow);
+        StateImage.sprite = EnemyStatesSprites[1];
+        currentState = State.Idle;
+        agent.speed = enemyBehavior.Item.runSpeed;
+        changeGun(1);
+
+    }
+    private void callForHelp() {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, 15, EnemyLayer);
+        if (rangeChecks.Length != 0)
+        {
+
+            for (int i = 0; i < rangeChecks.Length; i++)
+            {
+                rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+            }
+        }
+    }
+    void toHide() {
+        LastPlayerPosition = playerTransform.position;
+        callForHelp();
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, 10, ObstacleLayer);
+        if (rangeChecks.Length != 0) {
+            PosToHide = rangeChecks[0].transform.position;
+            float maxDistance = Vector3.Distance(rangeChecks[0].transform.position, playerTransform.position);
+            float currentDistance;
+            for (int i=1;i< rangeChecks.Length; i++)
+            {
+                currentDistance = Vector3.Distance(rangeChecks[i].transform.position, playerTransform.position);
+                if (maxDistance < currentDistance)
+                {
+                    maxDistance = currentDistance;
+                    PosToHide = rangeChecks[i].transform.position;
+                }
+            }
+            anim.SetBool("isShooting", false);
+            agent.SetDestination(PosToHide);
+            enemyBehavior.enemyMovement(EnemyController.Movement.Run);
+            enemyBehavior.setEnemyFovColor(Color.yellow);
+            StateImage.sprite = EnemyStatesSprites[1];
+            currentState = State.Idle;
+            agent.speed = enemyBehavior.Item.runSpeed;
+            changeGun(1);
+        }
     }
     void toChase() {
         enemyBehavior.setEnemyFovColor(Color.yellow);
@@ -102,6 +165,7 @@ public class EnemyStates : MonoBehaviour
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     StopCoroutine(WaitIdle);
+                    StopCoroutine(WaitHide);
                     toAttack();
                 }
                 break;
@@ -117,6 +181,7 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Chasing:
+                print("chasing");
                 float distance = Vector3.Distance(transform.position, playerTransform.position);
                 bool check = enemyBehavior.checkLongRange(13,180);
                 if (enemyBehavior.canSeeThePlayer())
@@ -139,9 +204,11 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Attack:
+                print("attack");
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
+                    LastPlayerPosition = playerTransform.position;
                     break;
                 }
                 else {
@@ -151,7 +218,7 @@ public class EnemyStates : MonoBehaviour
                 break;
             case State.Death:
                 anim.SetBool("isShooting", false);
-                anim.SetBool("Die", true);
+                enemyBehavior.enemyMovement(EnemyController.Movement.Die);
                 agent.speed = 0;
                 listGuns[activeGun].SetActive(false);
                 enemyBehavior.disableOrEnableFieldOfView(false);
@@ -168,8 +235,26 @@ public class EnemyStates : MonoBehaviour
     }
     private IEnumerator WaitOnIdle()
     {
-            yield return new WaitForSeconds(timeToWait);
+            yield return new WaitForSeconds(timeToWaitIdle);
             setPosition();
             toRoaming();
+    }
+    private IEnumerator WaitOnHide()
+    {
+        transform.LookAt(playerTransform);
+        yield return new WaitForSeconds(timeToWaitHide);
+        toAttack();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Hider")
+        {
+            changeState(State.Idle);
+            changeGun(0);
+            agent.speed = 0;
+            enemyBehavior.enemyMovement(EnemyController.Movement.Crouch);
+            transform.LookAt(playerTransform.position);
+            WaitHide= StartCoroutine(WaitOnHide());
+        }
     }
 }

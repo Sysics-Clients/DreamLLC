@@ -35,7 +35,7 @@ public class FieldOfView : MonoBehaviour
         enemyBehavior.disableOrEnableFieldOfView -= DisableOrEnableFieldOfView;
         enemyBehavior.checkLongRange -= FieldOfViewCheck;
     }
-    public void DisableOrEnableFieldOfView(bool state) { enabled = state; viewRenderer.enabled=false; }
+    public void DisableOrEnableFieldOfView(bool state) { enabled = state; viewRenderer.enabled=!viewRenderer.enabled; }
     public bool getCanSeePlayer() { return canSeePlayer; }
     private void Start()
     { 
