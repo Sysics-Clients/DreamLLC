@@ -30,28 +30,40 @@ public class Attack : MonoBehaviour
         maxBullet = weapon[0].reload;
         maxBulletPistol = weapon[1].reload;
         bulletPool.start();
-        bulletStart = weap[0].transform.FindChild("pos");
+        bulletStart = weap[0].transform.Find("pos");
         nbBullet = maxBullet;
         nbBulletPistol = maxBulletPistol;
         nbWeap = 0;
+    }
+    private void OnEnable()
+    {
+        GeneralEvents.sendShooting += shoot;
+    }
+    private void OnDisable()
+    {
+        GeneralEvents.sendShooting -= shoot;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Test Shoot On Pc
-        if (Input.GetKeyUp(KeyCode.Z))
+       /* if (Input.GetMouseButtonUp(1))
         {
             shoot();
-        }
+        }*/
         if (Input.GetKeyUp(KeyCode.E))
         {
             nextWeapon();
         }
     }
-
-    public void shoot()
+    //Getting From GenralEvents
+    public void shoot(Vector3 sh)
     {
+        if (sh==Vector3.zero)
+        {
+            return;
+        }
         if (!animator.GetBool("attack"))
         {
             animator.SetBool("attack", true);
@@ -110,7 +122,10 @@ public class Attack : MonoBehaviour
         }
         weap[nbWeap].SetActive(true);
         animator.runtimeAnimatorController = weapon[nbWeap].animator;
-        bulletStart = weap[nbWeap].transform.FindChild("pos");
+        bulletStart = weap[nbWeap].transform.Find("pos");
 
     }
+
+   
+   
 }

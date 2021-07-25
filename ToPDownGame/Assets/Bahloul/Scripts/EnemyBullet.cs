@@ -19,7 +19,7 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerBehavior>().damege((int)sender.GetComponent<EnemyBehavior>().Item.damage);
+            other.gameObject.GetComponent<PlayerBehavior>().damege((int)sender.GetComponent<EnemyBehavior>().Item.damage);
             Instantiate(BloodEffect, transform.position, Quaternion.identity);
         }
         enemyBehavior.returnBullet(gameObject);

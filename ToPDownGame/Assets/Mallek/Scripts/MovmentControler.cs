@@ -23,7 +23,8 @@ public class MovmentControler : MonoBehaviour
     Transform target;
     public float radius;
     public LayerMask targetMask;
-
+    Vector3 move;
+    Vector3 ShootingDir;
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +39,14 @@ public class MovmentControler : MonoBehaviour
     private void OnEnable()
     {
         playerBehavior.state += changeState;
+        GeneralEvents.sendMvt += GetMvt;
+        GeneralEvents.sendShooting += GetDir;
     }
     private void OnDisable()
     {
         playerBehavior.state -= changeState;
+        GeneralEvents.sendMvt -= GetMvt;
+        GeneralEvents.sendShooting -= GetDir;
     }
     // Update is called once per frame
 
@@ -104,12 +109,7 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
-#if UNITY_EDITOR
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-#endif
-#if UNITY_ANDROID
-        Vector3 move = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-#endif
+
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
@@ -133,9 +133,9 @@ public class MovmentControler : MonoBehaviour
         }
         if(_courentState != State.roll)
         {
-            if (target != null)
+            if (ShootingDir!=Vector3.zero)
             {
-                LockOnTarget((target.position - transform.position).normalized);
+                LockOnTarget(ShootingDir.normalized);
             }
             else if (move != Vector3.zero && transform.forward.normalized != move.normalized)
             {
@@ -196,6 +196,17 @@ public class MovmentControler : MonoBehaviour
             _courentState = State.walk;
             speed = 12;
         }
+    }
+
+    //Get Movement from InputSystem
+    public void GetMvt(Vector3 m)
+    {
+        move = m;
+    }
+    //Get Direction Shooting from InputSystem
+    public void GetDir(Vector3 dir)
+    {
+        ShootingDir = dir;
     }
 
     public enum State
