@@ -4,17 +4,36 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public Transform gun;
+    public Transform gun, bulletStart;
     public PlayerBehavior playerBehavior;
     public Animator animator;
     BulletPool bulletPool;
-    public float reloadPeriod;
-   
+    public int nbBullet, maxBullet, nbBulletPistol, maxBulletPistol;
+    public WeaponItem[] weapon;
+    GameObject[] weap = new GameObject[3];
+    int nbWeap;
+
     // Start is called before the first frame update
+    
     void Start()
     {
-        bulletPool = BulletPool.Instance;
         animator = GetComponent<Animator>();
+        animator.runtimeAnimatorController = weapon[0].animator;
+        weap[0]= Instantiate(weapon[0].Prefab,gun);
+        weap[1] = Instantiate(weapon[1].Prefab, gun);
+        weap[1].SetActive(false);
+        weap[2] = Instantiate(weapon[2].Prefab, gun);
+        weap[2].SetActive(false);
+        bulletPool = BulletPool.Instance;
+        bulletPool.objectToPool = weapon[0].bullet;
+        bulletPool.objectToPoolPistol= weapon[1].bullet;
+        maxBullet = weapon[0].reload;
+        maxBulletPistol = weapon[1].reload;
+        bulletPool.start();
+        bulletStart = weap[0].transform.FindChild("pos");
+        nbBullet = maxBullet;
+        nbBulletPistol = maxBulletPistol;
+        nbWeap = 0;
     }
 
     // Update is called once per frame
@@ -23,11 +42,11 @@ public class Attack : MonoBehaviour
         //Test Shoot On Pc
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            if (!animator.GetBool("attack"))
-            {
-                animator.SetBool("attack", true);
-                StartCoroutine("reload", reloadPeriod);
-            }
+            shoot();
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            nextWeapon();
         }
     }
 
@@ -36,19 +55,62 @@ public class Attack : MonoBehaviour
         if (!animator.GetBool("attack"))
         {
             animator.SetBool("attack", true);
-            StartCoroutine("reload", 0.5f);
+            
+            
+            if (nbWeap == 0)
+            {
+                if (nbBullet == 0)
+                {
+                    animator.SetTrigger("reload");
+                    nbBullet = maxBullet;
+                }
+            }
+            else if (nbWeap == 1)
+            {
+                if (nbBulletPistol == 0)
+                {
+                    animator.SetTrigger("reload");
+                    nbBulletPistol = maxBulletPistol;
+                }
+            }
+            StartCoroutine("waitBullet", 0.4f);
         }
         
     }
     public void shot()
     {
-        bulletPool.spownBullet(gun.transform.position,transform.forward);
+        
+        if (nbWeap==0)
+        {
+            bulletPool.spownBullet(bulletStart.position, transform.forward);
+            nbBullet--;
+        }
+        else if (nbWeap==1)
+        {
+            bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
+            nbBulletPistol--;
+        }
         
     }
 
-    IEnumerator reload(float wait)
+    IEnumerator waitBullet(float wait)
     {
         yield return new WaitForSeconds(wait);
         animator.SetBool("attack", false);
+    }
+    public void nextWeapon() {
+        weap[nbWeap].SetActive(false);
+        if (nbWeap == 2)
+        {
+            nbWeap = 0;
+        }
+        else
+        {
+            nbWeap++;
+        }
+        weap[nbWeap].SetActive(true);
+        animator.runtimeAnimatorController = weapon[nbWeap].animator;
+        bulletStart = weap[nbWeap].transform.FindChild("pos");
+
     }
 }

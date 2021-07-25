@@ -32,6 +32,7 @@ public class MovmentControler : MonoBehaviour
         animator = GetComponent<Animator>();
         _courentState = State.walk;
         StartCoroutine(FOVRoutine());
+        
     }
 
     private void OnEnable()
@@ -103,8 +104,12 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
+#if UNITY_EDITOR
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+#endif
+#if UNITY_ANDROID
         Vector3 move = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-
+#endif
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
@@ -126,15 +131,19 @@ public class MovmentControler : MonoBehaviour
             
             animator.SetFloat("speed", slow);
         }
-        if (target != null&&_courentState!=State.roll)
+        if(_courentState != State.roll)
         {
-            LockOnTarget((target.position- transform.position).normalized);
-        }
-        else if (move != Vector3.zero && transform.forward.normalized != move.normalized )
-        {
-            LockOnTarget(move.normalized);
+            if (target != null)
+            {
+                LockOnTarget((target.position - transform.position).normalized);
+            }
+            else if (move != Vector3.zero && transform.forward.normalized != move.normalized)
+            {
+                LockOnTarget(move.normalized);
 
+            }
         }
+        
         
 
 
