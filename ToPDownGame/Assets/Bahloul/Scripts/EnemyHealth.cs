@@ -39,6 +39,10 @@ public class EnemyHealth : MonoBehaviour
 	{
 		if (currentHealth > 0)
 		{
+			if ((enemyBehavior.getCurrentState() == EnemyStates.State.Idle) || (enemyBehavior.getCurrentState() == EnemyStates.State.Roaming))
+			{
+				enemyBehavior.toHide();
+			}
 			if (currentShield >= health)
 			{
 				currentShield -= health;
@@ -57,6 +61,10 @@ public class EnemyHealth : MonoBehaviour
 					currentHealth -= health;
 					HealthSlider.fillAmount -= health/maxHealth;
 					HealthSlider.color = gradient.Evaluate(currentHealth / maxHealth);
+					if ((currentHealth < maxHealth * 0.9f)||(enemyBehavior.getCurrentState()==EnemyStates.State.Idle)||(enemyBehavior.getCurrentState() == EnemyStates.State.Roaming))
+					{
+						enemyBehavior.toHide();
+					}
 				}
 				else
 				{
@@ -65,8 +73,9 @@ public class EnemyHealth : MonoBehaviour
 					currentHealth = 0;
 					HealthSlider.color = gradient.Evaluate(0);
 				}
-
+			
 			}
+            
 
 		}
 	}
