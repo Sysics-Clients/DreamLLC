@@ -8,10 +8,11 @@ public class Attack : MonoBehaviour
     public PlayerBehavior playerBehavior;
     public Animator animator;
     BulletPool bulletPool;
-    public int nbBullet, maxBullet, nbBulletPistol, maxBulletPistol;
+    public int nbBullet, nbBulletPistol;
     public WeaponItem[] weapon;
     GameObject[] weap = new GameObject[3];
     int nbWeap;
+    
 
     // Start is called before the first frame update
     
@@ -27,21 +28,21 @@ public class Attack : MonoBehaviour
         bulletPool = BulletPool.Instance;
         bulletPool.objectToPool = weapon[0].bullet;
         bulletPool.objectToPoolPistol= weapon[1].bullet;
-        maxBullet = weapon[0].reload;
-        maxBulletPistol = weapon[1].reload;
         bulletPool.start();
         bulletStart = weap[0].transform.Find("pos");
-        nbBullet = maxBullet;
-        nbBulletPistol = maxBulletPistol;
+        nbBullet = weapon[0].reload;
+        nbBulletPistol = weapon[1].reload;
         nbWeap = 0;
     }
     private void OnEnable()
     {
         GeneralEvents.sendShooting += shoot;
+        playerBehavior.die += die;
     }
     private void OnDisable()
     {
         GeneralEvents.sendShooting -= shoot;
+        playerBehavior.die -= die;
     }
 
     // Update is called once per frame
@@ -64,7 +65,7 @@ public class Attack : MonoBehaviour
         {
             return;
         }
-        if (!animator.GetBool("attack"))
+        if (!animator.GetBool("attack")&&!(playerBehavior.getState()==MovmentControler.State.roll))
         {
             animator.SetBool("attack", true);
             
@@ -73,19 +74,19 @@ public class Attack : MonoBehaviour
             {
                 if (nbBullet == 0)
                 {
-                    animator.SetTrigger("reload");
-                    nbBullet = maxBullet;
+                    animator.SetBool("reload",true);
+                    StartCoroutine("reload", 0);
                 }
             }
             else if (nbWeap == 1)
             {
                 if (nbBulletPistol == 0)
                 {
-                    animator.SetTrigger("reload");
-                    nbBulletPistol = maxBulletPistol;
+                    animator.SetBool("reload", true);
+                    StartCoroutine("reload", 1);
                 }
             }
-            StartCoroutine("waitBullet", 0.4f);
+            StartCoroutine("waitBullet", weapon[nbWeap].wait);
         }
         
     }
@@ -109,6 +110,7 @@ public class Attack : MonoBehaviour
     {
         yield return new WaitForSeconds(wait);
         animator.SetBool("attack", false);
+        
     }
     public void nextWeapon() {
         weap[nbWeap].SetActive(false);
@@ -126,6 +128,17 @@ public class Attack : MonoBehaviour
 
     }
 
-   
-   
+    IEnumerator reload(int wap)
+    {
+        yield return new WaitForSeconds(2);
+        animator.SetBool("reload", false);
+        if(wap==nbWeap)
+            nbBullet = weapon[wap].reload;
+    }
+    
+    public void die()
+    {
+        this.enabled = false;
+        
+    }
 }

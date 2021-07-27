@@ -6,7 +6,7 @@ public class MovmentControler : MonoBehaviour
 {
     public CharacterController characterController;
 
-    public float speed=12;
+    public float speed = 12;
 
     Animator animator;
     public Joystick joystick;
@@ -33,7 +33,7 @@ public class MovmentControler : MonoBehaviour
         animator = GetComponent<Animator>();
         _courentState = State.walk;
         StartCoroutine(FOVRoutine());
-        
+
     }
 
     private void OnEnable()
@@ -41,61 +41,18 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.state += changeState;
         GeneralEvents.sendMvt += GetMvt;
         GeneralEvents.sendShooting += GetDir;
+        playerBehavior.getState += getState;
+        playerBehavior.die += die;
     }
     private void OnDisable()
     {
         playerBehavior.state -= changeState;
         GeneralEvents.sendMvt -= GetMvt;
         GeneralEvents.sendShooting -= GetDir;
+        playerBehavior.getState -= getState;
+        playerBehavior.die -= die;
     }
-    // Update is called once per frame
 
-    /* void FixedUpdate()
-     {
-         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, mask);
-         if (isGrounded && velocity.y<0)
-         {
-             velocity.y = -2;
-         }
-
-         float x = -joystick.Vertical;
-         float y = joystick.Horizontal;
-
-         switch (_courentState)
-         {
-             case State.walk:
-                 {
-                     animator.SetBool("attack", false);
-                     animator.SetFloat("speed", y / 2);
-                     Vector3 move = transform.right * x + transform.forward * y;
-                     characterController.Move(move * speed * Time.deltaTime);
-                     break;
-                 }
-             case State.run: 
-                 {
-                     animator.SetBool("attack", false);
-                     animator.SetFloat("speed", y);
-                     Vector3 move = transform.right * x + transform.forward * y;
-                     characterController.Move(move * speed * Time.deltaTime);
-                     break;
-                 }
-             case State.attack:
-                 {
-                     animator.SetBool("attack", true);
-                     _courentState = State.walk;
-                     break;
-                 }
-             case State.die:
-                 {
-                     animator.SetBool("die", true);
-                     break;
-                 }
-         }
-
-
-         velocity.y += gravity * Time.deltaTime;
-         characterController.Move(velocity * Time.deltaTime);
-     }*/
 
     private void Update()
     {
@@ -115,7 +72,7 @@ public class MovmentControler : MonoBehaviour
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime *10);
+            characterController.Move(transform.forward * Time.smoothDeltaTime * 10);
         }
         else if (move != Vector3.zero)
         {
@@ -126,14 +83,14 @@ public class MovmentControler : MonoBehaviour
         }
         else
         {
-            if(slow>0.01f)
-                slow = slow*3 / 4;
-            
+            if (slow > 0.01f)
+                slow = slow * 3 / 4;
+
             animator.SetFloat("speed", slow);
         }
-        if(_courentState != State.roll)
+        if (_courentState != State.roll)
         {
-            if (ShootingDir!=Vector3.zero)
+            if (ShootingDir != Vector3.zero)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
@@ -143,42 +100,36 @@ public class MovmentControler : MonoBehaviour
 
             }
         }
-        
-        
-
 
         if (groundedPlayer == false)
         {
             playerVelocity.y = gravityValue * Time.deltaTime;
             characterController.Move(playerVelocity);
         }
-
-
-
     }
 
     void LockOnTarget(Vector3 _target)
     {
-        
-            Quaternion startrotation = new Quaternion(0, 0, 0, 0);
-            Vector3 root = Vector3.Lerp(transform.forward, _target, speedRotation);
-            transform.forward = root;
-        
-
+        Quaternion startrotation = new Quaternion(0, 0, 0, 0);
+        Vector3 root = Vector3.Lerp(transform.forward, _target, speedRotation);
+        transform.forward = root;
     }
 
     public void roll()
     {
         animator.SetTrigger("roll");
         _courentState = State.roll;
-        
     }
 
+    public State getState()
+    {
+        return _courentState;
+    }
     public void stopRoll()
     {
         _courentState = State.walk;
-      
     }
+
     private void changeState(State state)
     {
         _courentState = state;
@@ -191,7 +142,7 @@ public class MovmentControler : MonoBehaviour
             _courentState = State.run;
             speed = 18;
         }
-        else 
+        else
         {
             _courentState = State.walk;
             speed = 12;
@@ -220,7 +171,6 @@ public class MovmentControler : MonoBehaviour
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
-
         while (true)
         {
             yield return wait;
@@ -231,7 +181,7 @@ public class MovmentControler : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-        
+
         if (rangeChecks.Length != 0)
         {
             target = rangeChecks[0].transform;
@@ -240,6 +190,11 @@ public class MovmentControler : MonoBehaviour
         {
             target = null;
         }
-        
+    }
+
+    private void die()
+    {
+        animator.SetBool("die", true);
+        this.enabled = false;
     }
 }

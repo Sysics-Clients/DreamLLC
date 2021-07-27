@@ -10,4 +10,5 @@ public class WeaponItem : ScriptableObject
     public GameObject bullet;
     public RuntimeAnimatorController animator;
     public int reload;
+    public float wait;
 }
