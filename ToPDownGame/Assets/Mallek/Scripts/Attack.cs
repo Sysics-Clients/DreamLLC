@@ -125,7 +125,6 @@ public class Attack : MonoBehaviour
         weap[nbWeap].SetActive(true);
         animator.runtimeAnimatorController = weapon[nbWeap].animator;
         bulletStart = weap[nbWeap].transform.Find("pos");
-
     }
 
     IEnumerator reload(int wap)
