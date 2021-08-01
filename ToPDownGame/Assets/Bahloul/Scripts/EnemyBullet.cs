@@ -30,7 +30,6 @@ public class EnemyBullet : MonoBehaviour
         {
             enemyBehavior.returnBullet(this.gameObject);
             StopCoroutine(cour);
-            
         }
     }
     private void OnEnable()
@@ -41,6 +40,9 @@ public class EnemyBullet : MonoBehaviour
     private IEnumerator WaitToDestroy(float TimeToDestroy)
     {
         yield return new WaitForSeconds(TimeToDestroy);
-        enemyBehavior.returnBullet(gameObject);
+        if (enemyBehavior != null)
+            enemyBehavior.returnBullet(gameObject);
+        else
+            Destroy(gameObject);
     }
 }

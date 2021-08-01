@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBehavior : MonoBehaviour
 {
+    public float gunBloom=0;
     public Transform playerTransform;
+    public Canvas EnemyCanvas;
+
+    public delegate void ChangeGunBloom(float _gunBloom);
+    public ChangeGunBloom changeGunBloom;
 
     public delegate void EnemyMovement(EnemyController.Movement move);
     public EnemyMovement enemyMovement;
@@ -14,7 +20,6 @@ public class EnemyBehavior : MonoBehaviour
 
     public delegate EnemyStates.State GetCurrentState();
     public GetCurrentState getCurrentState;
-
 
     public delegate bool CanSeeThePlayer();
     public CanSeeThePlayer canSeeThePlayer;
@@ -33,7 +38,9 @@ public class EnemyBehavior : MonoBehaviour
 
     public delegate void DisableOrEnableFieldOfView(bool state);
     public DisableOrEnableFieldOfView disableOrEnableFieldOfView;
-
+    
+    public delegate void DisableOrEnableRenderingFov(bool state);
+    public DisableOrEnableRenderingFov disableOrEnableRenderingFov;
 
     public delegate GameObject GetBullet();
     public GetBullet getBullet;

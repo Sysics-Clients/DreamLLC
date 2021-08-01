@@ -27,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
 	public float getHealth() { return currentHealth+currentShield; }
 	void Start()
 	{
+
 		maxHealth= enemyBehavior.Item.health;
 		HealthSlider.fillAmount = 1;
 		maxShield= enemyBehavior.Item.shield;
@@ -34,15 +35,11 @@ public class EnemyHealth : MonoBehaviour
 		currentHealth = maxHealth;
 		currentShield = maxShield;
 	}
-
+	
 	public void getDamage(float health)
 	{
 		if (currentHealth > 0)
 		{
-			if ((enemyBehavior.getCurrentState() == EnemyStates.State.Idle) || (enemyBehavior.getCurrentState() == EnemyStates.State.Roaming))
-			{
-				enemyBehavior.toHide();
-			}
 			if (currentShield >= health)
 			{
 				currentShield -= health;
@@ -61,7 +58,7 @@ public class EnemyHealth : MonoBehaviour
 					currentHealth -= health;
 					HealthSlider.fillAmount -= health/maxHealth;
 					HealthSlider.color = gradient.Evaluate(currentHealth / maxHealth);
-					if ((currentHealth < maxHealth * 0.9f)||(enemyBehavior.getCurrentState()==EnemyStates.State.Idle)||(enemyBehavior.getCurrentState() == EnemyStates.State.Roaming))
+					if ((currentHealth < maxHealth * 0.9f))
 					{
 						enemyBehavior.toHide();
 					}
@@ -72,10 +69,13 @@ public class EnemyHealth : MonoBehaviour
 					HealthSlider.fillAmount = 0;
 					currentHealth = 0;
 					HealthSlider.color = gradient.Evaluate(0);
+					return;
 				}
 			
 			}
-            
+				enemyBehavior.toHide();
+
+
 
 		}
 	}

@@ -31,7 +31,6 @@ public class EnemyController : MonoBehaviour
             anim.SetBool("isCrouching", false);
         switch (move)
         {
-
             case Movement.Idle:
                 anim.SetFloat("Speed", 0f);
                 break;
@@ -46,8 +45,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case Movement.Die:
                 anim.SetBool("Die", true);
-                break;
-                
+                break;                
         }
     }
     void Start()

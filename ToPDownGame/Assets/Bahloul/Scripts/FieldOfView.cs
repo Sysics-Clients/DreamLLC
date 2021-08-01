@@ -9,6 +9,7 @@ public class FieldOfView : MonoBehaviour
     public float radius;
     public float angle;
 
+    public List<Vector3> FovPosition;
     public GameObject playerRef;
 
     public LayerMask targetMask;
@@ -20,11 +21,13 @@ public class FieldOfView : MonoBehaviour
     public Renderer viewRenderer;
     Mesh viewMesh;
     public int edgeResolveIterations;
+    private float yPos=1.3f;
     private void OnEnable()
     {
         enemyBehavior.canSeeThePlayer += getCanSeePlayer;
         enemyBehavior.setEnemyFovColor += setFovColor;
         enemyBehavior.disableOrEnableFieldOfView += DisableOrEnableFieldOfView;
+        enemyBehavior.disableOrEnableRenderingFov += DisableOrEnableRenderingFov;
         enemyBehavior.checkLongRange += FieldOfViewCheck;
 
     }
@@ -33,9 +36,11 @@ public class FieldOfView : MonoBehaviour
         enemyBehavior.canSeeThePlayer -= getCanSeePlayer;
         enemyBehavior.setEnemyFovColor -= setFovColor;
         enemyBehavior.disableOrEnableFieldOfView -= DisableOrEnableFieldOfView;
+        enemyBehavior.disableOrEnableRenderingFov -= DisableOrEnableRenderingFov;
         enemyBehavior.checkLongRange -= FieldOfViewCheck;
     }
     public void DisableOrEnableFieldOfView(bool state) { enabled = state; viewRenderer.enabled=!viewRenderer.enabled; }
+    public void DisableOrEnableRenderingFov(bool state) { viewRenderer.enabled = state; }
     public bool getCanSeePlayer() { return canSeePlayer; }
     private void Start()
     { 
@@ -46,11 +51,11 @@ public class FieldOfView : MonoBehaviour
         angle = enemyBehavior.Item.FovAngle;
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
-        viewRenderer.sharedMaterial.color = new Color(Color.green.r, Color.green.g, Color.green.b, viewRenderer.sharedMaterial.color.a);
+        viewRenderer.material.color = new Color(Color.green.r, Color.green.g, Color.green.b, viewRenderer.sharedMaterial.color.a);
     }
     private void setFovColor(Color col) {
-        col.a = viewRenderer.sharedMaterial.color.a;
-        viewRenderer.sharedMaterial.color = col;
+        col.a = viewRenderer.material.color.a;
+        viewRenderer.material.color = col;
     }
     private IEnumerator FOVRoutine()
     {
@@ -71,13 +76,13 @@ public class FieldOfView : MonoBehaviour
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Vector3 directionToTarget = (target.position - transform.position + new Vector3(0, yPos, 0)).normalized;
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angl / 2)
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                float distanceToTarget = Vector3.Distance(transform.position + new Vector3(0, yPos, 0), target.position + new Vector3(0, yPos, 0));
 
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                if (!Physics.Raycast(transform.position , directionToTarget, distanceToTarget, obstructionMask))
                 {
                     return true;
                 }
@@ -124,9 +129,9 @@ public class FieldOfView : MonoBehaviour
         int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount-2)*3];
-        vertices[0] =new Vector3(0,1.3f,0);
+        vertices[0] =Vector3.zero;
         for (int i = 0; i < vertexCount - 1; i++) {
-            vertices[i + 1] = transform.InverseTransformPoint( viewPoints[i])+ new Vector3(0, 1.3f, 0);
+            vertices[i + 1] = transform.InverseTransformPoint( viewPoints[i]);
             if (i < vertexCount - 2)
             {
                 triangles[i * 3] = 0;
