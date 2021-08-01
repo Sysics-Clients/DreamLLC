@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    const int maxHealth=100;
-    public float corentHelth;
+    public Image sliderHelth,sliderArmor;
+    public float corentHelth, armor;
     public PlayerBehavior player;
     private void OnEnable()
     {
@@ -18,13 +19,16 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        corentHelth = maxHealth;
+        sliderHelth.fillAmount = 1;
+        sliderArmor.fillAmount = 1;
+        corentHelth = 100;
+        armor = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             if(player!=null)
                 player.damege(5);
@@ -33,14 +37,24 @@ public class Health : MonoBehaviour
     
     public void damege(float value)
     {
-        if (corentHelth > 0)
+        if (armor > 0)
+        {
+            armor -= value;
+            sliderArmor.fillAmount = armor/100;
+            if (armor < 0)
+            {
+                corentHelth -= 100 - armor;
+                sliderHelth.fillAmount = corentHelth / 100;
+                armor = 0;
+            }
+        }else if (corentHelth > 0)
         {
             corentHelth -= value;
-            if (corentHelth <= 0)
-            {
-                if (player != null)
-                    player.state(MovmentControler.State.die);
-            }
+            sliderHelth.fillAmount = corentHelth / 100;
+
+            if (player != null && corentHelth<=0)
+                player.die();
         }
+        
     }
 }

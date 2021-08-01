@@ -11,4 +11,10 @@ public class PlayerBehavior : MonoBehaviour
 
     public delegate void State(MovmentControler.State state);
     public State state;
+
+    public delegate MovmentControler.State GetState();
+    public GetState getState;
+
+    public delegate void Die();
+    public Die die;
 }

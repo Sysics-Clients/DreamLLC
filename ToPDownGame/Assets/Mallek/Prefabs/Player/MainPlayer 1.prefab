@@ -12534,7 +12534,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c208960b4287f3a4b8fa6326cf419688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corentHelth: 0
+  sliderHelth: {fileID: 0}
+  sliderArmor: {fileID: 0}
+  corentHelth: 100
+  armor: 0
   player: {fileID: 8616323456757826961}
 --- !u!114 &8616323455471564245
 MonoBehaviour:
@@ -12553,9 +12556,7 @@ MonoBehaviour:
   playerBehavior: {fileID: 8616323456757826961}
   animator: {fileID: 0}
   nbBullet: 0
-  maxBullet: 0
   nbBulletPistol: 0
-  maxBulletPistol: 0
   weapon:
   - {fileID: 11400000, guid: 1986dbe1cc56d6a438de001f2bc4dab5, type: 2}
   - {fileID: 11400000, guid: f09363a463af10e4a86d2f7bb9ec8e0c, type: 2}
