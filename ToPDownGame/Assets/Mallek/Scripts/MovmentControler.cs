@@ -43,6 +43,7 @@ public class MovmentControler : MonoBehaviour
         GeneralEvents.sendShooting += GetDir;
         playerBehavior.getState += getState;
         playerBehavior.die += die;
+        GeneralEvents.sendRoll += GetRoll;
     }
     private void OnDisable()
     {
@@ -51,6 +52,8 @@ public class MovmentControler : MonoBehaviour
         GeneralEvents.sendShooting -= GetDir;
         playerBehavior.getState -= getState;
         playerBehavior.die -= die;
+        GeneralEvents.sendRoll -= GetRoll;
+
     }
 
 
@@ -150,14 +153,20 @@ public class MovmentControler : MonoBehaviour
     }
 
     //Get Movement from InputSystem
-    public void GetMvt(Vector3 m)
+     void GetMvt(Vector3 m)
     {
         move = m;
     }
     //Get Direction Shooting from InputSystem
-    public void GetDir(Vector3 dir)
+     void GetDir(Vector3 dir)
     {
         ShootingDir = dir;
+    }
+
+    // Get Roll State
+    void GetRoll()
+    {
+        roll();
     }
 
     public enum State

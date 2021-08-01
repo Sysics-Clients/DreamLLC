@@ -32,7 +32,20 @@ public class InputSystem : MonoBehaviour
             }
         
     }
-
+    public void SetState(string statut)
+    {
+        switch (statut)
+        {
+            case "roll":
+                if (GeneralEvents.sendRoll!=null)
+                {
+                    GeneralEvents.sendRoll();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
 
 }
