@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     Rigidbody rb;
     public float damege;
 
+
     private void OnEnable()
     {
         rb.velocity = transform.forward * speed;
