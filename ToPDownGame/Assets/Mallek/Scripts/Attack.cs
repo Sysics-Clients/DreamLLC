@@ -8,10 +8,11 @@ public class Attack : MonoBehaviour
     public PlayerBehavior playerBehavior;
     public Animator animator;
     BulletPool bulletPool;
-    public int nbBullet, nbBulletPistol;
+    public int[] nbBullet;
     public WeaponItem[] weapon;
     GameObject[] weap = new GameObject[3];
     int nbWeap;
+    Coroutine coroutineShoot;
     
 
     // Start is called before the first frame update
@@ -30,8 +31,8 @@ public class Attack : MonoBehaviour
         bulletPool.objectToPoolPistol= weapon[1].bullet;
         bulletPool.start();
         bulletStart = weap[0].transform.Find("pos");
-        nbBullet = weapon[0].reload;
-        nbBulletPistol = weapon[1].reload;
+        nbBullet[0] = weapon[0].reload;
+        nbBullet[1] = weapon[1].reload;
         nbWeap = 0;
     }
     private void OnEnable()
@@ -63,6 +64,8 @@ public class Attack : MonoBehaviour
     {
         if (sh==Vector3.zero)
         {
+            StopCoroutine(coroutineShoot);
+            animator.SetBool("attack", false);
             return;
         }
         if (!animator.GetBool("attack")&&!(playerBehavior.getState()==MovmentControler.State.roll))
@@ -70,47 +73,66 @@ public class Attack : MonoBehaviour
             animator.SetBool("attack", true);
             
             
-            if (nbWeap == 0)
-            {
-                if (nbBullet == 0)
-                {
-                    animator.SetBool("reload",true);
-                    StartCoroutine("reload", 0);
-                }
-            }
-            else if (nbWeap == 1)
-            {
-                if (nbBulletPistol == 0)
-                {
-                    animator.SetBool("reload", true);
-                    StartCoroutine("reload", 1);
-                }
-            }
+            
             StartCoroutine("waitBullet", weapon[nbWeap].wait);
         }
         
     }
     public void shot()
     {
-        
+        /*if (nbWeap == 0)
+        {
+            if (nbBullet == 0)
+            {
+                animator.SetBool("reload", true);
+                StartCoroutine("reload", 0);
+            }
+        }
+        else if (nbWeap == 1)
+        {
+            if (nbBulletPistol == 0)
+            {
+                animator.SetBool("reload", true);
+                StartCoroutine("reload", 1);
+            }
+        }*/
         if (nbWeap==0)
         {
-            bulletPool.spownBullet(bulletStart.position, transform.forward);
-            nbBullet--;
+            if (nbBullet[0] == 0)
+            {
+                animator.SetBool("reload", true);
+                StartCoroutine("reload", 0);
+            }
+            else
+            {
+                bulletPool.spownBullet(bulletStart.position, transform.forward);
+                nbBullet[0]--;
+            }
+            
         }
         else if (nbWeap==1)
         {
-            bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
-            nbBulletPistol--;
+            if (nbBullet[1] == 0)
+            {
+                animator.SetBool("reload", true);
+                StartCoroutine("reload", 1);
+            }
+            else
+            {
+                bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
+                nbBullet[1]--;
+            }
+            
         }
         
     }
 
     IEnumerator waitBullet(float wait)
     {
-        yield return new WaitForSeconds(wait);
-        animator.SetBool("attack", false);
         
+        yield return new WaitForSeconds(wait);
+        shot();
+        coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);
     }
     public void nextWeapon() {
         weap[nbWeap].SetActive(false);
@@ -129,10 +151,10 @@ public class Attack : MonoBehaviour
 
     IEnumerator reload(int wap)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         animator.SetBool("reload", false);
         if(wap==nbWeap)
-            nbBullet = weapon[wap].reload;
+            nbBullet[wap] = weapon[wap].reload;
     }
     
     public void die()
