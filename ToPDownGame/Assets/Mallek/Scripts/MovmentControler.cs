@@ -25,6 +25,7 @@ public class MovmentControler : MonoBehaviour
     public LayerMask targetMask;
     Vector3 move;
     Vector3 ShootingDir;
+    bool crouch;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +70,10 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
-
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            changeMvt();
+        }
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
@@ -122,6 +126,21 @@ public class MovmentControler : MonoBehaviour
     {
         animator.SetTrigger("roll");
         _courentState = State.roll;
+    }
+    public void changeMvt()
+    {
+        if (!crouch)
+        {
+            animator.SetBool("crouch", true);
+            speed = 5;
+            crouch = !crouch;
+        }
+        else
+        {
+            animator.SetBool("crouch", false);
+            speed = 5;
+            crouch = !crouch;
+        }
     }
 
     public State getState()

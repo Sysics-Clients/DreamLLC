@@ -13,10 +13,7 @@ public class Attack : MonoBehaviour
     GameObject[] weap = new GameObject[3];
     int nbWeap;
     Coroutine coroutineShoot;
-    
-
     // Start is called before the first frame update
-    
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -45,7 +42,6 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting -= shoot;
         playerBehavior.die -= die;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -64,38 +60,18 @@ public class Attack : MonoBehaviour
     {
         if (sh==Vector3.zero)
         {
-            StopCoroutine(coroutineShoot);
+            if(coroutineShoot!=null)
+                StopCoroutine(coroutineShoot);
             animator.SetBool("attack", false);
             return;
         }
         if (!animator.GetBool("attack")&&!(playerBehavior.getState()==MovmentControler.State.roll))
         {
             animator.SetBool("attack", true);
-            
-            
-            
-            StartCoroutine("waitBullet", weapon[nbWeap].wait);
         }
-        
     }
     public void shot()
     {
-        /*if (nbWeap == 0)
-        {
-            if (nbBullet == 0)
-            {
-                animator.SetBool("reload", true);
-                StartCoroutine("reload", 0);
-            }
-        }
-        else if (nbWeap == 1)
-        {
-            if (nbBulletPistol == 0)
-            {
-                animator.SetBool("reload", true);
-                StartCoroutine("reload", 1);
-            }
-        }*/
         if (nbWeap==0)
         {
             if (nbBullet[0] == 0)
@@ -105,10 +81,11 @@ public class Attack : MonoBehaviour
             }
             else
             {
+                
                 bulletPool.spownBullet(bulletStart.position, transform.forward);
                 nbBullet[0]--;
-            }
-            
+                StartCoroutine("waitBullet", weapon[nbWeap].wait);
+            } 
         }
         else if (nbWeap==1)
         {
@@ -121,18 +98,17 @@ public class Attack : MonoBehaviour
             {
                 bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
                 nbBullet[1]--;
+                StartCoroutine("waitBullet", weapon[nbWeap].wait);
             }
-            
         }
-        
     }
-
     IEnumerator waitBullet(float wait)
-    {
-        
+    {   
         yield return new WaitForSeconds(wait);
-        shot();
-        coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);
+        if(animator.GetBool("attack"))
+            shot();
+        //Debug.Break();
+        // coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);
     }
     public void nextWeapon() {
         weap[nbWeap].SetActive(false);
@@ -145,7 +121,9 @@ public class Attack : MonoBehaviour
             nbWeap++;
         }
         weap[nbWeap].SetActive(true);
+        bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapon[nbWeap].animator;
+        animator.SetBool("crouch", crouch);
         bulletStart = weap[nbWeap].transform.Find("pos");
     }
 
@@ -156,10 +134,8 @@ public class Attack : MonoBehaviour
         if(wap==nbWeap)
             nbBullet[wap] = weapon[wap].reload;
     }
-    
     public void die()
     {
-        this.enabled = false;
-        
+        this.enabled = false;   
     }
 }
