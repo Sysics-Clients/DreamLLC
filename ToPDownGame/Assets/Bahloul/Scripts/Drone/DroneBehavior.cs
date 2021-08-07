@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DroneBehavior : MonoBehaviour
 {
+    public bool isVisible = true;
     public float walkSpeed;
     public float runSpeed;
     public delegate void ChangeSpeed(float speed);

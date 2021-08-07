@@ -53,7 +53,10 @@ public class DroneStates : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        switch(currentState)
+        if (!droneBehavior.isVisible)
+            return;
+        print(currentState.ToString());
+        switch (currentState)
         {
            case State.Idle:
                 break;
@@ -67,7 +70,7 @@ public class DroneStates : MonoBehaviour
             case State.Chasing:
                 if(Vector3.Distance(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), transform.position)>1)
                     transform.Translate((new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z) - transform.position).normalized * Speed);
-                if(Vector3.Distance(new Vector3(playerTransform.position.x,transform.position.y, playerTransform.position.z), transform.position)>30)
+                if(Vector3.Distance(new Vector3(playerTransform.position.x,transform.position.y, playerTransform.position.z), transform.position)>25)
                 {
                     changeState(State.Idle);
                     StartCoroutine(WaitOnIdle());

@@ -63,8 +63,12 @@ public class DroneFOV: MonoBehaviour
         while (true)
         {
             yield return wait;
-            canSeePlayer= FieldOfViewCheck(radius,angle);
-            DrawFieldOfView();
+            if (droneBehavior.isVisible)
+            {
+
+                canSeePlayer = FieldOfViewCheck(radius, angle);
+                DrawFieldOfView();
+            }
         }
     }
 

@@ -88,6 +88,9 @@ public class SniperStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!sniperBehavior.isVisible)
+            return;
+
         switch (currentState)
         {
             case State.Idle:

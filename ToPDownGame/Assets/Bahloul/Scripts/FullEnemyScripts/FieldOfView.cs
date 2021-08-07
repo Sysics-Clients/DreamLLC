@@ -66,10 +66,11 @@ public class FieldOfView : MonoBehaviour
         while (true)
         {
             yield return wait;
-            if (!enemyBehavior.isVisible)
-                break;
-            canSeePlayer= FieldOfViewCheck(radius,angle);
-            DrawFieldOfView();
+            if (enemyBehavior.isVisible)
+            {
+                canSeePlayer = FieldOfViewCheck(radius, angle);
+                DrawFieldOfView();
+            }
         }
     }
 

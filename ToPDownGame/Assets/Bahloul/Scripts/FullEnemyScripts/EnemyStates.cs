@@ -239,9 +239,10 @@ public class EnemyStates : MonoBehaviour
     {
         if (!enemyBehavior.isVisible)
             return;
+        
         switch (currentState) {
             case State.Idle:
-                //print("Idle " + gameObject.name);
+               
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     if(WaitIdle!=null)

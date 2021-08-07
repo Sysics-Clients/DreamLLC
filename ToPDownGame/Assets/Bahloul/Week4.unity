@@ -2214,6 +2214,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullAiEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5464513544002315178, guid: bf35f335b47f4b24d8987bfd04022b21,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7109804298546026943, guid: bf35f335b47f4b24d8987bfd04022b21,
         type: 3}
       propertyPath: m_RootOrder
@@ -2399,7 +2404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a71565767dacb4b88589e8f34a4d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectList: []
+  FullEnemyList: []
+  SniperEnemyList: []
+  DroneEnemyList: []
   playerTransform: {fileID: 1652278099}
   distanceFromPlayer: 30
 --- !u!1 &734331406
@@ -6506,6 +6513,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6387256344342144977, guid: 7caba72368c2e634da5d00788bac8e83,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.809708
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387256344342144977, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 134.0191
       objectReference: {fileID: 0}
@@ -6579,10 +6591,35 @@ PrefabInstance:
       propertyPath: Positions.Array.data[3]
       value: 
       objectReference: {fileID: 2005688780}
+    - target: {fileID: 6387256344342144982, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.9112144
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387256344342144982, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.7345341
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387256344342144982, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.13682248
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387256344342144982, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.0061398824
+      objectReference: {fileID: 0}
     - target: {fileID: 6387256344342144987, guid: 7caba72368c2e634da5d00788bac8e83,
         type: 3}
       propertyPath: m_Name
       value: Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387256344342144987, guid: 7caba72368c2e634da5d00788bac8e83,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7caba72368c2e634da5d00788bac8e83, type: 3}
@@ -6685,6 +6722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySniper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506168277774180552, guid: f87889eb29d4a664d82a320259e8fdbe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f87889eb29d4a664d82a320259e8fdbe, type: 3}
