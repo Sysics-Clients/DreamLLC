@@ -9,13 +9,9 @@ public class EnemyStates : MonoBehaviour
 {
     public EnemyBehavior enemyBehavior;
 
-
     private void OnEnable()
     {
-        currentState = State.Idle;
-        WaitIdle = StartCoroutine(WaitOnIdle());
-        RunScript = false;
-        StartCoroutine(waitToRunScript());
+
         enemyBehavior.enemyState += changeState;
         enemyBehavior.toHide += toHide;
         enemyBehavior.getCurrentState += getCurrentState;
@@ -71,13 +67,21 @@ public class EnemyStates : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        Positions.Add(transform);
         agent = GetComponent<NavMeshAgent>();
-
-        StateImage.sprite = EnemyStatesSprites[0];
-        activeGun = 0;
-        listGuns[0].SetActive(true);
         LastPlayerPosition = playerTransform.position;
+        if (enemyBehavior.Item.enemyName != "Shooters")
+        {
+            currentState = State.Idle;
+            WaitIdle = StartCoroutine(WaitOnIdle());      
+            Positions.Add(transform);
+            StateImage.sprite = EnemyStatesSprites[0];
+            activeGun = 0;
+            listGuns[0].SetActive(true);
+        }
+        else
+        {
+            toAttack();
+        }
     }
     public void toHelp(Vector3 position) {
 
@@ -123,8 +127,8 @@ public class EnemyStates : MonoBehaviour
                 {
 
                     currentDistance = Vector3.Distance(rangeChecks[i].transform.position , playerTransform.position);
-                    print(i + " " + maxDistance + "    " + currentDistance);
-                    print(rangeChecks[i].gameObject.name);
+                    //print(i + " " + maxDistance + "    " + currentDistance);
+                    //print(rangeChecks[i].gameObject.name);
                     if (maxDistance < currentDistance)
                     {
                         maxDistance = currentDistance;
@@ -233,12 +237,11 @@ public class EnemyStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!RunScript)
+        if (!enemyBehavior.isVisible)
             return;
-        
         switch (currentState) {
             case State.Idle:
-                print("Idle " + gameObject.name);
+                //print("Idle " + gameObject.name);
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     if(WaitIdle!=null)
@@ -284,15 +287,24 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Attack:
-                if (enemyBehavior.canSeeThePlayer())
+                if (enemyBehavior.Item.enemyName != "Shooters")
+                {
+                    if (enemyBehavior.canSeeThePlayer())
+                    {
+                        transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
+                        LastPlayerPosition = playerTransform.position;
+                        break;
+                    }
+                    else
+                    {
+                        toChase();
+                        anim.SetBool("isShooting", false);
+                    }
+                }
+                else
                 {
                     transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
                     LastPlayerPosition = playerTransform.position;
-                    break;
-                }
-                else {
-                    toChase();
-                    anim.SetBool("isShooting", false);
                 }
                 break;
             case State.Death:
@@ -361,11 +373,6 @@ public class EnemyStates : MonoBehaviour
             yield return new WaitForSeconds(timeToWaitIdle);
             setPosition();
             toRoaming();
-    }
-    private IEnumerator waitToRunScript()
-    {
-        yield return new WaitForSeconds(0.1f);
-        RunScript = true;
     }
     private IEnumerator CheckDistance(Vector3 dis,float DistanceBetween)
     {

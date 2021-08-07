@@ -9,15 +9,12 @@ public class EnemyShooting : MonoBehaviour
     private Transform firePoint;
     public EnemyBehavior enemyBehavior;
     private float gunBloom;
-    private bool RunScript;
     public void changeBloom(float _gunBloom)
     {
         gunBloom = _gunBloom;
     }
     private void OnEnable()
     {
-        RunScript = false;
-        StartCoroutine(waitToRunScript());
         enemyBehavior.changeGunBloom += changeBloom;
     }
     private void OnDisable()
@@ -42,13 +39,8 @@ public class EnemyShooting : MonoBehaviour
     }
     public void ShootBullet()
     {
-        if (!RunScript)
+        if (!enemyBehavior.isVisible)
             return;
         shoot();
-    }
-    private IEnumerator waitToRunScript()
-    {
-        yield return new WaitForSeconds(0.1f);
-        RunScript = true;
     }
 }

@@ -26,13 +26,14 @@ public class ObjectActivation : MonoBehaviour
         {
             foreach(GameObject obj in ObjectList)
             {
+                 ;
                 if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
                 {
-                    obj.SetActive(false);
+                    obj.GetComponent<EnemyBehavior>().isVisible = false;
                 }
                 else
                 {
-                    obj.SetActive(true);
+                    obj.GetComponent<EnemyBehavior>().isVisible = true;
                 }
             }
         }

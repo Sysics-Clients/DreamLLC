@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectPooler : MonoBehaviour
 {
     public EnemyBehavior enemyBehavior;
+    public SniperBehavior sniperBehavior;
 
     [SerializeField]
     private GameObject critterPrefab;
@@ -17,11 +18,17 @@ public class ObjectPooler : MonoBehaviour
     {
         enemyBehavior.returnBullet += ReturnCritter;
         enemyBehavior.getBullet += GetCritter;
+        
+        sniperBehavior.returnBullet += ReturnCritter;
+        sniperBehavior.getBullet += GetCritter;
     }
     private void OnDisable()
     {
         enemyBehavior.returnBullet -= ReturnCritter;
         enemyBehavior.getBullet -= GetCritter;
+        
+        sniperBehavior.returnBullet -= ReturnCritter;
+        sniperBehavior.getBullet -= GetCritter;
     }
     private void Start()
     {
@@ -29,6 +36,7 @@ public class ObjectPooler : MonoBehaviour
         {
             GameObject critter = Instantiate(critterPrefab);
             critterPool.Enqueue(critter);
+            critter.GetComponent<EnemyBullet>().sender = gameObject;
             critter.SetActive(false);
         }
     }

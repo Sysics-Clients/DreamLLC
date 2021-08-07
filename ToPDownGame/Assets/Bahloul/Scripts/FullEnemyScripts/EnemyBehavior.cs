@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class EnemyBehavior : MonoBehaviour
 {
+    public enum Scenarios
+    {
+        FullAiEnemy,
+        Sniper,
+
+    }
+    public bool isVisible = true;
     public float gunBloom=0;
     public Transform playerTransform;
     public Canvas EnemyCanvas;

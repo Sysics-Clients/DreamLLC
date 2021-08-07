@@ -22,6 +22,7 @@ public class FieldOfView : MonoBehaviour
     Mesh viewMesh;
     public int edgeResolveIterations;
     private float yPos=1.3f;
+    Renderer renderer;
     private void OnEnable()
     {
         enemyBehavior.canSeeThePlayer += getCanSeePlayer;
@@ -52,6 +53,7 @@ public class FieldOfView : MonoBehaviour
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
         viewRenderer.material.color = new Color(Color.green.r, Color.green.g, Color.green.b, viewRenderer.sharedMaterial.color.a);
+        renderer = gameObject.GetComponentInParent<Renderer>();
     }
     private void setFovColor(Color col) {
         col.a = viewRenderer.material.color.a;
@@ -64,6 +66,8 @@ public class FieldOfView : MonoBehaviour
         while (true)
         {
             yield return wait;
+            if (!enemyBehavior.isVisible)
+                break;
             canSeePlayer= FieldOfViewCheck(radius,angle);
             DrawFieldOfView();
         }
