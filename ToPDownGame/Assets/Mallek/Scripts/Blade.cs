@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class Blade : MonoBehaviour
 {
-    public float damege;
+    
+    Collider damege;
+
+    private void OnEnable()
+    {
+        GeneralEvents.sendShooting += stab;
+    }
+    private void OnDisable()
+    {
+        GeneralEvents.sendShooting -= stab;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        damege = GetComponent<Collider>();
+        damege.enabled = false;
     }
 
     // Update is called once per frame
@@ -21,7 +32,20 @@ public class Blade : MonoBehaviour
         //print(other.transform.name);
         if (other.transform.tag == "enemy")
         {
-            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
+            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(1000);
         }
     }
+
+    void stab(Vector3 v)
+    {
+        if(v!=Vector3.zero)
+            StartCoroutine("attack");
+    }
+    IEnumerator attack()
+    {
+        damege.enabled = true;
+        yield return new WaitForSeconds(1);
+        damege.enabled = false;
+    }
+
 }
