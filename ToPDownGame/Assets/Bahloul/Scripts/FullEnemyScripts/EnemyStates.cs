@@ -84,7 +84,8 @@ public class EnemyStates : MonoBehaviour
         }
     }
     public void toHelp(Vector3 position) {
-
+        if(enemyBehavior.Item.enemyName == "Shooters")
+                return;
         anim.SetBool("isShooting", false);
         agent.SetDestination(position);
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
@@ -93,21 +94,40 @@ public class EnemyStates : MonoBehaviour
         currentState = State.Hide;
         agent.speed = enemyBehavior.Item.runSpeed;
         changeGun(1);
-        StartCoroutine(CheckDistance(position,3));
+        StartCoroutine(CheckDistance(position,2));
 
     }
     private void callForHelp() {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, 20, EnemyLayer);
-        if (rangeChecks.Length > 1)
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, 30, EnemyLayer);
+        if (rangeChecks.Length != 0)
         {
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if((rangeChecks[i].name!=gameObject.name)||(Vector3.Distance(transform.position,rangeChecks[i].transform.position)>5))
-                    rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+                if ((rangeChecks[i].gameObject != gameObject))
+                {
+                    //(Vector3.Distance(transform.position, rangeChecks[i].transform.position) > 10)
+                    switch (rangeChecks[i].tag)
+                    {
+                        case "enemy":
+                            if (rangeChecks[i].GetComponent<EnemyBehavior>().getCurrentState() != EnemyStates.State.Attack)
+                                rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+                            break;
+                        case "Sniper":
+                            if (rangeChecks[i].GetComponent<SniperBehavior>().getState() != SniperStates.State.Attack)
+                                rangeChecks[i].GetComponent<SniperStates>().toHelp(transform.position);
+                            break;
+                        case "Drone":
+                            if (rangeChecks[i].GetComponent<DroneBehavior>().getDroneState() != DroneStates.State.Chasing)
+                                rangeChecks[i].GetComponent<DroneStates>().toHelp(transform.position);
+                            break;
+                    }
+                }
             }
         }
     }
     void toHide() {
+        if (enemyBehavior.Item.enemyName == "Shooters")
+            return;
         if (!isHiding)
         {
             if (WaitIdle != null)
@@ -217,7 +237,8 @@ public class EnemyStates : MonoBehaviour
         currentState = State.Attack;
         anim.SetBool("isShooting", true);
         agent.speed = 0;
-        enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
+        if(enemyBehavior.Item.enemyName != "Shooters")
+            enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
         changeGun(2);
     }
     void toRoaming() {
@@ -260,7 +281,7 @@ public class EnemyStates : MonoBehaviour
                 {
                     toAttack();
                 }
-                if (Vector3.Distance(transform.position, Positions[currentPos].position) < 0.1f) //Reach Destination"
+                if (Vector3.Distance(transform.position, Positions[currentPos].position) < 1f) //Reach Destination"
                 {
                     toIdle();
                 }
@@ -379,9 +400,11 @@ public class EnemyStates : MonoBehaviour
     {
         
             yield return new WaitForSeconds(0.1f);
-        if (Vector3.Distance(transform.position, dis) < DistanceBetween) //Reach destination
+        if (agent.hasPath)
+        {
+            if (Vector3.Distance(transform.position, dis) < DistanceBetween) //Reach destination
             {
-            
+
                 enemyBehavior.enemyMovement(EnemyController.Movement.Idle);
                 changeState(State.Hide);
                 changeGun(0);
@@ -391,14 +414,16 @@ public class EnemyStates : MonoBehaviour
                 changeGun(2);
                 runAway = false;
             }
-        if (runAway == true)
-        {
-            StartCoroutine(CheckDistance(dis,1));
+            if (runAway == true)
+            {
+                StartCoroutine(CheckDistance(dis, 1));
+            }
+            else
+            {
+                LookAtPlayer = true;
+            }
         }
-        else
-        {
-            LookAtPlayer = true;
-        }
+       
                 
     }
     private void OnCollisionEnter(Collision collision)

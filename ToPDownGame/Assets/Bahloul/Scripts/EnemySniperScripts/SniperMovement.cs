@@ -42,6 +42,9 @@ public class SniperMovement : MonoBehaviour
                 sniperBehavior.changeGun(-1);
                 anim.SetBool("ThrowGrenade", true);
                 break;
+            case Movement.Die:
+                anim.SetBool("Die", true);
+                break;
         }
     }
     void Start()

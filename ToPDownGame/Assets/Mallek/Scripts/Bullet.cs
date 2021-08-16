@@ -44,6 +44,10 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
         }
+        else if (other.transform.tag == "Sniper")
+        {
+            other.gameObject.GetComponent<SniperBehavior>().takeDamage(damege);
+        }
         this.gameObject.SetActive(false);
     }
 }

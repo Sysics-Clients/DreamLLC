@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
 
     public void changeMovement(Movement move) {
-        
+
         currentMovement = move;
         if (move != Movement.Crouch && anim.GetBool("isCrouching") == true)
             anim.SetBool("isCrouching", false);
@@ -41,11 +41,11 @@ public class EnemyController : MonoBehaviour
                 anim.SetFloat("Speed", 1f);
                 break;
             case Movement.Crouch:
-                anim.SetBool("isCrouching",true);
+                anim.SetBool("isCrouching", true);
                 break;
             case Movement.Die:
                 anim.SetBool("Die", true);
-                break;                
+                break;
         }
     }
     void Start()

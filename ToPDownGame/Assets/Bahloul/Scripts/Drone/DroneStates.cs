@@ -55,27 +55,28 @@ public class DroneStates : MonoBehaviour
     {
         if (!droneBehavior.isVisible)
             return;
-        print(currentState.ToString());
         switch (currentState)
         {
            case State.Idle:
                 break;
             case State.Roaming:
-                transform.Translate(  (new Vector3( Positions[currentPos].position.x,transform.position.y, Positions[currentPos].position.z)- transform.position ).normalized * Speed);
-                if (Vector3.Distance(new Vector3(transform.position.x,0, transform.position.z), new Vector3(Positions[currentPos].position.x, 0, Positions[currentPos].position.z) ) < 0.2f) //Reach Destination
+                transform.position = Vector3.Lerp(transform.position, new Vector3(Positions[currentPos].position.x, transform.position.y, Positions[currentPos].position.z), Time.deltaTime*Speed);                if (Vector3.Distance(new Vector3(transform.position.x,0, transform.position.z), new Vector3(Positions[currentPos].position.x, 0, Positions[currentPos].position.z) ) < 0.2f) //Reach Destination
                 {
                     toIdle();
                 }
+                transform.LookAt(new Vector3( Positions[currentPos].position.x,transform.position.y, Positions[currentPos].position.z));
                 break;
             case State.Chasing:
-                if(Vector3.Distance(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), transform.position)>1)
-                    transform.Translate((new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z) - transform.position).normalized * Speed);
+                if (Vector3.Distance(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), transform.position) > 1)
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5+ playerTransform.position.y, playerTransform.position.z), Time.deltaTime );
                 if(Vector3.Distance(new Vector3(playerTransform.position.x,transform.position.y, playerTransform.position.z), transform.position)>25)
                 {
                     changeState(State.Idle);
-                    StartCoroutine(WaitOnIdle());
+                    WaitIdle=StartCoroutine(WaitOnIdle());
                     Speed = droneBehavior.walkSpeed;
                 }
+                transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
+
                 break;
             case State.Helping:
 
@@ -107,7 +108,8 @@ public class DroneStates : MonoBehaviour
     }
     public void toHelp(Vector3 pos)
     {
-        StopCoroutine(WaitIdle);
+        if(WaitIdle!=null)
+            StopCoroutine(WaitIdle);
         posToGoHelp = pos;
         changeState(State.Helping);
     }
@@ -119,18 +121,22 @@ public class DroneStates : MonoBehaviour
         {
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if ((rangeChecks[i].name != gameObject.name) || (Vector3.Distance(transform.position, rangeChecks[i].transform.position) > 5))
+                if ((rangeChecks[i].gameObject != gameObject) )
                 {
+                    //(Vector3.Distance(transform.position, rangeChecks[i].transform.position) > 10)
                     switch (rangeChecks[i].tag)
                     {
                         case "enemy":
-                            rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+                            if(rangeChecks[i].GetComponent<EnemyBehavior>().getCurrentState()!=EnemyStates.State.Attack)
+                                rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
                             break;
                         case "Sniper":
-                            rangeChecks[i].GetComponent<SniperStates>().toHelp(transform.position);
+                            if (rangeChecks[i].GetComponent<SniperBehavior>().getState() != SniperStates.State.Attack)
+                                rangeChecks[i].GetComponent<SniperStates>().toHelp(transform.position);
                             break;
                         case "Drone":
-                            rangeChecks[i].GetComponent<DroneStates>().toHelp(transform.position);
+                            if (rangeChecks[i].GetComponent<DroneBehavior>().getDroneState() != DroneStates.State.Chasing)
+                                rangeChecks[i].GetComponent<DroneStates>().toHelp(transform.position);
                             break;
                     }
                 }

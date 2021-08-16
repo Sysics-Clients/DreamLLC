@@ -16,19 +16,29 @@ public class ObjectPooler : MonoBehaviour
 
     private void OnEnable()
     {
-        enemyBehavior.returnBullet += ReturnCritter;
-        enemyBehavior.getBullet += GetCritter;
-        
-        sniperBehavior.returnBullet += ReturnCritter;
-        sniperBehavior.getBullet += GetCritter;
+        if (enemyBehavior != null)
+        {
+            enemyBehavior.returnBullet += ReturnCritter;
+            enemyBehavior.getBullet += GetCritter;
+        }
+        if (sniperBehavior != null)
+        {
+            sniperBehavior.returnBullet += ReturnCritter;
+            sniperBehavior.getBullet += GetCritter;
+        }
     }
     private void OnDisable()
     {
-        enemyBehavior.returnBullet -= ReturnCritter;
-        enemyBehavior.getBullet -= GetCritter;
-        
-        sniperBehavior.returnBullet -= ReturnCritter;
-        sniperBehavior.getBullet -= GetCritter;
+        if (enemyBehavior != null)
+        {
+            enemyBehavior.returnBullet -= ReturnCritter;
+            enemyBehavior.getBullet -= GetCritter;
+        }
+        if (sniperBehavior != null)
+        {
+            sniperBehavior.returnBullet -= ReturnCritter;
+            sniperBehavior.getBullet -= GetCritter;
+        }
     }
     private void Start()
     {

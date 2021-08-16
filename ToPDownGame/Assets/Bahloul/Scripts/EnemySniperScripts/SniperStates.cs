@@ -13,6 +13,7 @@ public class SniperStates : MonoBehaviour
         Roaming,
         Attack,
         Chase,
+        Death
     }
     private void OnEnable()
     {
@@ -40,7 +41,7 @@ public class SniperStates : MonoBehaviour
     }
     public void changeState(State s) { currentState = s; }
     private State currentState;
-    private int currentGun=1;//2: attack gun ,0:idle gun,1:roaming gun  , -1: no Gun
+    private int currentGun=0;//2: attack gun ,0:idle gun,1:roaming gun  , -1: no Gun
     public List<GameObject> guns;
     Transform playerTransform;
     Animator anim;
@@ -94,15 +95,29 @@ public class SniperStates : MonoBehaviour
         switch (currentState)
         {
             case State.Idle:
-               
+                if ((Vector3.Distance(transform.position, Positions[currentPos].position) < 40f) && Mathf.Abs(transform.position.y - playerTransform.position.y) < 0.5f)
+                {
+                    transform.LookAt(playerTransform.position);
+                    sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
+                    agent.speed = 0;
+                    changeState(State.Attack);
+                }
                 break;
             case State.Roaming:
-                if (Vector3.Distance(transform.position, Positions[currentPos].position) < 0.5f) //Reach Destination
+                if (Vector3.Distance(transform.position, Positions[currentPos].position) < 1f) //Reach Destination
                 {
                     toIdle();
                 }
-                break;
+                if((Vector3.Distance(transform.position, Positions[currentPos].position) < 40f)&& Mathf.Abs( transform.position.y-playerTransform.position.y)<0.5f)
+                {
+                    transform.LookAt(playerTransform.position);
+                    sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
+                    agent.speed = 0;
+                    changeState(State.Attack);
+                }
+                    break;
             case State.Attack:
+                transform.LookAt(playerTransform.position);
                 break;
             case State.Chase:
                 if (!agent.hasPath && LookAtPlayer)
@@ -112,6 +127,15 @@ public class SniperStates : MonoBehaviour
                     agent.speed = 0;
                     changeState(State.Attack);
                 }
+                break;
+            case State.Death:
+                StopAllCoroutines();
+                sniperBehavior.EnemyCanvas.enabled = false;
+                anim.SetBool("isShooting", false);
+                sniperBehavior.enemyMovement(SniperMovement.Movement.Die);
+                agent.speed = 0;
+                guns[currentGun].SetActive(false);
+                enabled = false;
                 break;
 
         }

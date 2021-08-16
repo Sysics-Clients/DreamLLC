@@ -14,23 +14,47 @@ public class EnemyHealth : MonoBehaviour
 	private float maxShield;
 
 	public EnemyBehavior enemyBehavior;
+	public SniperBehavior sniperBehavior;
 	private void OnEnable()
 	{
-		enemyBehavior.currentHealth += getHealth;
-		enemyBehavior.takeDamage += getDamage;
+		if (enemyBehavior != null)
+		{
+			enemyBehavior.currentHealth += getHealth;
+			enemyBehavior.takeDamage += getDamage;
+		}
+		if (sniperBehavior != null)
+		{
+			sniperBehavior.currentHealth += getHealth;
+			sniperBehavior.takeDamage += getDamage;
+		}
 	}
 	private void OnDisable()
 	{
-		enemyBehavior.currentHealth -= getHealth;
-		enemyBehavior.takeDamage -= getDamage;
+		if (enemyBehavior != null)
+		{
+			enemyBehavior.currentHealth -= getHealth;
+			enemyBehavior.takeDamage -= getDamage;
+		}
+        if (sniperBehavior != null)
+        {
+			sniperBehavior.currentHealth -= getHealth;
+			sniperBehavior.takeDamage -= getDamage;
+		}
 	}
 	public float getHealth() { return currentHealth+currentShield; }
 	void Start()
 	{
-
-		maxHealth= enemyBehavior.Item.health;
+		if (enemyBehavior != null)
+		{
+			maxHealth = enemyBehavior.Item.health;
+			maxShield = enemyBehavior.Item.shield;
+		}
+		if(sniperBehavior!=null)
+        {
+			maxHealth = sniperBehavior.Item.health;
+			maxShield = sniperBehavior.Item.shield;
+		}
 		HealthSlider.fillAmount = 1;
-		maxShield= enemyBehavior.Item.shield;
 		ShieldSlider.fillAmount = 1;
 		currentHealth = maxHealth;
 		currentShield = maxShield;
@@ -58,14 +82,15 @@ public class EnemyHealth : MonoBehaviour
 					currentHealth -= health;
 					HealthSlider.fillAmount -= health/maxHealth;
 					HealthSlider.color = gradient.Evaluate(currentHealth / maxHealth);
-					if ((currentHealth < maxHealth * 0.9f))
-					{
+					if(enemyBehavior!=null)
 						enemyBehavior.toHide();
-					}
 				}
 				else
 				{
-					enemyBehavior.enemyState(EnemyStates.State.Death);
+					if (enemyBehavior != null)
+						enemyBehavior.enemyState(EnemyStates.State.Death);
+					if (sniperBehavior != null)
+						sniperBehavior.changeState(SniperStates.State.Death);
 					HealthSlider.fillAmount = 0;
 					currentHealth = 0;
 					HealthSlider.color = gradient.Evaluate(0);
@@ -73,6 +98,7 @@ public class EnemyHealth : MonoBehaviour
 				}
 			
 			}
+			if (enemyBehavior != null)
 				enemyBehavior.toHide();
 
 
