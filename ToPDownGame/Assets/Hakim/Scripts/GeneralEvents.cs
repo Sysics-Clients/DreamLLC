@@ -24,6 +24,7 @@ public class GeneralEvents
 
     public delegate void ChangeGun();
     public static ChangeGun changeGun;
-    
 
+    public delegate void Health(float health,float armor);
+    public static Health health;
 }

@@ -7,8 +7,16 @@ public class InputSystem : MonoBehaviour
     public Joystick MvtJoystic;
     public Joystick ShootJoystic;
     public Button HideButton;
+    public Image sliderHelth, sliderArmor;
 
-
+    private void OnEnable()
+    {
+        GeneralEvents.health += changeHealth;
+    }
+    private void OnDisable()
+    {
+        GeneralEvents.health -= changeHealth;
+    }
     private void Update()
     {
 #if UNITY_EDITOR
@@ -47,5 +55,10 @@ public class InputSystem : MonoBehaviour
         }
     }
 
+    public void changeHealth(float health, float armor)
+    {
+        sliderHelth.fillAmount = health / 100;
+        sliderArmor.fillAmount = armor / 100;
+    }
 
 }

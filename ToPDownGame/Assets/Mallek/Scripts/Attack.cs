@@ -105,7 +105,8 @@ public class Attack : MonoBehaviour
     IEnumerator waitBullet(float wait)
     {   
         yield return new WaitForSeconds(wait);
-        if(animator.GetBool("attack"))
+        //Time.timeScale = 0;
+        if (animator.GetBool("attack"))
             shot();
         //Debug.Break();
         // coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);

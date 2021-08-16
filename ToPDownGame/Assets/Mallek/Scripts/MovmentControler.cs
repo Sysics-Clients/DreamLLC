@@ -58,7 +58,7 @@ public class MovmentControler : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         groundedPlayer = characterController.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
