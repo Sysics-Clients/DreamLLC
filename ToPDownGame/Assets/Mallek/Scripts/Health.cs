@@ -45,20 +45,31 @@ public class Health : MonoBehaviour
             
             if (armor < 0)
             {
-                corentHelth -= 100 - armor;
+                corentHelth -= value/10;
                 //sliderHelth.fillAmount = corentHelth / 100;
                 armor = 0;
+                return;
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value;
+            corentHelth -= value/100;
             //sliderHelth.fillAmount = corentHelth / 100;
 
-            if (player != null && corentHelth<=0)
-                player.die();
+           
         }
+        if (player != null && corentHelth <= 0)
+        {
+            player.die();
+            StartCoroutine(SleppGame());
+        }
+           
         GeneralEvents.health(corentHelth, armor);
 
+    }
+    IEnumerator SleppGame()
+    {
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0;
     }
     
 }
