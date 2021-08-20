@@ -2905,9 +2905,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  timeToWaitIdle: 2
+  timeToWaitIdle: 6
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -2924,8 +2922,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isVisible: 1
-  walkSpeed: 0.2
-  runSpeed: 0.5
+  walkSpeed: 0.1
+  runSpeed: 0.1
+  timeToWait: 2
 --- !u!65 &6387256344342144982
 BoxCollider:
   m_ObjectHideFlags: 0

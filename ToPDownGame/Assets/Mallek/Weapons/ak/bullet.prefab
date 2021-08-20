@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7865351989538672218}
   m_Layer: 0
   m_Name: bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 144206, guid: eecfd95aa06159440b824635d22e0f24, type: 3}
       propertyPath: m_Name
       value: BulletFatFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 144206, guid: eecfd95aa06159440b824635d22e0f24, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 432696, guid: eecfd95aa06159440b824635d22e0f24, type: 3}
       propertyPath: m_RootOrder

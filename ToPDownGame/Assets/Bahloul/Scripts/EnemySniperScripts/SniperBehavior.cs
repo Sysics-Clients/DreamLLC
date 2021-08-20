@@ -8,6 +8,7 @@ public class SniperBehavior : MonoBehaviour
     public EnemyItem Item;
     public Transform playerTransform;
     public Canvas EnemyCanvas;
+    public float TimeToDisappear = 3;
 
     public delegate void EnemyMovement(SniperMovement.Movement move);
     public EnemyMovement enemyMovement;
@@ -47,5 +48,15 @@ public class SniperBehavior : MonoBehaviour
     void Update()
     {
         
+    }
+    private void dying()
+    {
+        StartCoroutine(WaitAndDie());
+        isVisible = false;
+    }
+    IEnumerator WaitAndDie()
+    {
+        yield return new WaitForSeconds(TimeToDisappear);
+        Destroy(gameObject);
     }
 }

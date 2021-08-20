@@ -76,25 +76,28 @@ public class EnemyBullet : MonoBehaviour
     private IEnumerator WaitToDestroy(float TimeToDestroy)
     {
         yield return new WaitForSeconds(TimeToDestroy);
-        if (sender.tag == "Sniper")
-        {
-            if (sniperBehavior != null)
-                sniperBehavior.returnBullet(gameObject);
-            else
+        if(sender!=null)
+            if (sender.tag == "Sniper")
+            {
+                if (sniperBehavior != null)
+                    sniperBehavior.returnBullet(gameObject);
+                else
+                    Destroy(gameObject);
+            }
+            else if (sender.tag == "enemy")
+            {
+                if (enemyBehavior != null)
+                    enemyBehavior.returnBullet(gameObject);
+                else
+                    Destroy(gameObject);
+            }
+        else
                 Destroy(gameObject);
-        }
-        else if (sender.tag == "enemy")
-        {
-            if (enemyBehavior != null)
-                enemyBehavior.returnBullet(gameObject);
-            else
-                Destroy(gameObject);
-        }
 
 
 
 
 
-       
+
     }
 }
