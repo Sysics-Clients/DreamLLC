@@ -27,4 +27,7 @@ public class GeneralEvents
 
     public delegate void Health(float health,float armor);
     public static Health health;
+
+    public delegate void PlaySound(AudioManager.Sounds sound);
+    public PlaySound playSound;
 }

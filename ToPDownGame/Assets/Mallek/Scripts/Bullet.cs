@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    private GameObject audioManager;
     public float speed=20;
     Rigidbody rb;
     public float damege;
+
+    
 
 
     private void OnEnable()
@@ -22,6 +25,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager");
     }
     // Update is called once per frame
     void Update()
@@ -47,6 +51,12 @@ public class Bullet : MonoBehaviour
         else if (other.transform.tag == "Sniper")
         {
             other.gameObject.GetComponent<SniperBehavior>().takeDamage(damege);
+        } else if (other.transform.tag == "Metal")
+        {
+            audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Metal);
+        }else if (other.transform.tag == "Wood")
+        {
+            audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
         }
         this.gameObject.SetActive(false);
     }

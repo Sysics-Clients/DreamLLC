@@ -268,7 +268,7 @@ public class EnemyStates : MonoBehaviour
         listGuns[activeGun].SetActive(true);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!enemyBehavior.isVisible)
             return;
@@ -434,7 +434,7 @@ public class EnemyStates : MonoBehaviour
     {
         
             yield return new WaitForSeconds(0.1f);
-        if (agent.hasPath)
+        if ((agent.hasPath)||currentState==State.Chasing||currentState==State.Attack)
         {
             if (Vector3.Distance(transform.position, dis) < DistanceBetween) //Reach destination
             {

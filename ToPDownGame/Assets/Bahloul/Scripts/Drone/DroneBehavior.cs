@@ -10,7 +10,16 @@ public class DroneBehavior : MonoBehaviour
     public float timeToWait;
     private Coroutine WaitInChase;
     private Coroutine CheckFOV;
+    public GameObject Drone;
 
+    public void DisableDroneObject()
+    {
+        Drone.SetActive(false);
+    }
+    public void EnableDroneObject()
+    {
+        Drone.SetActive(true);
+    }
 
     public delegate void ChangeSpeed(float speed);
     public ChangeSpeed changeSpeed;
