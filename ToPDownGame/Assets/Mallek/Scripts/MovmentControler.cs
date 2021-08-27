@@ -79,7 +79,7 @@ public class MovmentControler : MonoBehaviour
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime * 10);
+            characterController.Move(transform.forward * Time.smoothDeltaTime * 7);
         }
         else if (move != Vector3.zero)
         {
@@ -132,13 +132,13 @@ public class MovmentControler : MonoBehaviour
         if (!crouch)
         {
             animator.SetBool("crouch", true);
-            speed = 5;
+            speed = 1;
             crouch = !crouch;
         }
         else
         {
             animator.SetBool("crouch", false);
-            speed = 5;
+            speed = 3;
             crouch = !crouch;
         }
     }
@@ -155,20 +155,6 @@ public class MovmentControler : MonoBehaviour
     private void changeState(State state)
     {
         _courentState = state;
-    }
-
-    public void run()
-    {
-        if (_courentState == State.walk)
-        {
-            _courentState = State.run;
-            speed = 18;
-        }
-        else
-        {
-            _courentState = State.walk;
-            speed = 12;
-        }
     }
 
     //Get Movement from InputSystem

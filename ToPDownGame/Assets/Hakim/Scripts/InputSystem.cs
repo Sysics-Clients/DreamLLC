@@ -28,6 +28,7 @@ public class InputSystem : MonoBehaviour
 
         Vector3 shootDir = new Vector3(ShootJoystic.Horizontal, 0, ShootJoystic.Vertical);
         
+        
             if (GeneralEvents.sendShooting != null)
             {
                 GeneralEvents.sendShooting(shootDir);

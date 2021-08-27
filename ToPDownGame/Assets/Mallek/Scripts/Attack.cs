@@ -13,9 +13,12 @@ public class Attack : MonoBehaviour
     GameObject[] weap = new GameObject[3];
     int nbWeap;
     Coroutine coroutineShoot;
+    bool onShot; 
+       
     // Start is called before the first frame update
     void Start()
     {
+        onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapon[0].animator;
         weap[0]= Instantiate(weapon[0].Prefab,gun);
@@ -58,14 +61,33 @@ public class Attack : MonoBehaviour
     //Getting From GenralEvents
     public void shoot(Vector3 sh)
     {
-        if (sh==Vector3.zero)
+        //print(sh);
+        if (sh == Vector3.zero)
         {
-            if(coroutineShoot!=null)
-                StopCoroutine(coroutineShoot);
+            if (nbWeap == 0)
+            {
+                if (coroutineShoot != null)
+                    StopCoroutine(coroutineShoot);
+                animator.SetBool("attack", false);
+                return;
+            }
+            else if (nbWeap == 1&&onShot)
+            {
+               
+                bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
+                //StartCoroutine("waitBullet", weapon[nbWeap].wait);
+                nbBullet[1]--;
+                onShot = false;
+            }
             animator.SetBool("attack", false);
-            return;
+        }else if(sh.magnitude<0.3){
+            onShot = false;
         }
-        if (!animator.GetBool("attack")&&!(playerBehavior.getState()==MovmentControler.State.roll))
+        else 
+        {
+            onShot = true;
+        }
+        if (!animator.GetBool("attack")&&!(playerBehavior.getState()==MovmentControler.State.roll)&&sh != Vector3.zero)
         {
             animator.SetBool("attack", true);
         }
@@ -96,9 +118,9 @@ public class Attack : MonoBehaviour
             }
             else
             {
-                bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
-                nbBullet[1]--;
-                StartCoroutine("waitBullet", weapon[nbWeap].wait);
+                //bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
+                //nbBullet[1]--;
+                //StartCoroutine("waitBullet", weapon[nbWeap].wait);
             }
         }
     }
@@ -106,7 +128,7 @@ public class Attack : MonoBehaviour
     {   
         yield return new WaitForSeconds(wait);
         //Time.timeScale = 0;
-        if (animator.GetBool("attack"))
+        if (animator.GetBool("attack")&&nbWeap==0)
             shot();
         //Debug.Break();
         // coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);

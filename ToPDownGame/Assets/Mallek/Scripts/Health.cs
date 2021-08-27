@@ -45,14 +45,14 @@ public class Health : MonoBehaviour
             
             if (armor < 0)
             {
-                corentHelth -= value/10;
+                corentHelth += armor;
                 //sliderHelth.fillAmount = corentHelth / 100;
                 armor = 0;
-                return;
+                
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value/100;
+            corentHelth -= value;
             //sliderHelth.fillAmount = corentHelth / 100;
 
            
@@ -60,7 +60,9 @@ public class Health : MonoBehaviour
         if (player != null && corentHelth <= 0)
         {
             player.die();
+            player = null;
             StartCoroutine(SleppGame());
+            
         }
            
         GeneralEvents.health(corentHelth, armor);
@@ -68,7 +70,7 @@ public class Health : MonoBehaviour
     }
     IEnumerator SleppGame()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
         Time.timeScale = 0;
     }
     

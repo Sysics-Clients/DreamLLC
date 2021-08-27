@@ -23,14 +23,6 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
-
-    
     IEnumerator stop(float time)
     {
         yield return new WaitForSeconds(time);
