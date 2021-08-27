@@ -47,14 +47,18 @@ public class ObjectActivation : MonoBehaviour
         {
             foreach(GameObject obj in FullEnemyList)
             {
-                if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                if (obj != null)
                 {
-                    obj.GetComponent<EnemyBehavior>().isVisible = false;
+                    if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                    {
+                        obj.GetComponent<EnemyBehavior>().isVisible = false;
+                    }
+                    else
+                    {
+                        obj.GetComponent<EnemyBehavior>().isVisible = true;
+                    }
                 }
-                else
-                {
-                    obj.GetComponent<EnemyBehavior>().isVisible = true;
-                }
+               
             }
         }
         //For Sniper AI Enemies
@@ -62,14 +66,20 @@ public class ObjectActivation : MonoBehaviour
         {
             foreach (GameObject obj in SniperEnemyList)
             {
-                if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                if (obj != null)
                 {
-                    obj.GetComponent<SniperBehavior>().isVisible = false;
+                    if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                    {
+                        obj.GetComponent<SniperBehavior>().isVisible = false;
+                        obj.GetComponent<Animator>().enabled=false;
+                    }
+                    else
+                    {
+                        obj.GetComponent<Animator>().enabled = true;
+                        obj.GetComponent<SniperBehavior>().isVisible = true;
+                    }
                 }
-                else
-                {
-                    obj.GetComponent<SniperBehavior>().isVisible = true;
-                }
+               
             }
         }
         //For Drone AI Enemies
@@ -77,17 +87,25 @@ public class ObjectActivation : MonoBehaviour
         {
             foreach (GameObject obj in DroneEnemyList)
             {
-                if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                
+                if (obj != null)
                 {
-                    obj.GetComponent<DroneBehavior>().isVisible = false;
+                    DroneBehavior droneBehavior = obj.GetComponent<DroneBehavior>();
+                    if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
+                    {
+                        droneBehavior.isVisible = false;
+                        droneBehavior.DisableDroneObject();
+                    }
+                    else
+                    {
+                        droneBehavior.isVisible = true;
+                        droneBehavior.EnableDroneObject();
+                    }
                 }
-                else
-                {
-                    obj.GetComponent<DroneBehavior>().isVisible = true;
-                }
+                
             }
         }
-        yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         StartCoroutine(CheckActivation());
     }
     // Update is called once per frame

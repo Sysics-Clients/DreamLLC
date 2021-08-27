@@ -39,6 +39,7 @@ public class SniperMovement : MonoBehaviour
                 anim.SetFloat("Speed", 1f);
                 break;
             case Movement.ThrowGrenade:
+                if((sniperBehavior!=null)&&(!sniperBehavior.isVisible))
                 sniperBehavior.changeGun(-1);
                 anim.SetBool("ThrowGrenade", true);
                 break;

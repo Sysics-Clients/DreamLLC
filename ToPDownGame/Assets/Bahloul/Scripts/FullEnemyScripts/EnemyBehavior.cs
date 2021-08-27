@@ -15,6 +15,8 @@ public class EnemyBehavior : MonoBehaviour
     public float gunBloom=0;
     public Transform playerTransform;
     public Canvas EnemyCanvas;
+    public float TimeToDisappear = 3;
+    public GameObject AccessCard;
 
     public delegate void ChangeGunBloom(float _gunBloom);
     public ChangeGunBloom changeGunBloom;
@@ -85,6 +87,15 @@ public class EnemyBehavior : MonoBehaviour
         {
             takeDamage(20);
         }
+    }
+    private void dying()
+    {
+        StartCoroutine(WaitAndDie());
+    }
+    IEnumerator WaitAndDie()
+    {
+        yield return new WaitForSeconds(TimeToDisappear);
+        Destroy(gameObject);
     }
 
 }

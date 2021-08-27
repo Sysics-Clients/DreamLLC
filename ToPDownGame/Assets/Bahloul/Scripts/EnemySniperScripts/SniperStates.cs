@@ -87,7 +87,7 @@ public class SniperStates : MonoBehaviour
         agent.speed = sniperBehavior.Item.walkSpeed;
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!sniperBehavior.isVisible)
             return;

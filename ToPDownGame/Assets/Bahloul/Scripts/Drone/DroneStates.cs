@@ -22,6 +22,7 @@ public class DroneStates : MonoBehaviour
         droneBehavior.changeSpeed += changeSpeed;
         droneBehavior.getDroneState += getCurrentState;
         droneBehavior.callForHelp += callForHelp;
+        droneBehavior.toIdle += toIdle;
         
     }
     private void OnDisable()
@@ -30,6 +31,7 @@ public class DroneStates : MonoBehaviour
         droneBehavior.changeSpeed -= changeSpeed;
         droneBehavior.getDroneState -= getCurrentState;
         droneBehavior.callForHelp -= callForHelp;
+        droneBehavior.toIdle -= toIdle;
     }
     public enum State
     {
@@ -40,14 +42,21 @@ public class DroneStates : MonoBehaviour
     }
     public void changeSpeed(float speed) { Speed = speed; }
     public DroneStates.State getCurrentState() { return currentState; }
-    public void changeState(State s) { currentState = s; }
+    public void changeState(State s) { 
+        currentState = s;
+        if (s == State.Chasing)
+        {
+            if (WaitIdle != null)
+                StopCoroutine(WaitIdle);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         Speed = droneBehavior.walkSpeed;
         Positions.Add(transform);
         currentState = State.Idle;
-        StartCoroutine(WaitOnIdle());
+        WaitIdle = StartCoroutine(WaitOnIdle());
     }
 
     // Update is called once per frame
@@ -67,14 +76,22 @@ public class DroneStates : MonoBehaviour
                 transform.LookAt(new Vector3( Positions[currentPos].position.x,transform.position.y, Positions[currentPos].position.z));
                 break;
             case State.Chasing:
-                if (Vector3.Distance(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), transform.position) > 1)
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5+ playerTransform.position.y, playerTransform.position.z), Time.deltaTime );
-                if(Vector3.Distance(new Vector3(playerTransform.position.x,transform.position.y, playerTransform.position.z), transform.position)>25)
+                float dist = Vector3.Distance(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), transform.position);
+                if (dist > 10)
                 {
                     changeState(State.Idle);
-                    WaitIdle=StartCoroutine(WaitOnIdle());
+                    WaitIdle = StartCoroutine(WaitOnIdle());
                     Speed = droneBehavior.walkSpeed;
                 }
+                else if (dist > 6)
+                {
+                    Speed = 0.3f;
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5 + playerTransform.position.y, playerTransform.position.z), Time.deltaTime*Speed);
+
+                }
+                else if (dist > 1)
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5+ playerTransform.position.y, playerTransform.position.z), Time.deltaTime );
+                
                 transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
 
                 break;
@@ -82,6 +99,14 @@ public class DroneStates : MonoBehaviour
 
                 break;
         }
+    }
+    public void toHelp(Vector3 pos)
+    {
+        if (WaitIdle != null)
+            StopCoroutine(WaitIdle);
+        posToGoHelp = pos;
+        changeState(State.Chasing);
+        droneBehavior.setDroneFovColor(Color.yellow);
     }
     private IEnumerator WaitOnIdle()
     {
@@ -106,13 +131,7 @@ public class DroneStates : MonoBehaviour
         else
             currentPos = 0;
     }
-    public void toHelp(Vector3 pos)
-    {
-        if(WaitIdle!=null)
-            StopCoroutine(WaitIdle);
-        posToGoHelp = pos;
-        changeState(State.Helping);
-    }
+    
     public  void callForHelp()
     {
         
@@ -127,16 +146,29 @@ public class DroneStates : MonoBehaviour
                     switch (rangeChecks[i].tag)
                     {
                         case "enemy":
-                            if(rangeChecks[i].GetComponent<EnemyBehavior>().getCurrentState()!=EnemyStates.State.Attack)
-                                rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+                            EnemyBehavior enemyBehavior = rangeChecks[i].GetComponent<EnemyBehavior>();
+                            EnemyStates enemyStates = rangeChecks[i].GetComponent<EnemyStates>();
+                            if ((enemyBehavior != null) && (enemyBehavior.isVisible))
+                                if (enemyBehavior.getCurrentState() != EnemyStates.State.Attack)
+                                    enemyStates.toHelp(transform.position);
                             break;
                         case "Sniper":
-                            if (rangeChecks[i].GetComponent<SniperBehavior>().getState() != SniperStates.State.Attack)
-                                rangeChecks[i].GetComponent<SniperStates>().toHelp(transform.position);
+                            SniperBehavior sniperBehavior = rangeChecks[i].GetComponent<SniperBehavior>();
+                            SniperStates sniperStates = rangeChecks[i].GetComponent<SniperStates>();
+                            if ((sniperBehavior != null) && (sniperBehavior.isVisible))
+                                if (sniperBehavior.getState() != SniperStates.State.Attack)
+                                    sniperStates.toHelp(transform.position);
                             break;
                         case "Drone":
-                            if (rangeChecks[i].GetComponent<DroneBehavior>().getDroneState() != DroneStates.State.Chasing)
-                                rangeChecks[i].GetComponent<DroneStates>().toHelp(transform.position);
+                            DroneBehavior droneBehavior = rangeChecks[i].GetComponent<DroneBehavior>();
+                            DroneStates droneStates = rangeChecks[i].GetComponent<DroneStates>();
+
+                            if ((droneBehavior != null) && (droneBehavior.isVisible))
+                                if (droneBehavior.getDroneState() != DroneStates.State.Chasing)
+                                {
+                                    droneStates.toHelp(transform.position);
+                                }
+
                             break;
                     }
                 }

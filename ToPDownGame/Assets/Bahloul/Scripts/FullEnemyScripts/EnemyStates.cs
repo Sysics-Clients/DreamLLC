@@ -99,8 +99,10 @@ public class EnemyStates : MonoBehaviour
     }
     private void callForHelp() {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, 30, EnemyLayer);
+
         if (rangeChecks.Length != 0)
-        {
+        { 
+            
             for (int i = 0; i < rangeChecks.Length; i++)
             {
                 if ((rangeChecks[i].gameObject != gameObject))
@@ -109,16 +111,28 @@ public class EnemyStates : MonoBehaviour
                     switch (rangeChecks[i].tag)
                     {
                         case "enemy":
-                            if (rangeChecks[i].GetComponent<EnemyBehavior>().getCurrentState() != EnemyStates.State.Attack)
-                                rangeChecks[i].GetComponent<EnemyStates>().toHelp(transform.position);
+                            EnemyBehavior enemyBehavior = rangeChecks[i].GetComponent<EnemyBehavior>();
+                            EnemyStates enemyStates = rangeChecks[i].GetComponent<EnemyStates>();
+                            if ((enemyBehavior != null) && (enemyBehavior.isVisible))
+                                if (enemyBehavior.getCurrentState() != EnemyStates.State.Attack)
+                                    enemyStates.toHelp(transform.position);
                             break;
                         case "Sniper":
-                            if (rangeChecks[i].GetComponent<SniperBehavior>().getState() != SniperStates.State.Attack)
-                                rangeChecks[i].GetComponent<SniperStates>().toHelp(transform.position);
+                            SniperBehavior sniperBehavior = rangeChecks[i].GetComponent<SniperBehavior>();
+                            SniperStates sniperStates = rangeChecks[i].GetComponent<SniperStates>();
+                            if ((sniperBehavior != null)&&(sniperBehavior.isVisible))
+                                if (sniperBehavior.getState() != SniperStates.State.Attack)
+                                    sniperStates.toHelp(transform.position);
                             break;
                         case "Drone":
-                            if (rangeChecks[i].GetComponent<DroneBehavior>().getDroneState() != DroneStates.State.Chasing)
-                                rangeChecks[i].GetComponent<DroneStates>().toHelp(transform.position);
+                            DroneBehavior droneBehavior = rangeChecks[i].GetComponent<DroneBehavior>();
+                            DroneStates droneStates = rangeChecks[i].GetComponent<DroneStates>();
+                            print(rangeChecks[i].name);
+                            if ((droneBehavior != null)&&(droneBehavior.isVisible))
+                                if (droneBehavior.getDroneState() != DroneStates.State.Chasing) {
+                                    droneStates.toHelp(transform.position);
+                                }
+                                    
                             break;
                     }
                 }
@@ -173,8 +187,7 @@ public class EnemyStates : MonoBehaviour
                 if (rangeChecks.Length >1)
                 {
                     for (int i = 0; i < rangeChecks.Length; i++) {
-                        print(rangeChecks[i].name);
-                        if (rangeChecks[i].gameObject != this.gameObject)
+                        if ((rangeChecks[i].gameObject != this.gameObject))
                         {
                             anim.SetBool("isShooting", false);
                             agent.SetDestination(rangeChecks[0].transform.position);
@@ -184,7 +197,6 @@ public class EnemyStates : MonoBehaviour
                             currentState = State.Hide;
                             agent.speed = enemyBehavior.Item.runSpeed;
                             changeGun(1);
-                            print("going to a friend");
                             goAskHelp = true;
                             StartCoroutine(CheckDistance(rangeChecks[i].gameObject.transform.position,3));
                             LookAtPlayer = false;
@@ -256,7 +268,7 @@ public class EnemyStates : MonoBehaviour
         listGuns[activeGun].SetActive(true);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!enemyBehavior.isVisible)
             return;
@@ -325,11 +337,32 @@ public class EnemyStates : MonoBehaviour
                 }
                 else
                 {
-                    transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
-                    LastPlayerPosition = playerTransform.position;
+                    if (enemyBehavior.AccessCard == null)
+                    {
+                        transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
+                        LastPlayerPosition = playerTransform.position;
+                    }
+                    else
+                    {
+                        if (Vector3.Distance(playerTransform.position, transform.position) > 10)
+                        {
+                            anim.SetBool("isShooting", false);
+                        }
+                        else
+                        {
+                            anim.SetBool("isShooting", true);
+                            transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
+                            LastPlayerPosition = playerTransform.position;
+                        }
+                    }
                 }
                 break;
             case State.Death:
+                if (enemyBehavior.AccessCard != null)
+                {
+                    GameObject go= Instantiate(enemyBehavior.AccessCard, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+                    go.GetComponent<MeshRenderer>().enabled = false;
+                }
                 StopAllCoroutines();
                 enemyBehavior.EnemyCanvas.enabled = false;
                 anim.SetBool("isShooting", false);
@@ -338,6 +371,7 @@ public class EnemyStates : MonoBehaviour
                 listGuns[activeGun].SetActive(false);
                 enemyBehavior.disableOrEnableRenderingFov(false);
                 enabled = false;
+                enemyBehavior.isVisible = false;
                 break;
 
             case State.Hide:
@@ -400,7 +434,7 @@ public class EnemyStates : MonoBehaviour
     {
         
             yield return new WaitForSeconds(0.1f);
-        if (agent.hasPath)
+        if ((agent.hasPath)||currentState==State.Chasing||currentState==State.Attack)
         {
             if (Vector3.Distance(transform.position, dis) < DistanceBetween) //Reach destination
             {
@@ -422,6 +456,10 @@ public class EnemyStates : MonoBehaviour
             {
                 LookAtPlayer = true;
             }
+        }
+        else
+        {
+            toChase();
         }
        
                 

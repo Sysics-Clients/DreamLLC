@@ -7,8 +7,25 @@ public class DroneBehavior : MonoBehaviour
     public bool isVisible = true;
     public float walkSpeed;
     public float runSpeed;
+    public float timeToWait;
+    private Coroutine WaitInChase;
+    private Coroutine CheckFOV;
+    public GameObject Drone;
+
+    public void DisableDroneObject()
+    {
+        Drone.SetActive(false);
+    }
+    public void EnableDroneObject()
+    {
+        Drone.SetActive(true);
+    }
+
     public delegate void ChangeSpeed(float speed);
     public ChangeSpeed changeSpeed;
+    
+    public delegate void ToIdle();
+    public ToIdle toIdle;
 
     public delegate void ChangeState(DroneStates.State state);
     public ChangeState changeState;
@@ -35,7 +52,7 @@ public class DroneBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(CheckPlayerFOV());
+        CheckFOV=StartCoroutine(CheckPlayerFOV());
     }
 
     // Update is called once per frame
@@ -43,6 +60,7 @@ public class DroneBehavior : MonoBehaviour
     {
        
     }
+    
     private IEnumerator CheckPlayerFOV()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -50,18 +68,23 @@ public class DroneBehavior : MonoBehaviour
             if (canSeeThePlayer())
             {
                 setDroneFovColor(Color.red);
-                
-            if (getDroneState() != DroneStates.State.Chasing)
-                    {
+               /* if(WaitInChase!=null)
+                    StopCoroutine(WaitInChase);*/
+                if (getDroneState() != DroneStates.State.Chasing)
+                {
                         changeState(DroneStates.State.Chasing);
                         callForHelp();
                         changeSpeed(runSpeed);
-                    }
+                }
             }
             else 
             {
                 if ((getDroneState() == DroneStates.State.Chasing))
-                 setDroneFovColor(Color.yellow);
+                {
+                    setDroneFovColor(Color.yellow);
+                   // WaitInChase=StartCoroutine(WaitInChasing());
+                    
+                }
             }
             RaycastHit hit;
             if(Physics.Raycast(transform.position, -1*transform.up, out hit))
@@ -71,6 +94,12 @@ public class DroneBehavior : MonoBehaviour
                     transform.GetChild(0).position= new Vector3(transform.position.x, hit.collider.transform.position.y + 0.2f, transform.position.z); 
                 }
             }
-            StartCoroutine(CheckPlayerFOV());
+            CheckFOV=StartCoroutine(CheckPlayerFOV());
     }
+    /*private IEnumerator WaitInChasing()
+    {
+        yield return new WaitForSeconds(timeToWait);
+        toIdle();
+
+    }*/
 }

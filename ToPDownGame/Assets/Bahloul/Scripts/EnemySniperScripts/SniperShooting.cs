@@ -36,6 +36,7 @@ public class SniperShooting : MonoBehaviour
     {
         GameObject go = Instantiate(Grenade, GrenadeFirePoint.position, GrenadeFirePoint.rotation);
         go.GetComponent<Rigidbody>().velocity = vo;
+        go.GetComponent<GrenadeEffect>().sender = gameObject;
     }
     Vector3 Calculatevelocity(Vector3 target, Vector3 origin, float time)
 {
