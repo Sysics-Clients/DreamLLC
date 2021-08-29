@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GeneralEvents 
 {
@@ -30,4 +28,6 @@ public class GeneralEvents
 
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
+    public delegate void ChangeWeopen(WeopenType type);
+    public static ChangeWeopen changeWeopen;
 }

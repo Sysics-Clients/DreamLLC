@@ -11,4 +11,6 @@ public class WeaponItem : ScriptableObject
     public RuntimeAnimatorController animator;
     public int reload;
     public float wait;
+    public WeopenType weopenType;
 }
+public enum WeopenType { AK, Gun }

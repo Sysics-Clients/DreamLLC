@@ -38,6 +38,8 @@ public class SniperBehavior : MonoBehaviour
 
     public delegate void TakeDamage(float damage);
     public TakeDamage takeDamage;
+    public List<SkinnedMeshRenderer> skinnedMeshRenderers;
+    public Animator thisAnimator;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,22 @@ public class SniperBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isVisible == true && !thisAnimator.enabled)
+        {
+            thisAnimator.enabled = true;
+            foreach (var item in skinnedMeshRenderers)
+            {
+                item.enabled = true;
+            }
+        }
+        if (isVisible == false && thisAnimator.enabled)
+        {
+            thisAnimator.enabled = false;
+            foreach (var item in skinnedMeshRenderers)
+            {
+                item.enabled = false;
+            }
+        }
     }
     private void dying()
     {

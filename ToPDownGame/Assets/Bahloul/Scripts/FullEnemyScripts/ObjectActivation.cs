@@ -71,11 +71,11 @@ public class ObjectActivation : MonoBehaviour
                     if (Vector3.Distance(playerTransform.position, obj.transform.position) > distanceFromPlayer)
                     {
                         obj.GetComponent<SniperBehavior>().isVisible = false;
-                        obj.GetComponent<Animator>().enabled=false;
+                        //obj.GetComponent<Animator>().enabled=false;
                     }
                     else
                     {
-                        obj.GetComponent<Animator>().enabled = true;
+                        //obj.GetComponent<Animator>().enabled = true;
                         obj.GetComponent<SniperBehavior>().isVisible = true;
                     }
                 }

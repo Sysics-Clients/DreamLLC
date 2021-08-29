@@ -61,7 +61,8 @@ public class EnemyBehavior : MonoBehaviour
     public ToHide toHide;
   
     public EnemyItem Item;
-
+    public List<SkinnedMeshRenderer> skinnedMeshRenderers;
+    public Animator thisAnimator;
 
     private void Start()
     {
@@ -86,6 +87,22 @@ public class EnemyBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             takeDamage(20);
+        }
+        if (isVisible==true&&!thisAnimator.enabled)
+        {
+            thisAnimator.enabled = true;
+            foreach (var item in skinnedMeshRenderers)
+            {
+                item.enabled = true;
+            }
+        }
+        if (isVisible==false&&thisAnimator.enabled)
+        {
+            thisAnimator.enabled = false;
+            foreach (var item in skinnedMeshRenderers)
+            {
+                item.enabled = false;
+            }
         }
     }
     private void dying()

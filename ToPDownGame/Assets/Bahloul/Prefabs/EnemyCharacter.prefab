@@ -1377,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbff310d427b7ac409d2c71799098a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
+  speed: 15
   firePoint: {fileID: 7267932676161238069}
   enemyBehavior: {fileID: 4049959864674283280}
 --- !u!114 &8337913067826850901
@@ -1472,7 +1472,13 @@ MonoBehaviour:
   gunBloom: 1
   playerTransform: {fileID: 0}
   EnemyCanvas: {fileID: 3148869330170772333}
+  TimeToDisappear: 3
+  AccessCard: {fileID: 0}
   Item: {fileID: 11400000, guid: 372e6f6dbb65cc5488745c1551c96747, type: 2}
+  skinnedMeshRenderers:
+  - {fileID: 6899731643614576060}
+  - {fileID: 3223058864366183401}
+  thisAnimator: {fileID: 8070921382159244645}
 --- !u!114 &2603693179224605149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1517,6 +1523,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   enemyBehavior: {fileID: 4049959864674283280}
+  sniperBehavior: {fileID: 0}
 --- !u!136 &6455594955924960912
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2988,10 +2995,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7109804298546026943}
     m_Modifications:
+    - target: {fileID: 2193662246514154814, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225639794182740569, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3010638896648032123, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3461826666819122813, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073663890344303061, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627316200234590605, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7249017101148921037, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7611666010170652553, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959165115271710328, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8893119193244557028, guid: 2b2e3cfc4c34af74bb1620573ac89ffb,
         type: 3}

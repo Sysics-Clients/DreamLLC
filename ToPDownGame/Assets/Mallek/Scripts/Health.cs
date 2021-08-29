@@ -52,7 +52,7 @@ public class Health : MonoBehaviour
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value;
+            corentHelth -= value/100;
             //sliderHelth.fillAmount = corentHelth / 100;
 
            

@@ -8,7 +8,10 @@ public class InputSystem : MonoBehaviour
     public Joystick ShootJoystic;
     public Button HideButton;
     public Image sliderHelth, sliderArmor;
-
+    public Buttonweopen AkButtonWeopen;
+    public Buttonweopen GunButtonWeopen;
+    public Color NormalColor;
+    public Color DisableColor;
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
@@ -19,13 +22,14 @@ public class InputSystem : MonoBehaviour
     }
     private void Update()
     {
+        Vector3 move = Vector3.zero;
 #if UNITY_EDITOR
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+         move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 #endif
 #if UNITY_ANDROID
-        Vector3 move = new Vector3(MvtJoystic.Horizontal, 0, MvtJoystic.Vertical);
+        move = new Vector3(MvtJoystic.Horizontal, 0, MvtJoystic.Vertical);
 #endif
-
+        //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 shootDir = new Vector3(ShootJoystic.Horizontal, 0, ShootJoystic.Vertical);
         
         
@@ -55,11 +59,48 @@ public class InputSystem : MonoBehaviour
                 break;
         }
     }
-
+    public void SetWeopen(string weopen)
+    {
+        switch (weopen)
+        {
+            case "Ak":
+                
+                if (GeneralEvents.changeWeopen!=null)
+                {
+                    GeneralEvents.changeWeopen(WeopenType.AK);
+                }
+                AkButtonWeopen.FireObj.SetActive(true);
+                AkButtonWeopen.IsSelected.gameObject.SetActive(true);
+                GunButtonWeopen.FireObj.SetActive(false);
+                GunButtonWeopen.IsSelected.gameObject.SetActive(false);
+                break;
+            case "gun":
+                
+                if (GeneralEvents.changeWeopen != null)
+                {
+                    GeneralEvents.changeWeopen(WeopenType.Gun);
+                }
+                AkButtonWeopen.FireObj.SetActive(false);
+                AkButtonWeopen.IsSelected.gameObject.SetActive(false);
+                GunButtonWeopen.FireObj.SetActive(true);
+                GunButtonWeopen.IsSelected.gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
     public void changeHealth(float health, float armor)
     {
         sliderHelth.fillAmount = health / 100;
         sliderArmor.fillAmount = armor / 100;
     }
 
+}
+[System.Serializable]
+public class Buttonweopen
+{
+    public GameObject FireObj;
+    public Image IsSelected;
+    public Text NbFire;
+    public Text TotalFire;
 }

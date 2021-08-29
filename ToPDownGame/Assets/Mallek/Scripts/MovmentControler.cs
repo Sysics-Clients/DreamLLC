@@ -39,6 +39,7 @@ public class MovmentControler : MonoBehaviour
 
     private void OnEnable()
     {
+        Application.targetFrameRate = 60;
         playerBehavior.state += changeState;
         GeneralEvents.sendMvt += GetMvt;
         GeneralEvents.sendShooting += GetDir;
@@ -79,7 +80,7 @@ public class MovmentControler : MonoBehaviour
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime * 7);
+            characterController.Move(transform.forward * Time.smoothDeltaTime *speed);
         }
         else if (move != Vector3.zero)
         {
@@ -97,7 +98,7 @@ public class MovmentControler : MonoBehaviour
         }
         if (_courentState != State.roll)
         {
-            if (ShootingDir != Vector3.zero)
+            if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
