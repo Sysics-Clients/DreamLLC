@@ -28,6 +28,11 @@ public class GeneralEvents
 
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
+
     public delegate void ChangeWeopen(WeopenType type);
     public static ChangeWeopen changeWeopen;
+
+    public delegate Vector2 NbBullet();
+    public static NbBullet nbBullet;
+    public static NbBullet nbBulletStart;
 }

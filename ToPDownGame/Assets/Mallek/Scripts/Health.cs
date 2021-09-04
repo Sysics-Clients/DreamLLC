@@ -52,7 +52,7 @@ public class Health : MonoBehaviour
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value/100;
+            corentHelth -= value;
             //sliderHelth.fillAmount = corentHelth / 100;
 
            
@@ -60,7 +60,7 @@ public class Health : MonoBehaviour
         if (player != null && corentHelth <= 0)
         {
             player.die();
-            player = null;
+            //player = null;
             StartCoroutine(SleppGame());
             
         }
