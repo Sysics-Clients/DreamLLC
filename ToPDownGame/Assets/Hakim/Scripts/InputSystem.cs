@@ -12,6 +12,8 @@ public class InputSystem : MonoBehaviour
     public Buttonweopen GunButtonWeopen;
     public Color NormalColor;
     public Color DisableColor;
+    public Text bulletAK, bulletPistol;
+    public Text bulletAKStart, bulletPistolStart;
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
@@ -19,6 +21,11 @@ public class InputSystem : MonoBehaviour
     private void OnDisable()
     {
         GeneralEvents.health -= changeHealth;
+    }
+    private void Start()
+    {
+        bulletAKStart.text = "/ "+GeneralEvents.nbBulletStart().x;
+        bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y ;
     }
     private void Update()
     {
@@ -36,6 +43,10 @@ public class InputSystem : MonoBehaviour
             if (GeneralEvents.sendShooting != null)
             {
                 GeneralEvents.sendShooting(shootDir);
+                bulletAK.text = GeneralEvents.nbBullet().x+" ";
+                bulletPistol.text = GeneralEvents.nbBullet().y +" ";
+                bulletAKStart.text = "/ " + GeneralEvents.nbBulletStart().x;
+                bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y;
             }
         
         
