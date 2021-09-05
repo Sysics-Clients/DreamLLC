@@ -85,13 +85,14 @@ public class DroneStates : MonoBehaviour
                 }
                 else if (dist > 6)
                 {
-                    Speed = 0.3f;
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5 + playerTransform.position.y, playerTransform.position.z), Time.deltaTime*Speed);
+                    Speed = droneBehavior.walkSpeed;
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, transform.position.y , playerTransform.position.z), Time.deltaTime * Speed);
 
                 }
                 else if (dist > 1)
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(playerTransform.position.x, 5+ playerTransform.position.y, playerTransform.position.z), Time.deltaTime );
-                
+                {
+                    Speed = droneBehavior.runSpeed;
+                }
                 transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
 
                 break;
@@ -150,14 +151,14 @@ public class DroneStates : MonoBehaviour
                             EnemyStates enemyStates = rangeChecks[i].GetComponent<EnemyStates>();
                             if ((enemyBehavior != null) && (enemyBehavior.isVisible))
                                 if (enemyBehavior.getCurrentState() != EnemyStates.State.Attack)
-                                    enemyStates.toHelp(transform.position);
+                                    enemyStates.toHelp(playerTransform.position);
                             break;
                         case "Sniper":
                             SniperBehavior sniperBehavior = rangeChecks[i].GetComponent<SniperBehavior>();
                             SniperStates sniperStates = rangeChecks[i].GetComponent<SniperStates>();
                             if ((sniperBehavior != null) && (sniperBehavior.isVisible))
                                 if (sniperBehavior.getState() != SniperStates.State.Attack)
-                                    sniperStates.toHelp(transform.position);
+                                    sniperStates.toHelp(playerTransform.position);
                             break;
                         case "Drone":
                             DroneBehavior droneBehavior = rangeChecks[i].GetComponent<DroneBehavior>();
@@ -166,9 +167,8 @@ public class DroneStates : MonoBehaviour
                             if ((droneBehavior != null) && (droneBehavior.isVisible))
                                 if (droneBehavior.getDroneState() != DroneStates.State.Chasing)
                                 {
-                                    droneStates.toHelp(transform.position);
+                                    droneStates.toHelp(playerTransform.position);
                                 }
-
                             break;
                     }
                 }
