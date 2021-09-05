@@ -127,7 +127,6 @@ public class EnemyStates : MonoBehaviour
                         case "Drone":
                             DroneBehavior droneBehavior = rangeChecks[i].GetComponent<DroneBehavior>();
                             DroneStates droneStates = rangeChecks[i].GetComponent<DroneStates>();
-                            print(rangeChecks[i].name);
                             if ((droneBehavior != null)&&(droneBehavior.isVisible))
                                 if (droneBehavior.getDroneState() != DroneStates.State.Chasing) {
                                     droneStates.toHelp(transform.position);
@@ -159,7 +158,6 @@ public class EnemyStates : MonoBehaviour
                 float currentDistance;
                 for (int i = 0; i < rangeChecks.Length; i++)
                 {
-
                     currentDistance = Vector3.Distance(rangeChecks[i].transform.position , playerTransform.position);
                     //print(i + " " + maxDistance + "    " + currentDistance);
                     //print(rangeChecks[i].gameObject.name);
@@ -434,7 +432,7 @@ public class EnemyStates : MonoBehaviour
     {
         
             yield return new WaitForSeconds(0.1f);
-        if ((agent.hasPath)||currentState==State.Chasing||currentState==State.Attack)
+        if ((agent.hasPath)&&(currentState==State.Chasing||currentState==State.Attack))
         {
             if (Vector3.Distance(transform.position, dis) < DistanceBetween) //Reach destination
             {
