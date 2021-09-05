@@ -10,6 +10,7 @@ public class PadController : MonoBehaviour
     public GameObject Canvas;
     public RectTransform ImageText;
     public Ease ImageEase;
+    public GameObject ChatSreen;
     void Start()
     {
         float y = spriteTransform.localPosition.y;
@@ -38,7 +39,7 @@ public class PadController : MonoBehaviour
             spriteTransform.gameObject.SetActive(false);
              PadObject.SetActive(false);
             Sequence mySequence = DOTween.Sequence();
-            mySequence.Append(ImageText.DOScaleY(-1, 1.0f)).SetEase(ImageEase);
+            mySequence.Append(ImageText.DOScaleY(1, 0.3f)).SetEase(ImageEase);
             mySequence.OnComplete(() =>
             {
                 Time.timeScale = 0;
@@ -47,7 +48,9 @@ public class PadController : MonoBehaviour
 
             
             thisColloder.enabled = false;
-            Canvas.SetActive(true); 
+            Canvas.SetActive(true);
+            GameObject canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+            canvasInput.SetActive(false);
         }
     }
     public void SkipButton()
@@ -57,6 +60,15 @@ public class PadController : MonoBehaviour
         mySequence.Append(ImageText.DOScaleY(0, 0.3f)).SetEase(Ease.InBack);
         mySequence.OnComplete(() =>
         {
+            if (ChatSreen!=null)
+            {
+                ChatSreen.SetActive(true);
+            }
+            else
+            {
+                GameObject canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+                canvasInput.SetActive(true);
+            }
             Destroy(gameObject);
             //PadObject.SetActive(false);
         });

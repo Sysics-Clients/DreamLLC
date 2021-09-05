@@ -35,4 +35,9 @@ public class GeneralEvents
     public delegate Vector2 NbBullet();
     public static NbBullet nbBullet;
     public static NbBullet nbBulletStart;
+
+    public delegate void CloseObject(GameObject obj);
+    public static CloseObject closeObject;
+    public delegate void OpenObject(GameObject obj);
+    public static OpenObject openObject;
 }
