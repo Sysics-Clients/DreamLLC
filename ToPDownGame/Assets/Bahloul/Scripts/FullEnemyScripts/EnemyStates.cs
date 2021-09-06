@@ -8,7 +8,11 @@ public class EnemyStates : MonoBehaviour
 
 {
     public EnemyBehavior enemyBehavior;
-
+    private AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
     private void OnEnable()
     {
 
@@ -361,6 +365,7 @@ public class EnemyStates : MonoBehaviour
                     GameObject go= Instantiate(enemyBehavior.AccessCard, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
                     go.GetComponent<MeshRenderer>().enabled = false;
                 }
+                audioManager.PlaySound(AudioManager.Sounds.enemyDie);
                 StopAllCoroutines();
                 enemyBehavior.EnemyCanvas.enabled = false;
                 anim.SetBool("isShooting", false);

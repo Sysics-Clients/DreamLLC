@@ -5,10 +5,10 @@ public class Destruction : MonoBehaviour
 {
     int SHakeNumber=0;
     public GameObject destructableBox;
-    private GameObject audioManager;
+    private AudioManager audioManager;
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager");
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
     private void OnTriggerEnter(Collider other)
     {

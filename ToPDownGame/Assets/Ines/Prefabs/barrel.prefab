@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4775921131258587164}
   - component: {fileID: 8710451909546995836}
   - component: {fileID: 5402959787761410777}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5912195156398625651
 Transform:
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6433258507928897993}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 88.829025, y: 0.84696007, z: 120.12651}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -109,9 +109,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionVfx: {fileID: 2404632081355372247}
-  ShotNumber: 0
+  ShotNumber: 3
   DistanceToDamage: 10
-  damage: 50
+  damage: 500
+  UpSpeed: 100
+  ForwardSpeed: 100
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -177,10 +179,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2151759187758904278, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152239542592720784, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152295424594768842, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152355352424058896, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152418141923693336, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_Name
       value: vfx_Hit_Radioactive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}

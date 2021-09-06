@@ -11,10 +11,12 @@ public class AudioManager : MonoBehaviour
         Metal,
         Wood,
         BoxDestruction,
+        enemyDie,
     }
     public AudioSource MetalHit;
     public AudioSource WoodHit;
     public AudioSource BoxDestruction;
+    public AudioSource EnemyDie;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,9 @@ public class AudioManager : MonoBehaviour
                 break;
             case Sounds.BoxDestruction:
                 BoxDestruction.Play();
+                break;
+            case Sounds.enemyDie:
+                EnemyDie.Play();
                 break;
         }
         

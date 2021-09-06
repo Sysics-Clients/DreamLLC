@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using DG.Tweening;
 
 public class BarrelExplosion : MonoBehaviour
@@ -9,12 +10,17 @@ public class BarrelExplosion : MonoBehaviour
     [SerializeField] int ShotNumber = 0;
     [SerializeField] float DistanceToDamage;
     [SerializeField] float damage;
+    [SerializeField] float UpSpeed;
+    [SerializeField] float ForwardSpeed;
     public LayerMask EnemyLayer;
     private GameObject player;
+    private Rigidbody PlayerRb;
+    
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        PlayerRb = player.GetComponent<Rigidbody>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -48,21 +54,40 @@ public class BarrelExplosion : MonoBehaviour
                 if (rangeChecks[i].transform.tag == "enemy")
                 {
                     rangeChecks[i].gameObject.GetComponent<EnemyBehavior>().takeDamage(damage);
+                    rangeChecks[i].gameObject.GetComponent<NavMeshAgent>().enabled = false;
                 }
                 else if (rangeChecks[i].transform.tag == "Sniper")
                 {
                     rangeChecks[i].gameObject.GetComponent<SniperBehavior>().takeDamage(damage);
+                    rangeChecks[i].gameObject.GetComponent<NavMeshAgent>().enabled = false;
                 }
-                rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
-                rangeChecks[i].transform.DOShakePosition(0.5f, 0.5f, 1, 5);
+                else if(rangeChecks[i].transform.tag == "Drone")
+                {
+                    rangeChecks[i].gameObject.GetComponent<DroneBehavior>().disableOrEnableRenderingFov(false);
+                    rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
+
+                }
+                /*rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
+                rangeChecks[i].transform.DOShakePosition(1, 10,12, 12);*/
+                Rigidbody rb = rangeChecks[i].GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.AddForce(Vector3.up * UpSpeed);
+                rb.AddForce(Vector3.forward * ForwardSpeed);
             }
 
         }
         if (Vector3.Distance(player.transform.position, transform.position) < DistanceToDamage)
         {
             player.gameObject.GetComponent<PlayerBehavior>().damege(damage);
-            player.transform.DOShakeRotation(0.5f, 5, 1, 5);
-            player.transform.DOShakePosition(0.5f, 0.5f, 1, 5);
+            PlayerRb.AddForce(Vector3.up * UpSpeed);
+            PlayerRb.AddForce(Vector3.forward * ForwardSpeed);
+            /*PlayerRb.isKinematic = false;
+             PlayerRb.AddForce(Vector3.up * UpSpeed);
+             PlayerRb.AddForce(Vector3.forward * ForwardSpeed);*/
+
+            /*player.transform.DOShakeRotation(0.5f, 5, 1, 5);
+            player.transform.DOShakePosition(1, 10, 12, 12);*/
+
         }
     }
 

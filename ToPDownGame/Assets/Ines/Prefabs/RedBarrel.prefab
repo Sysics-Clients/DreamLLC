@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 6427586310363637216}
   - component: {fileID: 1803862393142300726}
   - component: {fileID: 5587808732781263875}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RedBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5294108275648536207
 Transform:
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4770336483914335285}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 88.219925, y: 0.6120013, z: 118.18471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -109,9 +109,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionVfx: {fileID: 6637347427968569836}
-  ShotNumber: 0
+  ShotNumber: 4
   DistanceToDamage: 10
   damage: 50
+  UpSpeed: 100
+  ForwardSpeed: 100
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -177,10 +179,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2151759187758904278, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152239542592720784, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152295424594768842, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152355352424058896, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152418141923693336, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_Name
       value: vfx_Hit_Radioactive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2152643709640135930, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
