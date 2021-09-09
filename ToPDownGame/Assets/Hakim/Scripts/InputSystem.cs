@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class InputSystem : MonoBehaviour
 {
+    public Image OpenDoorIcon;
     public Joystick MvtJoystic;
     public Joystick ShootJoystic;
     public Button HideButton;

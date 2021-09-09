@@ -7,7 +7,8 @@ using DG.Tweening;
 public class BarrelExplosion : MonoBehaviour
 {
     public GameObject ExplosionVfx;
-    [SerializeField] int ShotNumber = 0;
+    private int ShotNumber = 0;
+    [SerializeField] float ShotMax;
     [SerializeField] float DistanceToDamage;
     [SerializeField] float damage;
     [SerializeField] float UpSpeed;
@@ -24,9 +25,9 @@ public class BarrelExplosion : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bullet"&&ShotNumber<=1)
+        if (other.gameObject.tag == "Bullet"&&ShotNumber<= ShotMax)
         {
-            if (ShotNumber == 1)
+            if (ShotNumber == ShotMax)
             {
                 ExplosionVfx.SetActive(true);
                 ExplosionVfx.GetComponent<ParticleSystem>().Play();
@@ -63,8 +64,17 @@ public class BarrelExplosion : MonoBehaviour
                 }
                 else if(rangeChecks[i].transform.tag == "Drone")
                 {
-                    rangeChecks[i].gameObject.GetComponent<DroneBehavior>().disableOrEnableRenderingFov(false);
-                    rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
+                    DroneBehavior  droneBehavior = rangeChecks[i].gameObject.GetComponent<DroneBehavior>();
+                    Rigidbody  droneRb = rangeChecks[i].gameObject.GetComponent<Rigidbody>();
+                    droneBehavior.disableOrEnableRenderingFov(false);
+                    droneBehavior.Death();
+                    droneRb.isKinematic = false;
+                    droneRb.AddForce(Vector3.up * Random.Range(50,100));
+                    droneRb.AddForce(Vector3.forward * Random.Range(50, 100));
+                     rangeChecks[i].transform.DOShakeRotation(1, 50, 20, 5);
+                     //rangeChecks[i].transform.DOShakePosition(1, 1, 1, 1);
+
+
 
                 }
                 /*rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);

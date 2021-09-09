@@ -9,10 +9,7 @@ public class EnemyStates : MonoBehaviour
 {
     public EnemyBehavior enemyBehavior;
     private AudioManager audioManager;
-    private void Awake()
-    {
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-    }
+   
     private void OnEnable()
     {
 
@@ -69,6 +66,8 @@ public class EnemyStates : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+
         anim = GetComponent<Animator>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -191,8 +190,9 @@ public class EnemyStates : MonoBehaviour
                     for (int i = 0; i < rangeChecks.Length; i++) {
                         if ((rangeChecks[i].gameObject != this.gameObject))
                         {
+                            agent.enabled = true;
                             anim.SetBool("isShooting", false);
-                            agent.SetDestination(rangeChecks[0].transform.position);
+                            agent.SetDestination(new Vector3( rangeChecks[0].transform.position.x,transform.position.y, rangeChecks[0].transform.position.z));
                             enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                             enemyBehavior.setEnemyFovColor(Color.yellow);
                             StateImage.sprite = EnemyStatesSprites[1];
@@ -237,6 +237,7 @@ public class EnemyStates : MonoBehaviour
         agent.speed = enemyBehavior.Item.runSpeed;
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
         changeGun(1);
+        agent.enabled = true;
     }
     void toIdle() {
         currentState = State.Idle;
@@ -310,10 +311,12 @@ public class EnemyStates : MonoBehaviour
                 }
                 if ((distance < 13)&&(check==true))
                 {
+                    
                     agent.SetDestination(playerTransform.position);
                     LastPlayerPosition = playerTransform.position;
                 }
                 else {
+                    
                     agent.SetDestination(LastPlayerPosition);
                     enemyBehavior.setEnemyFovColor(Color.yellow);
                     if (Vector3.Distance(transform.position, LastPlayerPosition) < 0.1f) //Reach destination

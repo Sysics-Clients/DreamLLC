@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5587808732781263875}
   m_Layer: 14
   m_Name: RedBarrel
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionVfx: {fileID: 6637347427968569836}
-  ShotNumber: 4
+  ShotMax: 2
   DistanceToDamage: 10
-  damage: 50
+  damage: 500
   UpSpeed: 100
   ForwardSpeed: 100
   EnemyLayer:
@@ -131,18 +131,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25052804
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25052804
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.25052804
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.13
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.3642
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
@@ -152,17 +167,17 @@ PrefabInstance:
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2149849180205239810, guid: 9739d4d841d171848a0cc005594db524,
         type: 3}

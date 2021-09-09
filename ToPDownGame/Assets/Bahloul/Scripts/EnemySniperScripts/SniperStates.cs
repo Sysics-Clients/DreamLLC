@@ -6,7 +6,11 @@ using UnityEngine.AI;
 public class SniperStates : MonoBehaviour
 {
     public SniperBehavior sniperBehavior;
-    
+    private AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
     public enum State
     {
         Idle,
@@ -129,6 +133,7 @@ public class SniperStates : MonoBehaviour
                 }
                 break;
             case State.Death:
+                audioManager.PlaySound(AudioManager.Sounds.enemyDie);
                 StopAllCoroutines();
                 sniperBehavior.EnemyCanvas.enabled = false;
                 anim.SetBool("isShooting", false);

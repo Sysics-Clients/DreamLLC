@@ -500,6 +500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: biGground
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6647aee6cd8faa640947e56251547209,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6647aee6cd8faa640947e56251547209, type: 3}
 --- !u!1001 &356560627
@@ -1703,6 +1708,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d63abb3a11b24ad46ae863d795ea612b, type: 3}
+--- !u!1 &1554268130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6647aee6cd8faa640947e56251547209,
+    type: 3}
+  m_PrefabInstance: {fileID: 338752659}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1554268133
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554268130}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.472742, y: 0.6283649, z: 2.9735587}
+  m_Center: {x: -0.36253387, y: 1.1856956, z: -0.046485662}
 --- !u!4 &1572465529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d63abb3a11b24ad46ae863d795ea612b,

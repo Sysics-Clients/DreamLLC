@@ -8,8 +8,11 @@ public class Bullet : MonoBehaviour
     public float speed=20;
     Rigidbody rb;
     public float damege;
+    public GameObject BloodEffect;
+    public GameObject MetalEffect;
+    public GameObject WoodEffect;
 
-    
+
 
 
     private void OnEnable()
@@ -36,19 +39,26 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //print(other.transform.name);
-        if (other.transform.tag == "enemy")
+        if (other.tag == "enemy")
         {
             other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
+            Instantiate(BloodEffect, other.transform.position, Quaternion.identity);
         }
-        else if (other.transform.tag == "Sniper")
+        else if (other.tag == "Sniper")
         {
             other.gameObject.GetComponent<SniperBehavior>().takeDamage(damege);
-        } else if (other.transform.tag == "Metal")
+            Instantiate(BloodEffect, other.transform.position, Quaternion.identity);
+        } else if (other.tag == "Metal")
         {
             audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Metal);
-        }else if (other.transform.tag == "Wood")
+            Instantiate(MetalEffect, other.transform.position, Quaternion.identity);
+
+        }
+        else if (other.tag == "Wood")
         {
             audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
+            Instantiate(WoodEffect, other.transform.position, Quaternion.identity);
+
         }
         this.gameObject.SetActive(false);
     }
