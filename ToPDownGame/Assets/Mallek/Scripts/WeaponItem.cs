@@ -12,5 +12,8 @@ public class WeaponItem : ScriptableObject
     public int reload;
     public float wait;
     public WeopenType weopenType;
+    public AudioClip AudioReload, emptyGun;
+
+
 }
 public enum WeopenType { AK, Gun }
