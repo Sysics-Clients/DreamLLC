@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,13 +15,24 @@ public class InputSystem : MonoBehaviour
     public Color DisableColor;
     public Text bulletAK, bulletPistol;
     public Text bulletAKStart, bulletPistolStart;
+    public GameObject bloodImage;
+    
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
+        GeneralEvents.takeDamege += bloodEffect;
+        GeneralEvents.changeColorHealth += chageColorBar;
+        GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
     }
+
+    
+
     private void OnDisable()
     {
         GeneralEvents.health -= changeHealth;
+        GeneralEvents.takeDamege += bloodEffect;
+        GeneralEvents.changeColorHealth -= chageColorBar;
+        GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
     }
     private void Start()
     {
@@ -102,10 +114,52 @@ public class InputSystem : MonoBehaviour
     }
     public void changeHealth(float health, float armor)
     {
-        sliderHelth.fillAmount = health / 100;
-        sliderArmor.fillAmount = armor / 100;
+        /*sliderHelth.fillAmount = health / 100;
+        sliderArmor.fillAmount = armor / 100;*/
+        StartCoroutine(smoothHealth(health / 100, armor / 100));
     }
 
+    IEnumerator smoothHealth(float health, float armor)
+    {
+        if(armor< sliderHelth.fillAmount)
+        {
+            sliderArmor.fillAmount -= .01f;
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(smoothHealth(health , armor ));
+        }
+        if (health < sliderHelth.fillAmount)
+        {
+            sliderHelth.fillAmount -= .01f;
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(smoothHealth(health, armor));
+        }
+
+    }
+        public void bloodEffect()
+    {
+        StartCoroutine(blood());
+    }
+    IEnumerator blood() {
+        bloodImage.active = true;
+        yield return new WaitForSeconds(0.5f);
+        bloodImage.active = false;
+    }
+    private void chageColorBar()
+    {
+
+        sliderHelth.color = Color.red;
+    }
+    private void chageColorweaponButton(Color c,int w)
+    {
+        if (w==0)
+        {
+            AkButtonWeopen.IsSelected.color = c;
+        }else if (w == 1)
+        {
+            GunButtonWeopen.IsSelected.color = c;
+        }
+        
+    }
 }
 [System.Serializable]
 public class Buttonweopen

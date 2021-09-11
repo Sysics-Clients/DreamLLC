@@ -11,13 +11,14 @@ public class Attack : MonoBehaviour
     Coroutine coroutineShoot;
     bool onShot;
     public Transform AkshootPos;
-    AudioSource audio;
+    public AudioSource audio;
     public Weapon[] weapons;
-    public AudioClip reloadClip, emptyGun;
+    public GameObject vfxDeath;
+    
     // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        
         onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapons[0].weaponItem.animator;
@@ -52,7 +53,7 @@ public class Attack : MonoBehaviour
             gun.gameObject.SetActive(true);
         }
     }
-    public void OnenableReloadAk()
+    public void OnenableReload()
     {
         /*if (animator.runtimeAnimatorController!= weapon[0].animator)
         {
@@ -61,7 +62,7 @@ public class Attack : MonoBehaviour
         gun.gameObject.SetActive(false);
         ReloadAkPos.gameObject.SetActive(true);*/
     }
-    public void onDisableReloadAk()
+    public void onDisableReload()
     {
         animator.SetBool("reload", false);
         /*if (animator.runtimeAnimatorController != weapon[0].animator)
@@ -112,21 +113,21 @@ public class Attack : MonoBehaviour
         {
             if (sh == Vector3.zero && !animator.GetBool("reload"))
             {
-                if (nbWeap == 0)
-                {
+                //if (nbWeap == 0)
+                //{
                     if (coroutineShoot != null)
                         StopCoroutine(coroutineShoot);
                     animator.SetBool("attack", false);
                     return;
-                }
-                else if (nbWeap == 1 && onShot)
+            }/*
+                else if (nbWeap == 1 )
                 {
                     if(weapons[nbWeap].nbBullet != 0)
                     {
                         bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
                         //StartCoroutine("waitBullet", weapon[nbWeap].wait);
                         weapons[1].nbBullet--;
-                        onShot = false;
+                       // onShot = false;
                     }
                     if (weapons[1].nbBullet == 0)
                     {
@@ -137,14 +138,14 @@ public class Attack : MonoBehaviour
                 }
                 animator.SetBool("attack", false);
             }
-            else if (sh.magnitude < 0.2)
+           /* else if (sh.magnitude < 0.2)
             {
                 onShot = false;
             }
             else
             {
                 onShot = true;
-            }
+            }*/
             if (!animator.GetBool("attack") && !(playerBehavior.getState() == MovmentControler.State.roll) && sh != Vector3.zero)
             {
                 animator.SetBool("attack", true);
@@ -154,7 +155,7 @@ public class Attack : MonoBehaviour
         {
             if (!audio.isPlaying)
             {
-                audio.clip = emptyGun;
+                audio.clip = weapons[nbWeap].weaponItem.emptyGun;
                 audio.Play();
             }
                 
@@ -171,7 +172,7 @@ public class Attack : MonoBehaviour
                 {
                     animator.SetBool("reload", true);
                     StartCoroutine("reload", 0);
-
+                    
                 }
             }
             else
@@ -179,14 +180,36 @@ public class Attack : MonoBehaviour
                 bulletPool.spownBullet(bulletStart.position, transform.forward);
                 weapons[0].nbBullet--;
                 StartCoroutine("waitBullet", weapons[nbWeap].weaponItem.wait);
+                
             } 
+        }else if (nbWeap == 1)
+        {
+            if (weapons[1].nbBullet == 0)
+            {
+                if (weapons[1].nbTotalBullet != 0)
+                {
+                    animator.SetBool("reload", true);
+                    StartCoroutine("reload", 1);
+
+                }
+            }
+            else
+            {
+                bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
+                weapons[1].nbBullet--;
+                StartCoroutine("waitBullet", weapons[nbWeap].weaponItem.wait);
+            }
+        }
+        if (weapons[nbWeap].nbBullet == 5)
+        {
+            GeneralEvents.changeColorWeaponButton(Color.red,nbWeap);
         }
     }
     IEnumerator waitBullet(float wait)
     {   
         yield return new WaitForSeconds(wait);
         //Time.timeScale = 0;
-        if (animator.GetBool("attack")&&nbWeap==0)
+        if (animator.GetBool("attack"))
             shot();
         //Debug.Break();
         // coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);
@@ -239,14 +262,17 @@ public class Attack : MonoBehaviour
     }
     IEnumerator reload(int wap)
     {
-        audio.clip = reloadClip;
+        audio.clip = weapons[nbWeap].weaponItem.AudioReload;
         audio.Play();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.7f);
+        audio.Stop();
         //SwitchStateGun();
         //animator.SetBool("reload", false);
+        
+        GeneralEvents.changeColorWeaponButton(Color.blue,wap);
         if (wap==nbWeap&& weapons[nbWeap]. nbTotalBullet!=0)
         {
-            weapons[nbWeap].nbTotalBullet -= weapons[nbWeap].weaponItem.reload;
+            weapons[nbWeap].nbTotalBullet -= weapons[nbWeap].weaponItem.reload- weapons[nbWeap].nbBullet;
             weapons[nbWeap].nbBullet = weapons[nbWeap].weaponItem.reload;
             if (weapons[nbWeap].nbTotalBullet < 0)
             {
@@ -258,6 +284,9 @@ public class Attack : MonoBehaviour
     }
     public void die()
     {
+        vfxDeath.active = true;
+        audio.clip = null;
+        StopAllCoroutines();
         this.enabled = false;   
     }    
     public Vector2 getNbBullet()

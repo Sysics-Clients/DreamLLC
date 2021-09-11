@@ -40,4 +40,13 @@ public class GeneralEvents
     public static CloseObject closeObject;
     public delegate void OpenObject(GameObject obj);
     public static OpenObject openObject;
+
+    public delegate void TakeDamege();
+    public static TakeDamege takeDamege;
+
+    public delegate void ChangeColorHealth();
+    public static ChangeColorHealth changeColorHealth;
+
+    public delegate void ChangeColorWeaponButton(Color c,int w);
+    public static ChangeColorWeaponButton changeColorWeaponButton;
 }

@@ -6,12 +6,12 @@ public class MovmentControler : MonoBehaviour
 {
     public CharacterController characterController;
 
-    public float speed = 12;
+    public float speed ;
 
     Animator animator;
     public Joystick joystick;
 
-    private State _courentState;
+    public State _courentState;
     public PlayerBehavior playerBehavior;
 
     private Vector3 playerVelocity;
@@ -27,13 +27,17 @@ public class MovmentControler : MonoBehaviour
     Vector3 ShootingDir;
     bool crouch;
 
+    public AudioSource audio;
+    public AudioClip walk;
+
     // Start is called before the first frame update
     void Start()
     {
+        
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
-        StartCoroutine(FOVRoutine());
+        //StartCoroutine(FOVRoutine());
 
     }
 
@@ -80,10 +84,16 @@ public class MovmentControler : MonoBehaviour
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime *speed);
+            characterController.Move(transform.forward * Time.smoothDeltaTime *speed*1.5f);
+            
         }
         else if (move != Vector3.zero)
         {
+            audio.clip = walk;
+            if (!audio.isPlaying)
+            {
+                audio.Play();
+            }
             move.y = 0;
             characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
             animator.SetFloat("speed", 1);
@@ -91,6 +101,11 @@ public class MovmentControler : MonoBehaviour
         }
         else
         {
+            if (audio.clip==walk)
+            {
+                audio.Stop();
+            }
+            
             if (slow > 0.01f)
                 slow = slow * 3 / 4;
 

@@ -8,12 +8,14 @@ public class Bullet : MonoBehaviour
     public float speed=20;
     Rigidbody rb;
     public float damege;
-
+    public GameObject vfxBlood;
+    bool target;
     
 
 
     private void OnEnable()
     {
+        target = false;
         rb.velocity = transform.forward * speed;
         StartCoroutine(stop(2));
     }
@@ -35,21 +37,38 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //print(other.transform.name);
-        if (other.transform.tag == "enemy")
-        {
-            other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
-        }
-        else if (other.transform.tag == "Sniper")
-        {
-            other.gameObject.GetComponent<SniperBehavior>().takeDamage(damege);
-        } else if (other.transform.tag == "Metal")
-        {
-            audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Metal);
-        }else if (other.transform.tag == "Wood")
-        {
-            audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
-        }
+        print(other.transform.name);
+        if(!target)
+            if (other.transform.tag == "enemy")
+            {
+                target = true;
+                other.gameObject.GetComponent<EnemyBehavior>().takeDamage(damege);
+                StopAllCoroutines();
+                StartCoroutine(damegeEnemy(other.transform.position));
+                return;
+            }
+            else if (other.transform.tag == "Sniper")
+            {
+                target = true;
+                other.gameObject.GetComponent<SniperBehavior>().takeDamage(damege);
+                StopAllCoroutines();
+                StartCoroutine(damegeEnemy(other.transform.position));
+                return;
+            } else if (other.transform.tag == "Metal")
+            {
+                audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Metal);
+            }else if (other.transform.tag == "Wood")
+            {
+                audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
+            }
+            this.gameObject.SetActive(false);
+    }
+    IEnumerator damegeEnemy(Vector3 v)
+    {
+        rb.velocity = Vector3.zero;
+        GameObject g = Instantiate(vfxBlood, v,transform.rotation);
+        yield return new WaitForSeconds(.2f);
+        Destroy(g);
         this.gameObject.SetActive(false);
     }
 }
