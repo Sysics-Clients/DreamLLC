@@ -18,22 +18,33 @@ public class PlayerBehavior : MonoBehaviour
 
     public delegate void Die();
     public Die die;
-
+    private void OnEnable()
+    {
+        
+    }
     private void Start()
     {
         changePos(PlayerPos.Parking);
+        print(transform.position);
+    }
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.M)){
+            transform.position = GameObject.Find("Pad").transform.position;
+        }
+       
     }
     public void changePos(PlayerPos pos)
     {
         switch (pos)
         {
             case PlayerPos.Parking:
-                transform.position = new Vector3(92, 1, 66);
+                transform.localPosition = GameObject.Find("Pad").transform.position;   //new Vector3(92, 1, 66);
                 break;
             case PlayerPos.Kitchen1:
-
+                transform.position = new Vector3(-4, 10, -23);
                 break;
-            case PlayerPos.Kitchen2:
+            case PlayerPos.Labo:
                 break;
             case PlayerPos.RoofTop:
                 transform.position = new Vector3(41, 25, 97);

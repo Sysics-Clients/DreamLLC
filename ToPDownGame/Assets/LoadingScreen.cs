@@ -28,14 +28,12 @@ public class LoadingScreen : MonoBehaviour
         if (typeOfLoading == TypeOfLoading.Loading)
         {
             StartCoroutine(caroutineBar());
-            savingPanel.SetActive(false);
             loadingPanel.SetActive(true);
 }
         else
         {
             StartCoroutine(CouroutineSave());
             savingPanel.SetActive(true);
-            loadingPanel.SetActive(false);
         }
     }
     IEnumerator CouroutineSave()

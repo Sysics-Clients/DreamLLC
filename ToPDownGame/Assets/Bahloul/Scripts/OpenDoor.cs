@@ -7,13 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
+    public GameObject dontDestroyObjects;
     public GameObject InputPanel;
     public GameObject loadingScreenGameObject;
-    public LoadingScreen loadingScreen;
+    private LoadingScreen loadingScreen;
     public string NewSceneName;
     public Doors DoorType;
     GameObject Player;
-    GameObject audioManager;
+    
     public enum Doors{
         rotator,
         translator,
@@ -24,13 +25,13 @@ public class OpenDoor : MonoBehaviour
         loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
         loadingScreenGameObject.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
     public void OnDoorClick()
     {
@@ -43,13 +44,13 @@ public class OpenDoor : MonoBehaviour
         }
         else
         {
+            Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen1);
             InputPanel.SetActive(false);
             loadingScreenGameObject.SetActive(true);
-            DontDestroyOnLoad(Player);
-            DontDestroyOnLoad(audioManager);
-            DontDestroyOnLoad(InputPanel);
+            DontDestroyOnLoad(dontDestroyObjects);
             loadingScreen.sceneName = NewSceneName;
             loadingScreen.ToScene = true;
+            
         }
     }
     private void OnTriggerEnter(Collider other)
