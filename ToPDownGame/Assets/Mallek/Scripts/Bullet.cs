@@ -42,7 +42,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.transform.name);
         if(!target)
             if (other.transform.tag == "enemy")
             {
