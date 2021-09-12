@@ -62,9 +62,14 @@ public class Bullet : MonoBehaviour
             } else if (other.transform.tag == "Metal")
             {
                 audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Metal);
-            }else if (other.transform.tag == "Wood")
+                GameObject vfx = Instantiate(MetalEffect, transform.position, transform.rotation);
+                Destroy(vfx, 1);
+            }
+            else if (other.transform.tag == "Wood")
             {
                 audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
+                GameObject vfx = Instantiate(WoodEffect, transform.position, transform.rotation);
+                Destroy(vfx, 1);
             }
             this.gameObject.SetActive(false);
     }
