@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
+    public Sprite lockedDoor;
+    public Sprite unlockedDoor;
+    public Image DoorImage;
+    public Button DoorBtn;
+    public bool islocked;
     public GameObject dontDestroyObjects;
     public GameObject InputPanel;
     public GameObject loadingScreenGameObject;
@@ -25,7 +30,18 @@ public class OpenDoor : MonoBehaviour
         loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
         loadingScreenGameObject.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
+        if (islocked)
+        {
+            DoorImage.sprite = lockedDoor;
+            DoorBtn.enabled = false;
+        }
+        else
+            DoorImage.sprite = unlockedDoor;
+        DoorImage.enabled = false;
         
+
+
+
     }
 
     // Update is called once per frame
@@ -57,7 +73,9 @@ public class OpenDoor : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            InputPanel.GetComponent<InputSystem>().OpenDoorIcon.enabled = true;
+
+            DoorImage.enabled = true;
+            
             
         }
     }
@@ -65,7 +83,7 @@ public class OpenDoor : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            InputPanel.GetComponent<InputSystem>().OpenDoorIcon.enabled = false;
+            DoorImage.enabled = false;
 
         }
     }

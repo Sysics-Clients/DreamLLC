@@ -284,6 +284,7 @@ public class Attack : MonoBehaviour
     }
     public void die()
     {
+        GeneralEvents.stopEnemies();
         vfxDeath.active = true;
         audio.clip = null;
         StopAllCoroutines();

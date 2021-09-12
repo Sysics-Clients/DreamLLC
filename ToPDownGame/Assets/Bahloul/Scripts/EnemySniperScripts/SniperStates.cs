@@ -21,6 +21,7 @@ public class SniperStates : MonoBehaviour
     }
     private void OnEnable()
     {
+        GeneralEvents.stopEnemies += StopShooting;
         sniperBehavior.changeGun += changeGun;
         sniperBehavior.getState += getCurrentState;
         sniperBehavior.changeState += changeState;
@@ -28,6 +29,7 @@ public class SniperStates : MonoBehaviour
     }
     private void OnDisable()
     {
+        GeneralEvents.stopEnemies -= StopShooting;
         sniperBehavior.changeGun -= changeGun;
         sniperBehavior.getState -= getCurrentState;
         sniperBehavior.changeState -= changeState;
@@ -66,6 +68,10 @@ public class SniperStates : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         anim.SetBool("isShooting", false);
         guns[0].SetActive(true);
+    }
+    void StopShooting()
+    {
+        anim.SetBool("isShooting", false);
     }
     public void toHelp(Vector3 pos)
     {

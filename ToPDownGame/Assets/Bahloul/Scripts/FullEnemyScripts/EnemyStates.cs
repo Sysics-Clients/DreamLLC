@@ -12,7 +12,7 @@ public class EnemyStates : MonoBehaviour
    
     private void OnEnable()
     {
-
+        GeneralEvents.stopEnemies += stopShooting;
         enemyBehavior.enemyState += changeState;
         enemyBehavior.toHide += toHide;
         enemyBehavior.getCurrentState += getCurrentState;
@@ -20,6 +20,7 @@ public class EnemyStates : MonoBehaviour
     }
     private void OnDisable()
     {
+        GeneralEvents.stopEnemies -= stopShooting;
         enemyBehavior.enemyState -= changeState;
         enemyBehavior.toHide -= toHide;
         enemyBehavior.getCurrentState -= getCurrentState;
@@ -86,9 +87,14 @@ public class EnemyStates : MonoBehaviour
             toAttack();
         }
     }
-    public void toHelp(Vector3 position) {
-        if(enemyBehavior.Item.enemyName == "Shooters")
-                return;
+    void stopShooting()
+    {
+        anim.SetBool("isShooting", false);
+    }
+    public void toHelp(Vector3 position)
+    {
+        if (enemyBehavior.Item.enemyName == "Shooters")
+            return;
         anim.SetBool("isShooting", false);
         agent.SetDestination(position);
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
@@ -97,7 +103,7 @@ public class EnemyStates : MonoBehaviour
         currentState = State.Hide;
         agent.speed = enemyBehavior.Item.runSpeed;
         changeGun(1);
-        StartCoroutine(CheckDistance(position,2));
+        StartCoroutine(CheckDistance(position, 2));
 
     }
     private void callForHelp() {

@@ -2,6 +2,9 @@
 
 public class GeneralEvents 
 {
+    public delegate void StopEnemies();
+    public static StopEnemies stopEnemies;
+
     public delegate void AddCounter();
     public static AddCounter addCounter;
 

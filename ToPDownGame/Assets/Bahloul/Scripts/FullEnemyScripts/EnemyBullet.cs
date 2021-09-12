@@ -37,10 +37,12 @@ public class EnemyBullet : MonoBehaviour
 
             if (sender.tag == "Sniper")
             {
+                if(other.gameObject.GetComponent<PlayerBehavior>().damege!=null)
                 other.gameObject.GetComponent<PlayerBehavior>().damege((int)sender.GetComponent<SniperBehavior>().Item.damage);
             }
             else if (sender.tag == "enemy")
             {
+                if(other.gameObject.GetComponent<PlayerBehavior>().damege!=null)
                 other.gameObject.GetComponent<PlayerBehavior>().damege((int)sender.GetComponent<EnemyBehavior>().Item.damage);
             }
             Instantiate(BloodEffect, other.transform.position, Quaternion.identity);

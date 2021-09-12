@@ -25,7 +25,6 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         changePos(PlayerPos.Parking);
-        print(transform.position);
     }
     private void Update()
     {
