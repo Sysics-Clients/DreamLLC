@@ -14,7 +14,7 @@ public class MovmentControler : MonoBehaviour
     public State _courentState;
     public PlayerBehavior playerBehavior;
 
-    private Vector3 playerVelocity;
+    public Vector3 playerVelocity;
     private bool groundedPlayer;
     private float gravityValue = -9.81f;
     public float speedRotation;
@@ -127,6 +127,7 @@ public class MovmentControler : MonoBehaviour
         if (groundedPlayer == false)
         {
             playerVelocity.y = gravityValue * Time.deltaTime;
+            print(playerVelocity);
             characterController.Move(playerVelocity);
         }
     }

@@ -66,8 +66,8 @@ public class Health : MonoBehaviour
             StartCoroutine(SleppGame());
             
         }
-        if (corentHelth < 30)
-            GeneralEvents.changeColorHealth();
+        //if (corentHelth < 30)
+        //    GeneralEvents.changeColorHealth();
         GeneralEvents.takeDamege();   
         GeneralEvents.health(corentHelth, armor);
 
