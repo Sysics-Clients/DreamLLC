@@ -18,26 +18,20 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapons[0].weaponItem.animator;
-        //weap[0]= Instantiate(weapon[0].Prefab,gun);
         weapons[0].weap = Instantiate(weapons[0].weaponItem.Prefab, weapons[0].reloadPos);
-        //ReloadAkPos.gameObject.SetActive(false);
         weapons[1].weap = Instantiate(weapons[1].weaponItem.Prefab, weapons[1].reloadPos);
         weapons[1].weap.SetActive(false);
         weapons[2].weap = Instantiate(weapons[2].weaponItem.Prefab, weapons[2].reloadPos);
         weapons[2].weap.SetActive(false);
-        //Instantiate(gun.gameObject, ReloadShootTransform);
         bulletPool = BulletPool.Instance;
         bulletPool.objectToPool = weapons[0].weaponItem.bullet;
         bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
         bulletPool.start();
         bulletStart = weapons[0].weap.transform.Find("pos");
-        //bulletStart = AkshootPos;
         nbWeap = 0;
-        //SwitchStateGun();
     }
     public void SwitchStateGun()
     {
@@ -55,22 +49,10 @@ public class Attack : MonoBehaviour
     }
     public void OnenableReload()
     {
-        /*if (animator.runtimeAnimatorController!= weapon[0].animator)
-        {
-            return;
-        }
-        gun.gameObject.SetActive(false);
-        ReloadAkPos.gameObject.SetActive(true);*/
     }
     public void onDisableReload()
     {
         animator.SetBool("reload", false);
-        /*if (animator.runtimeAnimatorController != weapon[0].animator)
-        {
-            return;
-        }
-        gun.gameObject.SetActive(true);
-        ReloadAkPos.gameObject.SetActive(false);*/
     }
     private void OnEnable()
     {
@@ -95,11 +77,6 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Test Shoot On Pc
-       /* if (Input.GetMouseButtonUp(1))
-        {
-            shoot();
-        }*/
         if (Input.GetKeyUp(KeyCode.E))
         {
             nextWeapon();
@@ -108,44 +85,15 @@ public class Attack : MonoBehaviour
     //Getting From GenralEvents
     public void shoot(Vector3 sh)
     {
-        //print(sh);
         if (weapons[nbWeap].nbBullet != 0 || weapons[nbWeap].nbTotalBullet != 0)
         {
             if (sh == Vector3.zero && !animator.GetBool("reload"))
             {
-                //if (nbWeap == 0)
-                //{
                     if (coroutineShoot != null)
                         StopCoroutine(coroutineShoot);
                     animator.SetBool("attack", false);
                     return;
-            }/*
-                else if (nbWeap == 1 )
-                {
-                    if(weapons[nbWeap].nbBullet != 0)
-                    {
-                        bulletPool.spownBulletPistol(bulletStart.position, transform.forward);
-                        //StartCoroutine("waitBullet", weapon[nbWeap].wait);
-                        weapons[1].nbBullet--;
-                       // onShot = false;
-                    }
-                    if (weapons[1].nbBullet == 0)
-                    {
-                        animator.SetBool("reload", true);
-                        StartCoroutine(reload(nbWeap));
-                        
-                    }
-                }
-                animator.SetBool("attack", false);
             }
-           /* else if (sh.magnitude < 0.2)
-            {
-                onShot = false;
-            }
-            else
-            {
-                onShot = true;
-            }*/
             if (!animator.GetBool("attack") && !(playerBehavior.getState() == MovmentControler.State.roll) && sh != Vector3.zero)
             {
                 animator.SetBool("attack", true);
@@ -158,8 +106,6 @@ public class Attack : MonoBehaviour
                 audio.clip = weapons[nbWeap].weaponItem.emptyGun;
                 audio.Play();
             }
-                
-            //StopAllCoroutines();
         }
     }
     public void shot()
@@ -172,7 +118,6 @@ public class Attack : MonoBehaviour
                 {
                     animator.SetBool("reload", true);
                     StartCoroutine("reload", 0);
-                    
                 }
             }
             else
@@ -190,7 +135,6 @@ public class Attack : MonoBehaviour
                 {
                     animator.SetBool("reload", true);
                     StartCoroutine("reload", 1);
-
                 }
             }
             else
@@ -208,11 +152,8 @@ public class Attack : MonoBehaviour
     IEnumerator waitBullet(float wait)
     {   
         yield return new WaitForSeconds(wait);
-        //Time.timeScale = 0;
         if (animator.GetBool("attack"))
             shot();
-        //Debug.Break();
-        // coroutineShoot= StartCoroutine("waitBullet", weapon[nbWeap].wait);
     }
     public void nextWeapon() {
         weapons[nbWeap].weap.SetActive(false);
@@ -246,7 +187,6 @@ public class Attack : MonoBehaviour
         }
         if (animator.runtimeAnimatorController== weapons[nbWeap].weaponItem.animator)
         {
-            //reload
             weapons[nbWeap].weap.SetActive(true);
             animator.SetBool("reload", true);
             StartCoroutine(reload(nbWeap));
@@ -266,9 +206,6 @@ public class Attack : MonoBehaviour
         audio.Play();
         yield return new WaitForSeconds(1.7f);
         audio.Stop();
-        //SwitchStateGun();
-        //animator.SetBool("reload", false);
-        
         GeneralEvents.changeColorWeaponButton(Color.blue,wap);
         if (wap==nbWeap&& weapons[nbWeap]. nbTotalBullet!=0)
         {
@@ -279,8 +216,7 @@ public class Attack : MonoBehaviour
                 weapons[nbWeap].nbBullet += weapons[nbWeap].nbTotalBullet;
                 weapons[nbWeap].nbTotalBullet = 0;
             }
-        }
-            
+        }     
     }
     public void die()
     {

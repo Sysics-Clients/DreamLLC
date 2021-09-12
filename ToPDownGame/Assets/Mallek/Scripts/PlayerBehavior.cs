@@ -28,6 +28,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void Update()
     {
+
         if (Input.GetKey(KeyCode.M)){
             transform.position = GameObject.Find("Pad").transform.position;
         }
@@ -38,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
         switch (pos)
         {
             case PlayerPos.Parking:
-                transform.localPosition = GameObject.Find("Pad").transform.position;   //new Vector3(92, 1, 66);
+                transform.position = GameObject.Find("Pad").transform.position;   //new Vector3(92, 1, 66);
                 break;
             case PlayerPos.Kitchen1:
                 transform.position = new Vector3(-4, 10, -23);
@@ -50,6 +51,7 @@ public class PlayerBehavior : MonoBehaviour
                 break;
 
         }
+        StartCoroutine(onStart());
     }
     public enum PlayerPos
     {
@@ -58,5 +60,10 @@ public class PlayerBehavior : MonoBehaviour
         Kitchen1,
         Kitchen2,
         Labo,
+    }
+    IEnumerator onStart()
+    {
+        yield return new WaitForSeconds(.5f);
+        GetComponent<MovmentControler>().enabled = true;
     }
 }

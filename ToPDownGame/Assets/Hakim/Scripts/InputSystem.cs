@@ -17,12 +17,14 @@ public class InputSystem : MonoBehaviour
     public Text bulletAK, bulletPistol;
     public Text bulletAKStart, bulletPistolStart;
     public GameObject bloodImage;
-    
+    public Gradient gradient;
+    Coroutine c;
+
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
-        GeneralEvents.changeColorHealth += chageColorBar;
+       // GeneralEvents.changeColorHealth += chageColorBar;
         GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
     }
 
@@ -32,7 +34,7 @@ public class InputSystem : MonoBehaviour
     {
         GeneralEvents.health -= changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
-        GeneralEvents.changeColorHealth -= chageColorBar;
+       // GeneralEvents.changeColorHealth -= chageColorBar;
         GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
     }
     private void Start()
@@ -117,22 +119,41 @@ public class InputSystem : MonoBehaviour
     {
         /*sliderHelth.fillAmount = health / 100;
         sliderArmor.fillAmount = armor / 100;*/
-        StartCoroutine(smoothHealth(health / 100, armor / 100));
+        if(c!=null)
+            StopCoroutine(c);
+        c=StartCoroutine(smoothHealth(health / 100, armor / 100));
+        
     }
 
     IEnumerator smoothHealth(float health, float armor)
     {
-        if(armor< sliderHelth.fillAmount)
+        if (armor< sliderArmor.fillAmount)
         {
-            sliderArmor.fillAmount -= .01f;
-            yield return new WaitForSeconds(0.1f);
-            StartCoroutine(smoothHealth(health , armor ));
+            sliderArmor.fillAmount -= 0.01f;
+            yield return new WaitForSeconds(0.03f);
+            sliderArmor.fillAmount = (int)(sliderArmor.fillAmount * 100) / 100.0f;
+            c = StartCoroutine(smoothHealth(health, armor));
         }
-        if (health < sliderHelth.fillAmount)
+        else if (armor > sliderArmor.fillAmount)
         {
-            sliderHelth.fillAmount -= .01f;
-            yield return new WaitForSeconds(0.1f);
-            StartCoroutine(smoothHealth(health, armor));
+            sliderArmor.fillAmount += 0.03f;
+            yield return new WaitForSeconds(0.03f);
+            c = StartCoroutine(smoothHealth(health, armor));
+        }
+        else if (health < sliderHelth.fillAmount)
+        {
+            sliderHelth.color = gradient.Evaluate(health);
+            sliderHelth.fillAmount -= 0.01f;
+            yield return new WaitForSeconds(0.03f);
+            sliderHelth.fillAmount = (int)(sliderHelth.fillAmount * 100) / 100.0f;
+            c = StartCoroutine(smoothHealth(health, armor));
+        }
+        else if (health > sliderHelth.fillAmount)
+        {
+            sliderHelth.color = gradient.Evaluate(health);
+            sliderHelth.fillAmount += 0.03f;
+            yield return new WaitForSeconds(0.03f);
+            c = StartCoroutine(smoothHealth(health, armor));
         }
 
     }
@@ -145,11 +166,11 @@ public class InputSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         bloodImage.active = false;
     }
-    private void chageColorBar()
+   /* private void chageColorBar()
     {
 
         sliderHelth.color = Color.red;
-    }
+    }*/
     private void chageColorweaponButton(Color c,int w)
     {
         if (w==0)
