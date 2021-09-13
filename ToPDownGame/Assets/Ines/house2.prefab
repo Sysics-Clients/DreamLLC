@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5192022229076184836
 Transform:
@@ -100,7 +100,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5134488041684190062
 Transform:
@@ -177,7 +177,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 23.08775, y: 2.331379, z: 1.9860992}
+  m_Size: {x: 25.2, y: 2.331379, z: 1.9860992}
   m_Center: {x: -0.13149449, y: 9.180386, z: 16.689522}
 --- !u!65 &4869683436024301020
 BoxCollider:
@@ -216,8 +216,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20.941402, y: 18.965584, z: 32.49826}
-  m_Center: {x: 0.06185399, y: -0.86328316, z: -0.0019073486}
+  m_Size: {x: 31.4, y: 18.965584, z: 40.2}
+  m_Center: {x: 2.13439, y: -0.8632829, z: -0.0019071471}
 --- !u!1 &4357095247542703465
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5717305634362237884
 Transform:
@@ -312,7 +312,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &9129168135015079235
 Transform:
@@ -342,7 +342,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6536915823103324663
 Transform:
@@ -372,7 +372,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4908411452041749042
 Transform:
@@ -399,6 +399,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4908411452041749042}
     m_Modifications:
+    - target: {fileID: 238081112152719780, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 238081112317596873, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 1227840605259958029, guid: 67daf335d55b1434eb05233c9a94971f,
         type: 3}
       propertyPath: m_RootOrder
@@ -464,6 +474,26 @@ PrefabInstance:
       propertyPath: islocked
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2161780497306420136, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 8.364106
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161780497306420136, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.06404895
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161780497306420136, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000002744476
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161780497306420136, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -3.8761516
+      objectReference: {fileID: 0}
     - target: {fileID: 4878877289053034728, guid: 67daf335d55b1434eb05233c9a94971f,
         type: 3}
       propertyPath: reverseFace
@@ -473,6 +503,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743217540170506182, guid: 67daf335d55b1434eb05233c9a94971f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67daf335d55b1434eb05233c9a94971f, type: 3}

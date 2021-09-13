@@ -6,14 +6,15 @@ public class GameManager : MonoBehaviour
 {
 
     public static WeopenType weopenType;
+    public List<MissionMessage> missionMessages;
     
-    private void OnEnable()
-    {
-       
-    }
-    private void OnDisable()
-    {
-       
-
-    }
+   
 }
+[System.Serializable]
+public class MissionMessage
+{
+    public bool isCompleted;
+    public string missionText;
+    public MissionName missionName;
+}
+public enum MissionName { destroybox,collectPad}

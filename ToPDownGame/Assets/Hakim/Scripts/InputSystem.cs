@@ -20,13 +20,19 @@ public class InputSystem : MonoBehaviour
     public GameObject bloodImage;
     public Gradient gradient;
     Coroutine c;
-
+    public GameObject MissionObject;
+    public RectTransform MissionRect;
+    public Text MissionText;
+    GameManager gameManager;
+    MissionMessage missionMessage = null;
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
        // GeneralEvents.changeColorHealth += chageColorBar;
         GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        GeneralEvents.onTaskFinish += SetMission;
     }
 
     
@@ -37,11 +43,43 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.takeDamege += bloodEffect;
        // GeneralEvents.changeColorHealth -= chageColorBar;
         GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
+        GeneralEvents.onTaskFinish -= SetMission;
+
     }
     private void Start()
     {
         bulletAKStart.text = "/ "+GeneralEvents.nbBulletStart().x;
         bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y ;
+        SelectMission();
+    }
+    void SelectMission()
+    {
+        
+        foreach (var item in gameManager.missionMessages)
+        {
+            if (item.isCompleted==false)
+            {
+                missionMessage = item;
+                break;
+            }
+        }
+        if (missionMessage!=null)
+        {
+            MissionObject.SetActive(true);
+            MissionRect.transform.localScale = new Vector3(0, 1, 1);
+            MissionRect.DOScaleX(1, 0.5f).SetEase(Ease.Linear);
+            MissionText.text = missionMessage.missionText;
+        }
+       
+    }
+    void SetMission(MissionName missionName)
+    {
+        if (missionName== missionMessage.missionName)
+        {
+            missionMessage.isCompleted = true;
+            missionMessage = null;
+            SelectMission();
+        }
     }
     private void Update()
     {

@@ -21,6 +21,7 @@ public class Destruction : MonoBehaviour
                 DOTween.CompleteAll();
                 audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.BoxDestruction);
                 Instantiate(destructableBox, transform.position, transform.rotation);
+                GeneralEvents.onTaskFinish(MissionName.destroybox);
                 Destroy(gameObject);
             }
         }

@@ -52,4 +52,7 @@ public class GeneralEvents
 
     public delegate void ChangeColorWeaponButton(Color c,int w);
     public static ChangeColorWeaponButton changeColorWeaponButton;
+
+    public delegate void OnTaskFinish(MissionName missionName);
+    public static OnTaskFinish onTaskFinish;
 }
