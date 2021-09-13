@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public Image sliderHelth,sliderArmor;
+    
     public float corentHelth, armor;
     public PlayerBehavior player;
     private void OnEnable()
@@ -19,8 +19,9 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sliderHelth.fillAmount = 1;
-        sliderArmor.fillAmount = 1;
+        //sliderHelth.fillAmount = 1;
+        //sliderArmor.fillAmount = 1;
+        GeneralEvents.health(100,100);
         corentHelth = 100;
         armor = 100;
     }
@@ -40,21 +41,37 @@ public class Health : MonoBehaviour
         if (armor > 0)
         {
             armor -= value;
-            sliderArmor.fillAmount = armor/100;
+            //sliderArmor.fillAmount = armor/100;
+            
             if (armor < 0)
             {
-                corentHelth -= 100 - armor;
-                sliderHelth.fillAmount = corentHelth / 100;
+                corentHelth += armor;
+                //sliderHelth.fillAmount = corentHelth / 100;
                 armor = 0;
+                
             }
         }else if (corentHelth > 0)
         {
             corentHelth -= value;
-            sliderHelth.fillAmount = corentHelth / 100;
+            //sliderHelth.fillAmount = corentHelth / 100;
 
-            if (player != null && corentHelth<=0)
-                player.die();
+           
         }
-        
+        if (player != null && corentHelth <= 0)
+        {
+            player.die();
+            //player = null;
+            StartCoroutine(SleppGame());
+            
+        }
+           
+        GeneralEvents.health(corentHelth, armor);
+
     }
+    IEnumerator SleppGame()
+    {
+        yield return new WaitForSeconds(4);
+        Time.timeScale = 0;
+    }
+    
 }

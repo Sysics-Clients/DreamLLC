@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GeneralEvents 
 {
@@ -24,6 +22,22 @@ public class GeneralEvents
 
     public delegate void ChangeGun();
     public static ChangeGun changeGun;
-    
 
+    public delegate void Health(float health,float armor);
+    public static Health health;
+
+    public delegate void PlaySound(AudioManager.Sounds sound);
+    public PlaySound playSound;
+
+    public delegate void ChangeWeopen(WeopenType type);
+    public static ChangeWeopen changeWeopen;
+
+    public delegate Vector2 NbBullet();
+    public static NbBullet nbBullet;
+    public static NbBullet nbBulletStart;
+
+    public delegate void CloseObject(GameObject obj);
+    public static CloseObject closeObject;
+    public delegate void OpenObject(GameObject obj);
+    public static OpenObject openObject;
 }

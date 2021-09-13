@@ -25,6 +25,7 @@ public class MovmentControler : MonoBehaviour
     public LayerMask targetMask;
     Vector3 move;
     Vector3 ShootingDir;
+    bool crouch;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,7 @@ public class MovmentControler : MonoBehaviour
 
     private void OnEnable()
     {
+        Application.targetFrameRate = 60;
         playerBehavior.state += changeState;
         GeneralEvents.sendMvt += GetMvt;
         GeneralEvents.sendShooting += GetDir;
@@ -57,7 +59,7 @@ public class MovmentControler : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         groundedPlayer = characterController.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -69,13 +71,16 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
-
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            changeMvt();
+        }
 
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime * 10);
+            characterController.Move(transform.forward * Time.smoothDeltaTime *speed);
         }
         else if (move != Vector3.zero)
         {
@@ -93,7 +98,7 @@ public class MovmentControler : MonoBehaviour
         }
         if (_courentState != State.roll)
         {
-            if (ShootingDir != Vector3.zero)
+            if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
@@ -123,6 +128,21 @@ public class MovmentControler : MonoBehaviour
         animator.SetTrigger("roll");
         _courentState = State.roll;
     }
+    public void changeMvt()
+    {
+        if (!crouch)
+        {
+            animator.SetBool("crouch", true);
+            speed = 1;
+            crouch = !crouch;
+        }
+        else
+        {
+            animator.SetBool("crouch", false);
+            speed = 3;
+            crouch = !crouch;
+        }
+    }
 
     public State getState()
     {
@@ -136,20 +156,6 @@ public class MovmentControler : MonoBehaviour
     private void changeState(State state)
     {
         _courentState = state;
-    }
-
-    public void run()
-    {
-        if (_courentState == State.walk)
-        {
-            _courentState = State.run;
-            speed = 18;
-        }
-        else
-        {
-            _courentState = State.walk;
-            speed = 12;
-        }
     }
 
     //Get Movement from InputSystem
