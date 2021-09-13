@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 public class InputSystem : MonoBehaviour
 {
     public Image OpenDoorIcon;
@@ -163,6 +164,9 @@ public class InputSystem : MonoBehaviour
     }
     IEnumerator blood() {
         bloodImage.active = true;
+        Image bloodimg = bloodImage.GetComponent<Image>();
+        bloodimg.color = new Color(bloodimg.color.r, bloodimg.color.g, bloodimg.color.b, 0);
+        bloodimg.DOFade(1,0.1f).SetEase(Ease.Flash).SetLoops(-1);
         yield return new WaitForSeconds(0.5f);
         bloodImage.active = false;
     }

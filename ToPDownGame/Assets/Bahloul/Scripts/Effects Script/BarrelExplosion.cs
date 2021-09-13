@@ -81,16 +81,20 @@ public class BarrelExplosion : MonoBehaviour
                 rangeChecks[i].transform.DOShakePosition(1, 10,12, 12);*/
                 Rigidbody rb = rangeChecks[i].GetComponent<Rigidbody>();
                 rb.isKinematic = false;
-                rb.AddForce(Vector3.up * UpSpeed);
-                rb.AddForce(Vector3.forward * ForwardSpeed);
+                // rb.AddForce(Vector3.up * UpSpeed);
+                // rb.AddForce(Vector3.forward * ForwardSpeed);
+                rb.AddExplosionForce(700, transform.position, 5);
             }
 
         }
         if (Vector3.Distance(player.transform.position, transform.position) < DistanceToDamage)
         {
             player.gameObject.GetComponent<PlayerBehavior>().damege(damage);
-            PlayerRb.AddForce(Vector3.up * UpSpeed);
-            PlayerRb.AddForce(Vector3.forward * ForwardSpeed);
+            PlayerRb.isKinematic = false;
+            player.GetComponent<CharacterController>().enabled = false;
+            PlayerRb.AddForce(Vector3.up * UpSpeed,ForceMode.Force);
+            PlayerRb.AddForce(Vector3.forward * ForwardSpeed,ForceMode.Force);
+            
             /*PlayerRb.isKinematic = false;
              PlayerRb.AddForce(Vector3.up * UpSpeed);
              PlayerRb.AddForce(Vector3.forward * ForwardSpeed);*/
