@@ -42,8 +42,8 @@ public class EnemyStates : MonoBehaviour
     public LayerMask EnemyLayer;
     Animator anim;
     Transform playerTransform;
-    public List<Sprite> EnemyStatesSprites;
-    public Image StateImage;
+    
+    public GameObject StateImage;
     Coroutine WaitIdle;
     Coroutine WaitHide;
     private State currentState;
@@ -67,6 +67,10 @@ public class EnemyStates : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (enemyBehavior.AccessCard != null)
+            StateImage.SetActive(true);
+        else
+            StateImage.SetActive(false);
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
 
         anim = GetComponent<Animator>();
@@ -78,7 +82,6 @@ public class EnemyStates : MonoBehaviour
             currentState = State.Idle;
             WaitIdle = StartCoroutine(WaitOnIdle());      
             Positions.Add(transform);
-            StateImage.sprite = EnemyStatesSprites[0];
             activeGun = 0;
             listGuns[0].SetActive(true);
         }
@@ -99,7 +102,6 @@ public class EnemyStates : MonoBehaviour
         agent.SetDestination(position);
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
         enemyBehavior.setEnemyFovColor(Color.yellow);
-        StateImage.sprite = EnemyStatesSprites[1];
         currentState = State.Hide;
         agent.speed = enemyBehavior.Item.runSpeed;
         changeGun(1);
@@ -181,7 +183,6 @@ public class EnemyStates : MonoBehaviour
                 agent.SetDestination(PosToHide);
                 enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                 enemyBehavior.setEnemyFovColor(Color.yellow);
-                StateImage.sprite = EnemyStatesSprites[1];
                 currentState = State.Hide;
                 agent.speed = enemyBehavior.Item.runSpeed;
                 changeGun(1);
@@ -198,15 +199,14 @@ public class EnemyStates : MonoBehaviour
                         {
                             agent.enabled = true;
                             anim.SetBool("isShooting", false);
-                            agent.SetDestination(new Vector3( rangeChecks[0].transform.position.x,transform.position.y, rangeChecks[0].transform.position.z));
+                            agent.SetDestination(new Vector3( rangeChecks[i].transform.position.x,transform.position.y, rangeChecks[i].transform.position.z));
                             enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                             enemyBehavior.setEnemyFovColor(Color.yellow);
-                            StateImage.sprite = EnemyStatesSprites[1];
                             currentState = State.Hide;
                             agent.speed = enemyBehavior.Item.runSpeed;
                             changeGun(1);
                             goAskHelp = true;
-                            StartCoroutine(CheckDistance(rangeChecks[i].gameObject.transform.position,3));
+                            StartCoroutine(CheckDistance(new Vector3(rangeChecks[i].transform.position.x, transform.position.y, rangeChecks[i].transform.position.z), 7));
                             LookAtPlayer = false;
                             break;
                         }
@@ -218,7 +218,6 @@ public class EnemyStates : MonoBehaviour
                     agent.SetDestination(2* transform.position- playerTransform.position);
                     enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                     enemyBehavior.setEnemyFovColor(Color.yellow);
-                    StateImage.sprite = EnemyStatesSprites[1];
                     currentState = State.Hide;
                     agent.speed = enemyBehavior.Item.runSpeed;
                     changeGun(1);
@@ -238,7 +237,6 @@ public class EnemyStates : MonoBehaviour
     }
     void toChase() {
         enemyBehavior.setEnemyFovColor(Color.yellow);
-        StateImage.sprite = EnemyStatesSprites[1];
         currentState = State.Chasing;
         agent.speed = enemyBehavior.Item.runSpeed;
         enemyBehavior.enemyMovement(EnemyController.Movement.Run);
@@ -254,7 +252,6 @@ public class EnemyStates : MonoBehaviour
     }
     void toAttack() {
         enemyBehavior.setEnemyFovColor(Color.red);
-        StateImage.sprite = EnemyStatesSprites[2];
         currentState = State.Attack;
         anim.SetBool("isShooting", true);
         agent.speed = 0;
@@ -268,7 +265,6 @@ public class EnemyStates : MonoBehaviour
         agent.SetDestination(Positions[currentPos].position);
         changeGun(1);
         agent.speed = enemyBehavior.Item.walkSpeed;
-        StateImage.sprite = EnemyStatesSprites[1];
 
     }
     private void changeGun(int i) {
@@ -369,21 +365,22 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Death:
-                if (enemyBehavior.AccessCard != null)
-                {
-                    GameObject go= Instantiate(enemyBehavior.AccessCard, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-                    go.GetComponent<MeshRenderer>().enabled = false;
-                }
-                audioManager.PlaySound(AudioManager.Sounds.enemyDie);
-                StopAllCoroutines();
-                enemyBehavior.EnemyCanvas.enabled = false;
-                anim.SetBool("isShooting", false);
-                enemyBehavior.enemyMovement(EnemyController.Movement.Die);
-                agent.speed = 0;
-                listGuns[activeGun].SetActive(false);
-                enemyBehavior.disableOrEnableRenderingFov(false);
-                enabled = false;
-                enemyBehavior.isVisible = false;
+                    if (enemyBehavior.AccessCard != null)
+                    {
+                    enemyBehavior.AccessCard.SetActive(true);
+                    enemyBehavior.AccessCard.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    audioManager.PlaySound(AudioManager.Sounds.enemyDie);
+                    StopAllCoroutines();
+                    enemyBehavior.EnemyCanvas.enabled = false;
+                    anim.SetBool("isShooting", false);
+                    enemyBehavior.enemyMovement(EnemyController.Movement.Die);
+                    agent.speed = 0;
+                    listGuns[activeGun].SetActive(false);
+                    enemyBehavior.disableOrEnableRenderingFov(false);
+                    enabled = false;
+                    enemyBehavior.isVisible = false;
+                GeneralEvents.onTaskFinish(MissionName.destroyEnemy);
                 break;
 
             case State.Hide:
@@ -396,11 +393,9 @@ public class EnemyStates : MonoBehaviour
                 if (enemyBehavior.canSeeThePlayer())
                 {
                     enemyBehavior.setEnemyFovColor(Color.red);
-                    StateImage.sprite = EnemyStatesSprites[2];
                 }
                 else {
                     enemyBehavior.setEnemyFovColor(Color.yellow);
-                    StateImage.sprite = EnemyStatesSprites[1];
                     distance = Vector3.Distance(transform.position, playerTransform.position);
                     check = enemyBehavior.checkLongRange(20, 180);
 

@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class CollecteCard : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        gameObject.SetActive(false);
+    }
+
+    // Start is called before the first frame update
+    private void OnEnable()
+    {
         StartCoroutine(waitToActive());
+        GetComponent<MeshRenderer>().enabled = false;
     }
     IEnumerator waitToActive()
     {
@@ -26,6 +31,7 @@ public class CollecteCard : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            GeneralEvents.onTaskFinish(MissionName.collectAccessCard);
             Destroy(gameObject);
         }
     }

@@ -5,7 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 public class InputSystem : MonoBehaviour
-{
+{   
+    
+    public Image miniMapDirectionImage;
+    public GameObject ErreurText;
     public Image OpenDoorIcon;
     public Joystick MvtJoystic;
     public Joystick ShootJoystic;
@@ -24,7 +27,9 @@ public class InputSystem : MonoBehaviour
     public RectTransform MissionRect;
     public Text MissionText;
     GameManager gameManager;
-    MissionMessage missionMessage = null;
+    Coroutine TextErreur;
+    Tween ErreurTexttween;
+    //MissionMessage missionMessage = null;
     private void OnEnable()
     {
         GeneralEvents.health += changeHealth;
@@ -33,6 +38,7 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         GeneralEvents.onTaskFinish += SetMission;
+        GeneralEvents.writeErrorMessage += afficherErreurMessage;
     }
 
     
@@ -40,10 +46,11 @@ public class InputSystem : MonoBehaviour
     private void OnDisable()
     {
         GeneralEvents.health -= changeHealth;
-        GeneralEvents.takeDamege += bloodEffect;
+        GeneralEvents.takeDamege -= bloodEffect;
        // GeneralEvents.changeColorHealth -= chageColorBar;
         GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
         GeneralEvents.onTaskFinish -= SetMission;
+        GeneralEvents.writeErrorMessage -= afficherErreurMessage;
 
     }
     private void Start()
@@ -54,33 +61,75 @@ public class InputSystem : MonoBehaviour
     }
     void SelectMission()
     {
-        
-        foreach (var item in gameManager.missionMessages)
+        Mission item;
+        //foreach (Mission item in gameManager.currentLevel.missions)
+        for (int i=0;i< gameManager.currentLevel.missions.Count;i++)
         {
+            item = gameManager.currentLevel.missions[i];
             if (item.isCompleted==false)
             {
-                missionMessage = item;
+                MissionObject.SetActive(true);
+                MissionRect.transform.localScale = new Vector3(0, 1, 1);
+                MissionRect.DOScaleX(1, 0.5f).SetEase(Ease.Linear);
+                MissionText.text = item.missionText;
+                gameManager.currentMission = item;
+                GeneralEvents.setMissionObjectAndSprite(item.MissionObject, item.MissionSprite);
                 break;
             }
         }
-        if (missionMessage!=null)
-        {
-            MissionObject.SetActive(true);
-            MissionRect.transform.localScale = new Vector3(0, 1, 1);
-            MissionRect.DOScaleX(1, 0.5f).SetEase(Ease.Linear);
-            MissionText.text = missionMessage.missionText;
-        }
-       
     }
-    void SetMission(MissionName missionName)
+    void SetMission(MissionName missionName,int id=0)
     {
-        if (missionName== missionMessage.missionName)
+        if ((gameManager.currentMission.missionName == missionName)&&(id== gameManager.currentMission.missionId))
         {
-            missionMessage.isCompleted = true;
-            missionMessage = null;
+            gameManager.currentMission.isCompleted = true;
             SelectMission();
         }
+        else
+        {
+            for (int i= 0; i<gameManager.currentLevel.missions.Count;i++)
+            {
+                Mission item = gameManager.currentLevel.missions[i];
+                if ((item.missionName == missionName) && (id == item.missionId))
+                {
+                    item.isCompleted = true;
+                        for(int j = gameManager.currentLevel.missions.IndexOf(gameManager.currentMission); j < i; j++)
+                        {
+                            if (gameManager.currentLevel.missions[j].priority < item.priority)
+                            {
+                                gameManager.currentLevel.missions[j].isCompleted = true;
+                            }
+                        }
+                    if (gameManager.currentMission.isCompleted)
+                        SelectMission();
+                }
+            }
+        }  
     }
+    void afficherErreurMessage(string err)
+    {
+        if(TextErreur!=null)
+            StopCoroutine(TextErreur);
+        ErreurText.SetActive(true);
+        ErreurText.GetComponent<Text>().text = err;
+        
+        ErreurText.GetComponent<Text>().color = Color.red;
+        TextErreur =StartCoroutine(TranslateText());
+        if(ErreurTexttween!=null)
+            ErreurTexttween.Complete();
+        ErreurText.transform.localPosition = Vector3.zero;
+        ErreurTexttween = ErreurText.transform.DOMoveY(ErreurText.transform.position.y + 25, 2);
+
+    }
+    IEnumerator TranslateText()
+    {
+        while (ErreurText.GetComponent<Text>().color.a > 0)
+        {
+            yield return new WaitForSeconds(0.06f);
+            ErreurText.GetComponent<Text>().color = new Color(ErreurText.GetComponent<Text>().color.r, ErreurText.GetComponent<Text>().color.g, ErreurText.GetComponent<Text>().color.b, ErreurText.GetComponent<Text>().color.a - 0.05f) ;
+        }
+    }
+    
     private void Update()
     {
         Vector3 move = Vector3.zero;

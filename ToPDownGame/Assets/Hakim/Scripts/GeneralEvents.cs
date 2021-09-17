@@ -53,6 +53,15 @@ public class GeneralEvents
     public delegate void ChangeColorWeaponButton(Color c,int w);
     public static ChangeColorWeaponButton changeColorWeaponButton;
 
-    public delegate void OnTaskFinish(MissionName missionName);
+    public delegate void OnTaskFinish(MissionName missionName,int id=0);
     public static OnTaskFinish onTaskFinish;
-}
+    
+    public delegate bool CheckMissionCompletion(MissionName missionName,int id=0);
+    public static CheckMissionCompletion checkMissionCompletion;
+
+    public delegate void WriteErrorMessage(string err);
+    public static WriteErrorMessage writeErrorMessage;
+
+    public delegate void SetMissionObjectAndSprite(GameObject tr=null, Sprite sp=null);
+    public static SetMissionObjectAndSprite setMissionObjectAndSprite;
+} 

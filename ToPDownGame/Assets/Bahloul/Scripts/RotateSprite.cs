@@ -54,8 +54,6 @@ public class RotateSprite : MonoBehaviour
                 transform.GetComponentInChildren<SpriteRenderer>().enabled = true;
             }
         }
-        else
-            Destroy(gameObject);
         StartCoroutine(CheckDirection());
     }
 }

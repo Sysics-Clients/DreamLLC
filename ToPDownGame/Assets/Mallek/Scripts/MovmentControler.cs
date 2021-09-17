@@ -127,7 +127,6 @@ public class MovmentControler : MonoBehaviour
         if (groundedPlayer == false)
         {
             playerVelocity.y = gravityValue * Time.deltaTime;
-            print(playerVelocity);
             characterController.Move(playerVelocity);
         }
     }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615f486e7cc624c43995ab080ecf807b, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: 
+  missions:
+  - isCompleted: 1
+    missionText: Destroy The box
+    missionName: 0
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    priority: 0
+    missionId: 1
+  - isCompleted: 1
+    missionText: Collect Pad
+    missionName: 1
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 21300000, guid: 5abbc093d18b79649998b620eeee63dc, type: 3}
+    priority: 1
+    missionId: 0
+  - isCompleted: 1
+    missionText: Destroy the shooter enemy
+    missionName: 2
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 21300000, guid: 24f113aa6e389664f9c6dbcd67bad8d6, type: 3}
+    priority: 1
+    missionId: 0
+  - isCompleted: 0
+    missionText: Collect the access card
+    missionName: 3
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 21300000, guid: 5abbc093d18b79649998b620eeee63dc, type: 3}
+    priority: 1
+    missionId: 0
+  - isCompleted: 0
+    missionText: Destroy The boxes behind the sewers
+    missionName: 0
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    priority: 0
+    missionId: 2
+  - isCompleted: 0
+    missionText: Open the door
+    missionName: 4
+    MissionObject: {fileID: 0}
+    MissionSprite: {fileID: 21300000, guid: dee3e9e3f97195d4aab88aacff2a935f, type: 3}
+    priority: 1
+    missionId: 0
+  SceneName: Week7
