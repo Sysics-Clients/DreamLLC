@@ -37,7 +37,7 @@ public class MenuCotroller : MonoBehaviour
     }
     public void closecoinsshop()
     {
-        coins.DOAnchorPos(new Vector2(0, 2800), 0.50f);
+        coins.DOAnchorPos(new Vector2(0, 2600), 0.50f);
     }
     public void closeshopmenu()
     {
