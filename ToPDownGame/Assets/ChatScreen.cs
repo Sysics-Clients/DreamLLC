@@ -30,13 +30,13 @@ public class ChatScreen : MonoBehaviour
             messages[i].SetActive(true);
             audioSource.clip = popup;
             audioSource.Play();
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(1f);
             if (i<messages.Count-1)
             {
                 for (int k = 0; k < 10; k++)
                 {
                     yield return new WaitForSecondsRealtime(0.02f);
-                    MaskImage.Translate(Vector3.up*30);
+                    MaskImage.Translate(Vector3.up*Screen.height/50);
                 }
                 
                 
