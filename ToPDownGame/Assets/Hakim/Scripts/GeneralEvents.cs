@@ -32,7 +32,7 @@ public class GeneralEvents
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
 
-    public delegate void ChangeWeopen(WeopenType type);
+    public delegate bool ChangeWeopen(WeopenType type);
     public static ChangeWeopen changeWeopen;
 
     public delegate Vector2 NbBullet();
@@ -52,4 +52,10 @@ public class GeneralEvents
 
     public delegate void ChangeColorWeaponButton(Color c,int w);
     public static ChangeColorWeaponButton changeColorWeaponButton;
+
+    public delegate void SetSpeed(float v);
+    public static SetSpeed setSpeed;
+
+    public delegate bool GetCanChange();
+    public static GetCanChange getCanChange;
 }
