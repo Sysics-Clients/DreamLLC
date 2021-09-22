@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
     {
         if (armor > 0)
         {
-            armor -= value;
+            armor -= value/10;
             //sliderArmor.fillAmount = armor/100;
             
             if (armor < 0)
@@ -52,7 +52,7 @@ public class Health : MonoBehaviour
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value;
+            corentHelth -= value/10;
             //sliderHelth.fillAmount = corentHelth / 100;
 
            

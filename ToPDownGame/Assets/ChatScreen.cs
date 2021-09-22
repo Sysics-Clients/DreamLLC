@@ -65,5 +65,6 @@ public class ChatScreen : MonoBehaviour
         padController.canvasInput.SetActive(true);
         padController.gameObject.SetActive(false);
         Time.timeScale = 1;
+        GeneralEvents.onTaskFinish(MissionName.collectPad);
     }
 }

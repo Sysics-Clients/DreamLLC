@@ -109,8 +109,5 @@ public class ObjectActivation : MonoBehaviour
         StartCoroutine(CheckActivation());
     }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

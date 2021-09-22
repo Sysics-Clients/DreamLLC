@@ -39,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
         switch (pos)
         {
             case PlayerPos.Parking:
-                transform.position = GameObject.Find("Pad").transform.position;   //new Vector3(92, 1, 66);
+                transform.position = GameObject.Find("StartPos").transform.position;   //new Vector3(92, 1, 66);
                 break;
             case PlayerPos.Kitchen1:
                 transform.position = new Vector3(-4, 10, -23);
