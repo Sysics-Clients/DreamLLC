@@ -5,7 +5,11 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public GeneralEvents generalEvents;
-
+    public AudioSource MetalHit;
+    public AudioSource WoodHit;
+    public AudioSource BoxDestruction;
+    public AudioSource EnemyDie;
+    public AudioSource DroneHitGround;
     public enum Sounds
     {
         Metal,
@@ -13,16 +17,6 @@ public class AudioManager : MonoBehaviour
         BoxDestruction,
         enemyDie,
         droneHitGround,
-    }
-    public AudioSource MetalHit;
-    public AudioSource WoodHit;
-    public AudioSource BoxDestruction;
-    public AudioSource EnemyDie;
-    public AudioSource DroneHitGround;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
     public void PlaySound(Sounds s)
     {

@@ -267,6 +267,21 @@ public class EnemyStates : MonoBehaviour
         agent.speed = enemyBehavior.Item.walkSpeed;
 
     }
+    void toDie()
+    {
+        audioManager.PlaySound(AudioManager.Sounds.enemyDie);
+        StopAllCoroutines();
+        enemyBehavior.EnemyCanvas.enabled = false;
+        anim.SetBool("isShooting", false);
+        enemyBehavior.enemyMovement(EnemyController.Movement.Die);
+        agent.speed = 0;
+        listGuns[activeGun].SetActive(false);
+        enemyBehavior.disableOrEnableRenderingFov(false);
+        enabled = false;
+        enemyBehavior.isVisible = false;
+        if (GetComponent<MissionObjects>() != null)
+            GeneralEvents.onTaskFinish(MissionName.destroyEnemy);
+    }
     private void changeGun(int i) {
         listGuns[activeGun].SetActive(false);
         activeGun = i;
@@ -370,17 +385,7 @@ public class EnemyStates : MonoBehaviour
                     enemyBehavior.AccessCard.SetActive(true);
                     enemyBehavior.AccessCard.GetComponent<MeshRenderer>().enabled = false;
                     }
-                    audioManager.PlaySound(AudioManager.Sounds.enemyDie);
-                    StopAllCoroutines();
-                    enemyBehavior.EnemyCanvas.enabled = false;
-                    anim.SetBool("isShooting", false);
-                    enemyBehavior.enemyMovement(EnemyController.Movement.Die);
-                    agent.speed = 0;
-                    listGuns[activeGun].SetActive(false);
-                    enemyBehavior.disableOrEnableRenderingFov(false);
-                    enabled = false;
-                    enemyBehavior.isVisible = false;
-                GeneralEvents.onTaskFinish(MissionName.destroyEnemy);
+                toDie();
                 break;
 
             case State.Hide:
@@ -408,7 +413,7 @@ public class EnemyStates : MonoBehaviour
                 break;
         }
     }
-
+    
     private void setPosition()
     {
         if (currentPos < (Positions.Count - 1))        
