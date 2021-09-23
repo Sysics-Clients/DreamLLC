@@ -58,4 +58,7 @@ public class GeneralEvents
 
     public delegate bool GetCanChange();
     public static GetCanChange getCanChange;
+    
+    public delegate void OnTaskFinish(MissionName missionName);
+    public static OnTaskFinish onTaskFinish;
 }

@@ -35,7 +35,8 @@ public class Attack : MonoBehaviour
         bulletPool.start();
         bulletStart = weapons[0].weap.transform.Find("pos");
         nbWeap = 0;
-        GeneralEvents.setSpeed(weapons[0].weaponItem.speed);
+        if(GeneralEvents.setSpeed!=null)///////////////////////////////:
+            GeneralEvents.setSpeed(v: weapons[0].weaponItem.speed);
         canChange = true;
     }
     public void SwitchStateGun()
@@ -61,8 +62,7 @@ public class Attack : MonoBehaviour
     }
     private void OnEnable()
     {
-        weapons[0].nbTotalBullet = 29;
-        weapons[1].nbTotalBullet = 30;
+        
         weapons[0].nbBullet = weapons[0].weaponItem.reload;
         weapons[1].nbBullet = weapons[1].weaponItem.reload;
         GeneralEvents.nbBulletStart += getNbStartBullet;
