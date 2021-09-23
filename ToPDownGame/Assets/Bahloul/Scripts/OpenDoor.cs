@@ -19,6 +19,7 @@ public class OpenDoor : MonoBehaviour
     public string NewSceneName;
     public Doors DoorType;
     GameObject Player;
+    GameManager gameManager;
     
     public enum Doors{
         rotator,
@@ -27,6 +28,7 @@ public class OpenDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
         loadingScreenGameObject.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -38,9 +40,6 @@ public class OpenDoor : MonoBehaviour
         else
             DoorImage.sprite = unlockedDoor;
         DoorImage.enabled = false;
-        
-
-
 
     }
 
@@ -57,17 +56,20 @@ public class OpenDoor : MonoBehaviour
             {
                 transform.DORotate(new Vector3(0, 90, 0), 2);
             }
+            else
+                transform.DOMoveX(transform.position.x + 3, 2);
         }
         else
         {
             if (GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
             {
-                Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen1);
                 InputPanel.SetActive(false);
                 loadingScreenGameObject.SetActive(true);
                 DontDestroyOnLoad(dontDestroyObjects);
                 loadingScreen.sceneName = NewSceneName;
                 loadingScreen.ToScene = true;
+                Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen);
+                StartCoroutine( GameManager.instance.playNewScene(NewSceneName));
             }
             else
             {

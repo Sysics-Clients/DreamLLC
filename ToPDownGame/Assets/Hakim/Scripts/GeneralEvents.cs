@@ -65,6 +65,9 @@ public class GeneralEvents
     public delegate void SetMissionObjectAndSprite(GameObject tr = null, Sprite sp = null);
     public static SetMissionObjectAndSprite setMissionObjectAndSprite;
 
+    public delegate void ChangePlayerPos(PlayerBehavior.PlayerPos pos);
+    public static ChangePlayerPos changePlayerPos;
+
     public static clothes currentClothes;
     public class clothes{
         public GameObject hat, pants, shoes, shirt, shield;

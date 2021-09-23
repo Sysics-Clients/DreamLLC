@@ -382,8 +382,9 @@ public class EnemyStates : MonoBehaviour
             case State.Death:
                     if (enemyBehavior.AccessCard != null)
                     {
-                    enemyBehavior.AccessCard.SetActive(true);
-                    enemyBehavior.AccessCard.GetComponent<MeshRenderer>().enabled = false;
+                        GameObject go = Instantiate(enemyBehavior.AccessCard, transform.position+new Vector3(0,1,0), transform.rotation);
+                        /*enemyBehavior.AccessCard.SetActive(true);
+                        enemyBehavior.AccessCard.GetComponent<MeshRenderer>().enabled = false;*/
                     }
                 toDie();
                 break;
