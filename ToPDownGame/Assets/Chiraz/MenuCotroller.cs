@@ -43,5 +43,9 @@ public class MenuCotroller : MonoBehaviour
     {
         shopMenu.DOAnchorPos(new Vector2(0, 2800), 0.50f);
     }
+    public void closeweaponsmenu()
+    {
+        weaponsmenu.DOAnchorPos(new Vector2(2800, 0), 0.50f);
+    }
 
 }
