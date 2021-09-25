@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ShopItems : MonoBehaviour
+[CreateAssetMenu(fileName = "Shop item", menuName = "Shop")]
+public class ShopItems : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public ItemType itemtype;
+    public string itemName;
+    public Sprite itemSprite;
+    public float price;
+    public bool isSelected;
+    public bool isBought;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+public enum ItemType { pants, shirt, shoes, shield, hat }

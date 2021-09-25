@@ -20,7 +20,11 @@ public class PlayerBehavior : MonoBehaviour
     public Die die;
     private void OnEnable()
     {
-        
+        GeneralEvents.changePlayerPos += changePos;
+    }
+    private void OnDisable()
+    {
+        GeneralEvents.changePlayerPos -= changePos;
     }
     private void Start()
     {
@@ -41,8 +45,8 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerPos.Parking:
                 transform.position = GameObject.Find("StartPos").transform.position;   //new Vector3(92, 1, 66);
                 break;
-            case PlayerPos.Kitchen1:
-                transform.position = new Vector3(-4, 10, -23);
+            case PlayerPos.Kitchen:
+                transform.position = GameObject.Find("StartPos").transform.position;
                 break;
             case PlayerPos.Labo:
                 break;
@@ -57,8 +61,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         Parking,
         RoofTop,
-        Kitchen1,
-        Kitchen2,
+        Kitchen,
         Labo,
     }
     IEnumerator onStart()

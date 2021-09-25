@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
     public static WeopenType weopenType;
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        print("lkn");
         GeneralEvents.checkMissionCompletion += CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite += SetMissionSpriteDirection;
     }
@@ -26,9 +28,9 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+        
         if (instance != null && instance != this)
             Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
-
         instance = this;
         currentLevel = Levels[0];
         MissionObjects = FindObjectsOfType<MissionObjects>();
@@ -43,6 +45,23 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+    }
+    public IEnumerator playNewScene(string SceneName)
+    {
+        while (true)
+        {
+            
+            yield return new WaitForSeconds(0.2f);
+            if(SceneManager.GetActiveScene().name == SceneName)
+            {
+                print("coucou");
+                GeneralEvents.changePlayerPos(PlayerBehavior.PlayerPos.Kitchen);
+                break;
+            }
+            
+        }
+
 
     }
     public void SelectLevel(string sceneName)

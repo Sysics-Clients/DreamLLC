@@ -6,14 +6,14 @@ public class CollecteCard : MonoBehaviour
 {
     private void Start()
     {
-        gameObject.SetActive(false);
+        StartCoroutine(waitToActive());
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Start is called before the first frame update
     private void OnEnable()
     {
-        StartCoroutine(waitToActive());
-        GetComponent<MeshRenderer>().enabled = false;
+        
     }
     IEnumerator waitToActive()
     {
