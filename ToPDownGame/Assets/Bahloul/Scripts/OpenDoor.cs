@@ -60,12 +60,19 @@ public class OpenDoor : MonoBehaviour
         }
         else
         {
-            Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen1);
-            InputPanel.SetActive(false);
-            loadingScreenGameObject.SetActive(true);
-            DontDestroyOnLoad(dontDestroyObjects);
-            loadingScreen.sceneName = NewSceneName;
-            loadingScreen.ToScene = true;
+            if (GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
+            {
+                Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen1);
+                InputPanel.SetActive(false);
+                loadingScreenGameObject.SetActive(true);
+                DontDestroyOnLoad(dontDestroyObjects);
+                loadingScreen.sceneName = NewSceneName;
+                loadingScreen.ToScene = true;
+            }
+            else
+            {
+                GeneralEvents.writeErrorMessage("No key found!!");
+            }
             
         }
     }

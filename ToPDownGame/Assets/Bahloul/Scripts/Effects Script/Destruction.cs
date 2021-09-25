@@ -3,6 +3,8 @@ using DG.Tweening;
 
 public class Destruction : MonoBehaviour
 {
+    public bool ForMission;
+    public short MissionId;
     int SHakeNumber=0;
     public GameObject destructableBox;
     private AudioManager audioManager;
@@ -21,7 +23,8 @@ public class Destruction : MonoBehaviour
                 DOTween.CompleteAll();
                 audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.BoxDestruction);
                 Instantiate(destructableBox, transform.position, transform.rotation);
-                GeneralEvents.onTaskFinish(MissionName.destroybox);
+                if(ForMission)
+                GeneralEvents.onTaskFinish(MissionName.destroybox,MissionId);
                 Destroy(gameObject);
             }
         }
