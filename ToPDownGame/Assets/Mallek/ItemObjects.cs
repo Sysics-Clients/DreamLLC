@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-    public enum ItemType
+    public enum ItemTypes
     {
         legs,
         Weapon,
@@ -13,12 +13,12 @@ using UnityEngine;
 
    
     [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
-    public class ItemObject : ScriptableObject
+    public class ItemObjects : ScriptableObject
     {
 
         public Sprite uiDisplay;
         public GameObject characterDisplay;
-        public ItemType type;
+        public ItemTypes type;
         [TextArea(15, 20)]
         public string description;
        

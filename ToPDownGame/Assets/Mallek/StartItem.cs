@@ -5,7 +5,7 @@ using UnityEngine;
 public class StartItem : MonoBehaviour
 {
     BoneCombiner boneCombiner;
-    public ItemObject itemBoots,itemLegs,itemChest;
+    public ItemObjects itemBoots,itemLegs,itemChest;
     // Start is called before the first frame update
     void Start()
     {
