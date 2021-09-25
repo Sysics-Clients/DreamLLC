@@ -30,14 +30,19 @@ public class Attack : MonoBehaviour
         weapons[2].weap = Instantiate(weapons[2].weaponItem.Prefab, weapons[2].reloadPos);
         weapons[2].weap.SetActive(false);
         bulletPool = BulletPool.Instance;
-        bulletPool.objectToPool = weapons[0].weaponItem.bullet;
-        bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
-        bulletPool.start();
-        bulletStart = weapons[0].weap.transform.Find("pos");
+        
         nbWeap = 0;
         if(GeneralEvents.setSpeed!=null)///////////////////////////////:
             GeneralEvents.setSpeed(v: weapons[0].weaponItem.speed);
         canChange = true;
+    }
+    public void startBullets()
+    {
+        
+        bulletPool.objectToPool = weapons[0].weaponItem.bullet;
+        bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
+        bulletPool.start();
+        bulletStart = weapons[0].weap.transform.Find("pos");
     }
     public void SwitchStateGun()
     {
@@ -70,6 +75,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting += shoot;
         GeneralEvents.changeWeopen += SwitchWeopen;
         GeneralEvents.getCanChange += getCanChange;
+        GeneralEvents.startBullets += startBullets;
         playerBehavior.die += die;
     }
     private void OnDisable()
@@ -79,6 +85,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting -= shoot;
         GeneralEvents.changeWeopen -= SwitchWeopen;
         GeneralEvents.getCanChange -= getCanChange;
+        GeneralEvents.startBullets -= startBullets;
         playerBehavior.die -= die;
     }
     // Update is called once per frame

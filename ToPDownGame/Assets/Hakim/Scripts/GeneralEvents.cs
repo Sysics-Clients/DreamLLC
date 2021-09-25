@@ -58,9 +58,10 @@ public class GeneralEvents
 
     public delegate bool GetCanChange();
     public static GetCanChange getCanChange;
-    
-    
-    
+
+    public delegate void StartBullets();
+    public static StartBullets startBullets;
+
     public delegate void OnTaskFinish(MissionName missionName, int id = 0);
     public static OnTaskFinish onTaskFinish;
 
