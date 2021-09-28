@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 public class MenuCotroller : MonoBehaviour
 {
+    public GameObject PlayerInSHop;
+    public List<ShopItems> shopItems;
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
     // Start is called before the first frame update
     void Start()
@@ -16,6 +18,14 @@ public class MenuCotroller : MonoBehaviour
     public void shopbtn()
     {
         shopMenu.DOAnchorPos(Vector2.zero, 0.50f);
+        //StartCoroutine(ShowPlayer());
+        PlayerInSHop.SetActive(true);
+
+    }
+    IEnumerator ShowPlayer()
+    {
+        yield return new WaitForSeconds(1);
+        
 
     }
     public void weaponbtn()

@@ -18,7 +18,7 @@ public class MovmentControler : MonoBehaviour
     private bool groundedPlayer;
     private float gravityValue = -9.81f;
     public float speedRotation;
-
+    [Range(0,1)]
     float slow;
     Transform target;
     public float radius;
@@ -38,6 +38,7 @@ public class MovmentControler : MonoBehaviour
         animator = GetComponent<Animator>();
         _courentState = State.walk;
         //StartCoroutine(FOVRoutine());
+        slow = 1;
 
     }
 
@@ -50,6 +51,7 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.getState += getState;
         playerBehavior.die += die;
         GeneralEvents.sendRoll += GetRoll;
+        GeneralEvents.setSpeed += setSpeed;
     }
     private void OnDisable()
     {
@@ -59,6 +61,7 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.getState -= getState;
         playerBehavior.die -= die;
         GeneralEvents.sendRoll -= GetRoll;
+        GeneralEvents.setSpeed -= setSpeed;
 
     }
 
@@ -75,11 +78,12 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
+        /*
         if (Input.GetKeyUp(KeyCode.W))
         {
             changeMvt();
         }
-
+        */
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
@@ -96,8 +100,12 @@ public class MovmentControler : MonoBehaviour
             }
             move.y = 0;
             characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
-            animator.SetFloat("speed", 1);
-            slow = 1;
+            animator.SetFloat("speed", slow);
+            if (slow <1)
+            {
+                slow += 0.1f;
+            }
+            
         }
         else
         {
@@ -224,7 +232,12 @@ public class MovmentControler : MonoBehaviour
 
     private void die()
     {
+        audio.clip = null;
         animator.SetBool("die", true);
         this.enabled = false;
+    }
+    public void setSpeed(float v)
+    {
+        speed = v;
     }
 }

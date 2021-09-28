@@ -164,7 +164,7 @@ public class InputSystem : MonoBehaviour
         switch (statut)
         {
             case "roll":
-                if (GeneralEvents.sendRoll!=null)
+                if (GeneralEvents.sendRoll!=null&& GeneralEvents.getCanChange())
                 {
                     GeneralEvents.sendRoll();
                 }
@@ -181,23 +181,28 @@ public class InputSystem : MonoBehaviour
                 
                 if (GeneralEvents.changeWeopen!=null)
                 {
-                    GeneralEvents.changeWeopen(WeopenType.AK);
+                    if (GeneralEvents.changeWeopen(WeopenType.AK))
+                    {
+                        AkButtonWeopen.FireObj.SetActive(true);
+                        AkButtonWeopen.IsSelected.gameObject.SetActive(true);
+                        GunButtonWeopen.FireObj.SetActive(false);
+                        GunButtonWeopen.IsSelected.gameObject.SetActive(false);
+                    }
+                    
                 }
-                AkButtonWeopen.FireObj.SetActive(true);
-                AkButtonWeopen.IsSelected.gameObject.SetActive(true);
-                GunButtonWeopen.FireObj.SetActive(false);
-                GunButtonWeopen.IsSelected.gameObject.SetActive(false);
                 break;
             case "gun":
                 
                 if (GeneralEvents.changeWeopen != null)
                 {
-                    GeneralEvents.changeWeopen(WeopenType.Gun);
+                    if (GeneralEvents.changeWeopen(WeopenType.Gun))
+                    {
+                        AkButtonWeopen.FireObj.SetActive(false);
+                        AkButtonWeopen.IsSelected.gameObject.SetActive(false);
+                        GunButtonWeopen.FireObj.SetActive(true);
+                        GunButtonWeopen.IsSelected.gameObject.SetActive(true);
+                    }
                 }
-                AkButtonWeopen.FireObj.SetActive(false);
-                AkButtonWeopen.IsSelected.gameObject.SetActive(false);
-                GunButtonWeopen.FireObj.SetActive(true);
-                GunButtonWeopen.IsSelected.gameObject.SetActive(true);
                 break;
             default:
                 break;
@@ -218,21 +223,21 @@ public class InputSystem : MonoBehaviour
         if (armor< sliderArmor.fillAmount)
         {
             sliderArmor.fillAmount -= 0.01f;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             sliderArmor.fillAmount = (int)(sliderArmor.fillAmount * 100) / 100.0f;
             c = StartCoroutine(smoothHealth(health, armor));
         }
         else if (armor > sliderArmor.fillAmount)
         {
             sliderArmor.fillAmount += 0.03f;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             c = StartCoroutine(smoothHealth(health, armor));
         }
         else if (health < sliderHelth.fillAmount)
         {
             sliderHelth.color = gradient.Evaluate(health);
             sliderHelth.fillAmount -= 0.01f;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             sliderHelth.fillAmount = (int)(sliderHelth.fillAmount * 100) / 100.0f;
             c = StartCoroutine(smoothHealth(health, armor));
         }
@@ -240,7 +245,7 @@ public class InputSystem : MonoBehaviour
         {
             sliderHelth.color = gradient.Evaluate(health);
             sliderHelth.fillAmount += 0.03f;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             c = StartCoroutine(smoothHealth(health, armor));
         }
 

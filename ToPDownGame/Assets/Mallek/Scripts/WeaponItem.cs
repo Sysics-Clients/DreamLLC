@@ -13,6 +13,7 @@ public class WeaponItem : ScriptableObject
     public float wait;
     public WeopenType weopenType;
     public AudioClip AudioReload, emptyGun;
+    public float speed;
 
 
 }
