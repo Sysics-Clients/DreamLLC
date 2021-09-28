@@ -9,15 +9,16 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
-    public static WeopenType weopenType;
+    public static WeapenType weopenType;
     public Level currentLevel;
     public Mission currentMission;
     public List<Level> Levels;
     public MissionObjects[] MissionObjects;
+    public PlayerBehavior.PlayerPos playerPos;
+    public GameObject InputSystem;
 
     private void OnEnable()
     {
-        print("lkn");
         GeneralEvents.checkMissionCompletion += CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite += SetMissionSpriteDirection;
     }
@@ -45,24 +46,16 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        GeneralEvents.changePlayerPos(playerPos);
+        
+
 
     }
-    public IEnumerator playNewScene(string SceneName)
+    private void Start()
     {
-        while (true)
-        {
-            
-            yield return new WaitForSeconds(0.2f);
-            if(SceneManager.GetActiveScene().name == SceneName)
-            {
-                print("coucou");
-                GeneralEvents.changePlayerPos(PlayerBehavior.PlayerPos.Kitchen);
-                break;
-            }
-            
-        }
-
-
+          InputSystem = GameObject.Find("CanvasInput (1)");
+          InputSystem.GetComponent<Canvas>().enabled = true;
+        GeneralEvents.startBullets();
     }
     public void SelectLevel(string sceneName)
     {

@@ -26,10 +26,6 @@ public class PlayerBehavior : MonoBehaviour
     {
         GeneralEvents.changePlayerPos -= changePos;
     }
-    private void Start()
-    {
-        changePos(PlayerPos.Parking);
-    }
     private void Update()
     {
 
@@ -46,7 +42,10 @@ public class PlayerBehavior : MonoBehaviour
                 transform.position = GameObject.Find("StartPos").transform.position;   //new Vector3(92, 1, 66);
                 break;
             case PlayerPos.Kitchen:
-                transform.position = GameObject.Find("StartPos").transform.position;
+                GameObject startPos = GameObject.Find("StartPos");
+                transform.position = startPos.transform.position;
+                transform.rotation = startPos.transform.rotation;
+
                 break;
             case PlayerPos.Labo:
                 break;

@@ -32,7 +32,7 @@ public class GeneralEvents
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
 
-    public delegate bool ChangeWeopen(WeopenType type);
+    public delegate bool ChangeWeopen(WeapenType type);
     public static ChangeWeopen changeWeopen;
 
     public delegate Vector2 NbBullet();
@@ -59,8 +59,12 @@ public class GeneralEvents
     public delegate bool GetCanChange();
     public static GetCanChange getCanChange;
     
-    
-    
+    public delegate WeapenType GetWeaponType();
+    public static GetWeaponType getWeaponType;
+
+    public delegate void StartBullets();
+    public static StartBullets startBullets;
+
     public delegate void OnTaskFinish(MissionName missionName, int id = 0);
     public static OnTaskFinish onTaskFinish;
 

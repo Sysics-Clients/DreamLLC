@@ -11,10 +11,10 @@ public class WeaponItem : ScriptableObject
     public RuntimeAnimatorController animator;
     public int reload;
     public float wait;
-    public WeopenType weopenType;
+    public WeapenType weopenType;
     public AudioClip AudioReload, emptyGun;
     public float speed;
 
 
 }
-public enum WeopenType { AK, Gun }
+public enum WeapenType { AK, Gun,Blade }

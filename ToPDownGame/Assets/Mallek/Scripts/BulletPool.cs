@@ -15,6 +15,8 @@ public class BulletPool : MonoBehaviour
 	}
     public void start()
 	{
+		pooledObjects.Clear();
+		pooledObjectsPistol.Clear();
 		for (int i = 0; i < nombreBullet; i++)
 		{
 			GameObject obj = Instantiate(objectToPool);

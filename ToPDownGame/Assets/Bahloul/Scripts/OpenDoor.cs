@@ -28,9 +28,11 @@ public class OpenDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
-        loadingScreenGameObject.SetActive(false);
+        if (loadingScreenGameObject != null)
+        {
+            loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
+            loadingScreenGameObject.SetActive(false);
+        }
         Player = GameObject.FindGameObjectWithTag("Player");
         if (islocked)
         {
@@ -63,13 +65,12 @@ public class OpenDoor : MonoBehaviour
         {
             if (GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
             {
-                InputPanel.SetActive(false);
+                InputPanel.GetComponent<Canvas>().enabled = false;
                 loadingScreenGameObject.SetActive(true);
                 DontDestroyOnLoad(dontDestroyObjects);
                 loadingScreen.sceneName = NewSceneName;
                 loadingScreen.ToScene = true;
                 Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen);
-                StartCoroutine( GameManager.instance.playNewScene(NewSceneName));
             }
             else
             {

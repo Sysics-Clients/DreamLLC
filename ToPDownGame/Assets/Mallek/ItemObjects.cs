@@ -6,7 +6,9 @@ using UnityEngine;
     public enum ItemTypes
     {
         legs,
-        Weapon,
+        AK,
+        Pistol,
+        knife,
         Boots,
         Chest,
     }
@@ -15,10 +17,12 @@ using UnityEngine;
     [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
     public class ItemObjects : ScriptableObject
     {
-
+        public string nameItem;
         public Sprite uiDisplay;
         public GameObject characterDisplay;
         public ItemTypes type;
+        public bool activeted;
+        public int price;
         [TextArea(15, 20)]
         public string description;
        
