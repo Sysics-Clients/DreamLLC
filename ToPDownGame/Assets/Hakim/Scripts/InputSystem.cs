@@ -16,6 +16,7 @@ public class InputSystem : MonoBehaviour
     public Image sliderHelth, sliderArmor;
     public Buttonweopen AkButtonWeopen;
     public Buttonweopen GunButtonWeopen;
+    public Buttonweopen BladeButtonWeopen;
     public Color NormalColor;
     public Color DisableColor;
     public Text bulletAK, bulletPistol;
@@ -155,7 +156,15 @@ public class InputSystem : MonoBehaviour
         
             if (GeneralEvents.sendMvt!=null)
             {
+                if(shootDir != Vector3.zero && GeneralEvents.getWeaponType() == WeapenType.Blade)
+                {
+                    GeneralEvents.sendMvt(Vector3.zero);
+                }
+                else
+                {
                 GeneralEvents.sendMvt(move);
+                }
+                    
             }
         
     }
@@ -181,12 +190,14 @@ public class InputSystem : MonoBehaviour
                 
                 if (GeneralEvents.changeWeopen!=null)
                 {
-                    if (GeneralEvents.changeWeopen(WeopenType.AK))
+                    if (GeneralEvents.changeWeopen(WeapenType.AK))
                     {
                         AkButtonWeopen.FireObj.SetActive(true);
                         AkButtonWeopen.IsSelected.gameObject.SetActive(true);
                         GunButtonWeopen.FireObj.SetActive(false);
                         GunButtonWeopen.IsSelected.gameObject.SetActive(false);
+                        //BladeButtonWeopen.FireObj.SetActive(false);
+                        BladeButtonWeopen.IsSelected.gameObject.SetActive(false);
                     }
                     
                 }
@@ -195,12 +206,29 @@ public class InputSystem : MonoBehaviour
                 
                 if (GeneralEvents.changeWeopen != null)
                 {
-                    if (GeneralEvents.changeWeopen(WeopenType.Gun))
+                    if (GeneralEvents.changeWeopen(WeapenType.Gun))
                     {
                         AkButtonWeopen.FireObj.SetActive(false);
                         AkButtonWeopen.IsSelected.gameObject.SetActive(false);
                         GunButtonWeopen.FireObj.SetActive(true);
                         GunButtonWeopen.IsSelected.gameObject.SetActive(true);
+                        //BladeButtonWeopen.FireObj.SetActive(false);
+                        BladeButtonWeopen.IsSelected.gameObject.SetActive(false);
+                    }
+                }
+                break;
+            case "blade":
+
+                if (GeneralEvents.changeWeopen != null)
+                {
+                    if (GeneralEvents.changeWeopen(WeapenType.Blade))
+                    {
+                        AkButtonWeopen.FireObj.SetActive(false);
+                        AkButtonWeopen.IsSelected.gameObject.SetActive(false);
+                        GunButtonWeopen.FireObj.SetActive(false);
+                        GunButtonWeopen.IsSelected.gameObject.SetActive(false);
+                        //BladeButtonWeopen.FireObj.SetActive(true);
+                        BladeButtonWeopen.IsSelected.gameObject.SetActive(true);
                     }
                 }
                 break;
