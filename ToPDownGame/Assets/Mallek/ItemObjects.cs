@@ -25,11 +25,10 @@ using UnityEngine;
         public int price;
         [TextArea(15, 20)]
         public string description;
-       
-
+        
+        
         public List<string> boneNames = new List<string>();
 
-        
 
         private void OnValidate()
         {

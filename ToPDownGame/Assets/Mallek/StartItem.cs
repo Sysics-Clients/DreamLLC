@@ -14,7 +14,25 @@ public class StartItem : MonoBehaviour
         boneCombiner.AddLimb(itemLegs.characterDisplay, itemLegs.boneNames);
         boneCombiner.AddLimb(itemChest.characterDisplay, itemChest.boneNames);
     }
-
-    // Update is called once per frame
     
+    public void setItem(ItemObjects item)
+    {
+        switch (item.type)
+        {
+            case ItemTypes.legs:
+                boneCombiner.AddLimb(itemLegs.characterDisplay, itemLegs.boneNames);
+                break;
+            case ItemTypes.Boots:
+                boneCombiner.AddLimb(itemBoots.characterDisplay, itemBoots.boneNames);
+                break;
+            case ItemTypes.Chest:
+                boneCombiner.AddLimb(itemChest.characterDisplay, itemChest.boneNames);
+                break;
+            default:
+                break;
+        }
+        
+        
+        
+    }
 }

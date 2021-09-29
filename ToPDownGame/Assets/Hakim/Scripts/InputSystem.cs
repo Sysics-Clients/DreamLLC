@@ -147,10 +147,14 @@ public class InputSystem : MonoBehaviour
             if (GeneralEvents.sendShooting != null)
             {
                 GeneralEvents.sendShooting(shootDir);
-                bulletAK.text = GeneralEvents.nbBullet().x+" ";
-                bulletPistol.text = GeneralEvents.nbBullet().y +" ";
+                if (GeneralEvents.nbBullet!=null)
+                {
+                bulletAK.text = GeneralEvents.nbBullet().x + " ";
+                bulletPistol.text = GeneralEvents.nbBullet().y + " ";
                 bulletAKStart.text = "/ " + GeneralEvents.nbBulletStart().x;
                 bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y;
+            }
+                
             }
         
         
