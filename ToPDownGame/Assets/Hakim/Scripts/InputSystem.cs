@@ -160,7 +160,7 @@ public class InputSystem : MonoBehaviour
         
             if (GeneralEvents.sendMvt!=null)
             {
-                if(shootDir != Vector3.zero && GeneralEvents.getWeaponType() == WeapenType.Blade)
+                if(shootDir != Vector3.zero && GeneralEvents.getWeaponType() == ItemTypes.knife)
                 {
                     GeneralEvents.sendMvt(Vector3.zero);
                 }
@@ -194,7 +194,7 @@ public class InputSystem : MonoBehaviour
                 
                 if (GeneralEvents.changeWeopen!=null)
                 {
-                    if (GeneralEvents.changeWeopen(WeapenType.AK))
+                    if (GeneralEvents.changeWeopen(ItemTypes.AK))
                     {
                         AkButtonWeopen.FireObj.SetActive(true);
                         AkButtonWeopen.IsSelected.gameObject.SetActive(true);
@@ -210,7 +210,7 @@ public class InputSystem : MonoBehaviour
                 
                 if (GeneralEvents.changeWeopen != null)
                 {
-                    if (GeneralEvents.changeWeopen(WeapenType.Gun))
+                    if (GeneralEvents.changeWeopen(ItemTypes.Pistol))
                     {
                         AkButtonWeopen.FireObj.SetActive(false);
                         AkButtonWeopen.IsSelected.gameObject.SetActive(false);
@@ -225,7 +225,7 @@ public class InputSystem : MonoBehaviour
 
                 if (GeneralEvents.changeWeopen != null)
                 {
-                    if (GeneralEvents.changeWeopen(WeapenType.Blade))
+                    if (GeneralEvents.changeWeopen(ItemTypes.knife))
                     {
                         AkButtonWeopen.FireObj.SetActive(false);
                         AkButtonWeopen.IsSelected.gameObject.SetActive(false);

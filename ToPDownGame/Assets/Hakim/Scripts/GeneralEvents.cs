@@ -32,7 +32,7 @@ public class GeneralEvents
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
 
-    public delegate bool ChangeWeopen(WeapenType type);
+    public delegate bool ChangeWeopen(ItemTypes type);
     public static ChangeWeopen changeWeopen;
 
     public delegate Vector2 NbBullet();
@@ -59,7 +59,7 @@ public class GeneralEvents
     public delegate bool GetCanChange();
     public static GetCanChange getCanChange;
     
-    public delegate WeapenType GetWeaponType();
+    public delegate ItemTypes GetWeaponType();
     public static GetWeaponType getWeaponType;
 
     public delegate void StartBullets();
@@ -79,6 +79,18 @@ public class GeneralEvents
 
     public delegate void ChangePlayerPos(PlayerBehavior.PlayerPos pos);
     public static ChangePlayerPos changePlayerPos;
+
+    public delegate void Select();
+    public static Select select;
+
+    public delegate void ShowItem(ItemObjects item);
+    public static ShowItem showItem;
+
+    public delegate void Buy();
+    public static Buy buy;
+
+    public delegate void SetItem(ItemObjects item);
+    public static SetItem setItem;
 
     public static clothes currentClothes;
     public class clothes{

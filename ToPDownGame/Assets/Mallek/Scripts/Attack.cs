@@ -21,14 +21,14 @@ public class Attack : MonoBehaviour
         onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapons[0].weaponItem.animator;
-        weapons[0].weap = Instantiate(weapons[0].weaponItem.Prefab, weapons[0].reloadPos);
-        Instantiate(weapons[0].weaponItem.Prefab, AkStart);
-        Instantiate(weapons[1].weaponItem.Prefab, pistolStart);
-        Instantiate(weapons[2].weaponItem.Prefab, bladeStart);
+        weapons[0].weap = Instantiate(weapons[0].weaponItem.prefab, weapons[0].reloadPos);
+        Instantiate(weapons[0].weaponItem.prefab, AkStart);
+        Instantiate(weapons[1].weaponItem.prefab, pistolStart);
+        Instantiate(weapons[2].weaponItem.prefab, bladeStart);
         weapons[0].weap.SetActive(false);
-        weapons[1].weap = Instantiate(weapons[1].weaponItem.Prefab, weapons[1].reloadPos);
+        weapons[1].weap = Instantiate(weapons[1].weaponItem.prefab, weapons[1].reloadPos);
         weapons[1].weap.SetActive(false);
-        weapons[2].weap = Instantiate(weapons[2].weaponItem.Prefab, weapons[2].reloadPos);
+        weapons[2].weap = Instantiate(weapons[2].weaponItem.prefab, weapons[2].reloadPos);
         weapons[2].weap.SetActive(false);
         bulletPool = BulletPool.Instance;
         
@@ -188,23 +188,23 @@ public class Attack : MonoBehaviour
         animator.SetBool("crouch", crouch);
         bulletStart = weapons[nbWeap].weap.transform.Find("pos");
     }
-    public bool SwitchWeopen(WeapenType type)
+    public bool SwitchWeopen(ItemTypes type)
     {
         //weapons[nbWeap].weap.SetActive(false);
         if (canChange)
         {
             switch (type)
             {
-                case WeapenType.AK:
+                case ItemTypes.AK:
                     nbWeap = 0;
                     GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
                     break;
-                case WeapenType.Gun:
+                case ItemTypes.Pistol:
 
                     nbWeap = 1;
                     GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
                     break;
-                case WeapenType.Blade:
+                case ItemTypes.knife:
 
                     nbWeap = 2;
                     GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
@@ -319,8 +319,8 @@ public class Attack : MonoBehaviour
     {
         return canChange;
     }
-    public WeapenType getWeaponType() {
-        return weapons[nbWeap].weaponItem.weopenType;    
+    public ItemTypes getWeaponType() {
+        return weapons[nbWeap].weaponItem.type;    
     }
 }
 [System.Serializable]

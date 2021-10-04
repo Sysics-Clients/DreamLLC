@@ -6,13 +6,37 @@ public class StartItem : MonoBehaviour
 {
     BoneCombiner boneCombiner;
     public ItemObjects itemBoots,itemLegs,itemChest;
+    public Transform transformBoots, transformLegs, transformChest;
+    private void OnEnable()
+    {
+        GeneralEvents.setItem += setItem;
+    }
+    private void OnDisable()
+    {
+        GeneralEvents.setItem -= setItem;
+    }
     // Start is called before the first frame update
     void Start()
     {
         boneCombiner = new BoneCombiner(gameObject);
-        boneCombiner.AddLimb(itemBoots.characterDisplay,itemBoots.boneNames);
-        boneCombiner.AddLimb(itemLegs.characterDisplay, itemLegs.boneNames);
-        boneCombiner.AddLimb(itemChest.characterDisplay, itemChest.boneNames);
+        transformBoots= boneCombiner.AddLimb(itemBoots.prefab,itemBoots.boneNames);
+        if (itemBoots.material!=null)
+        {
+            transformBoots.GetComponent<SkinnedMeshRenderer>().material = itemBoots.material;
+        }
+  
+        transformLegs=boneCombiner.AddLimb(itemLegs.prefab, itemLegs.boneNames);
+        if (itemLegs.material != null)
+        {
+            transformLegs.GetComponent<SkinnedMeshRenderer>().material = itemLegs.material;
+        }
+        
+        transformChest =boneCombiner.AddLimb(itemChest.prefab, itemChest.boneNames);
+        if (itemChest.material != null)
+        {
+            transformChest.GetComponent<SkinnedMeshRenderer>().material = itemChest.material;
+        }
+        
     }
     
     public void setItem(ItemObjects item)
@@ -20,13 +44,28 @@ public class StartItem : MonoBehaviour
         switch (item.type)
         {
             case ItemTypes.legs:
-                boneCombiner.AddLimb(itemLegs.characterDisplay, itemLegs.boneNames);
+                Destroy(transformLegs.gameObject);
+                transformLegs=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                if (item.material != null)
+                {
+                    transformLegs.GetComponent<SkinnedMeshRenderer>().material = item.material;
+                }
                 break;
             case ItemTypes.Boots:
-                boneCombiner.AddLimb(itemBoots.characterDisplay, itemBoots.boneNames);
+                Destroy(transformBoots.gameObject);
+                transformBoots=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                if (item.material != null)
+                {
+                    transformBoots.GetComponent<SkinnedMeshRenderer>().material = item.material;
+                }
                 break;
             case ItemTypes.Chest:
-                boneCombiner.AddLimb(itemChest.characterDisplay, itemChest.boneNames);
+                Destroy(transformChest.gameObject);
+                transformChest=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                if (item.material != null)
+                {
+                    transformChest.GetComponent<SkinnedMeshRenderer>().material = item.material;
+                }
                 break;
             default:
                 break;

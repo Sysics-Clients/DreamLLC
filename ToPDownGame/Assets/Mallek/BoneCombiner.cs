@@ -50,8 +50,15 @@ public class BoneCombiner
     {
         foreach (Transform child in transform)
         {
-            _rootBoneDictionary.Add(child.name.GetHashCode(), child);
-            TraverseHierarchy(child);
+            //print(child.name);
+            Transform test = null;
+            bool check = _rootBoneDictionary.TryGetValue(child.name.GetHashCode(),out test);
+            if (check==false)
+            {
+                _rootBoneDictionary.Add(child.name.GetHashCode(), child);
+                TraverseHierarchy(child);
+            }
+            
         }
     }
     

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
-    public static WeapenType weopenType;
+    public static ItemTypes weopenType;
     public Level currentLevel;
     public Mission currentMission;
     public List<Level> Levels;
