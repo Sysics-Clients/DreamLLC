@@ -5,14 +5,31 @@ using UnityEngine;
 public class dynamicweaponslist : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject listitemsPrefab;
+    public ListItems listitems;
     public Transform listitemsHolder;
-    public int WeaponsNbr;
-    void Start() { 
-    for(int i=0; i< WeaponsNbr; i++)
-        {
-            Instantiate(listitemsPrefab, listitemsHolder);
-        }
-    }
 
+   // public Transform listitemsHolder1;
+
+   //public Transform listitemsHolder2;
+    public GameObject item;
+
+    void Instantiate()
+    {
+
+
+        for (int i = 0; i < listitems.items.Count; i++)
+        {
+           
+            GameObject go = Instantiate(item, listitemsHolder);
+            go.GetComponent<itempTemplate>().itemTemplate(listitems.items[i]);
+         
+           
+        }
+
+    }
+   void Start()
+    {
+        Instantiate();
+    }
+    
 }
