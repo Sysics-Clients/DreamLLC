@@ -11,6 +11,8 @@ public enum ItemTypes
         knife,
         Boots,
         Chest,
+        Shield,
+        Casque
     }
 
 public enum StateItem

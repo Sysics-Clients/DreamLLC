@@ -15,11 +15,13 @@ public class StartPrefabItem : MonoBehaviour
     private void OnEnable()
     {
         GeneralEvents.select += inselect;
+        GeneralEvents.activeItems += activeItem;
     }
 
     private void OnDisable()
     {
         GeneralEvents.select -= inselect;
+        GeneralEvents.activeItems -= activeItem;
     }
     // Start is called before the first frame update
     void Start()
@@ -37,7 +39,6 @@ public class StartPrefabItem : MonoBehaviour
     {
         this.item = item;
         name = item.nameItem;
-        
         iItem.sprite = item.sprite;
         price = item.price;
         priceText.text = price + "$";
@@ -61,5 +62,14 @@ public class StartPrefabItem : MonoBehaviour
         ///////////////////////////////////////////////////////////////////
         print(name);
         item.state = StateItem.toUse;
+    }
+
+    public void activeItem(ItemTypes types)
+    {
+        if (types!=item.type)
+        {
+            this.gameObject.SetActive(false);
+        }
+        
     }
 }

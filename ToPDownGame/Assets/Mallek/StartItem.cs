@@ -5,8 +5,10 @@ using UnityEngine;
 public class StartItem : MonoBehaviour
 {
     BoneCombiner boneCombiner;
-    public ItemObjects itemBoots,itemLegs,itemChest;
-    public Transform transformBoots, transformLegs, transformChest;
+    public ItemObjects itemBoots,itemLegs,itemChest,itemShield,itemCasque;
+    private Transform transformBoots, transformLegs, transformChest;
+    public Transform casque, shield;
+    public GameObject hair,casqueObj,shieldObj;
     private void OnEnable()
     {
         GeneralEvents.setItem += setItem;
@@ -36,7 +38,15 @@ public class StartItem : MonoBehaviour
         {
             transformChest.GetComponent<SkinnedMeshRenderer>().material = itemChest.material;
         }
-        
+        if (itemShield.prefab!=null)
+        {
+            shieldObj= Instantiate(itemShield.prefab, shield);
+        }
+        if (itemCasque.prefab != null)
+        {
+            hair.SetActive(false);
+            casqueObj=Instantiate(itemCasque.prefab, casque);
+        }
     }
     
     public void setItem(ItemObjects item)
@@ -46,6 +56,7 @@ public class StartItem : MonoBehaviour
             case ItemTypes.legs:
                 Destroy(transformLegs.gameObject);
                 transformLegs=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                itemLegs = item;
                 if (item.material != null)
                 {
                     transformLegs.GetComponent<SkinnedMeshRenderer>().material = item.material;
@@ -54,6 +65,7 @@ public class StartItem : MonoBehaviour
             case ItemTypes.Boots:
                 Destroy(transformBoots.gameObject);
                 transformBoots=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                itemBoots = item;
                 if (item.material != null)
                 {
                     transformBoots.GetComponent<SkinnedMeshRenderer>().material = item.material;
@@ -62,10 +74,32 @@ public class StartItem : MonoBehaviour
             case ItemTypes.Chest:
                 Destroy(transformChest.gameObject);
                 transformChest=boneCombiner.AddLimb(item.prefab, item.boneNames);
+                itemChest = item;
                 if (item.material != null)
                 {
                     transformChest.GetComponent<SkinnedMeshRenderer>().material = item.material;
                 }
+                break;
+            case ItemTypes.Casque:
+                Destroy(casqueObj);
+                if (item.prefab != null)
+                {
+                    hair.SetActive(false);
+                    casqueObj = Instantiate(item.prefab, casque);
+                }
+                else
+                {
+                    hair.SetActive(true);
+                }
+                itemCasque = item;
+                break;
+            case ItemTypes.Shield:
+                Destroy(shieldObj);
+                if (itemShield.prefab != null)
+                {
+                    shieldObj = Instantiate(item.prefab, shield);
+                }
+                itemShield = item;
                 break;
             default:
                 break;

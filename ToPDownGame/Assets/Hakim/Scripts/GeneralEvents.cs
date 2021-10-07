@@ -92,6 +92,13 @@ public class GeneralEvents
     public delegate void SetItem(ItemObjects item);
     public static SetItem setItem;
 
+    public delegate void ActiveItems(ItemTypes types);
+    public static ActiveItems activeItems;
+
+    /*public delegate void Situation();
+    public static Situation win;
+    public static Situation lose;
+    */
     public static clothes currentClothes;
     public class clothes{
         public GameObject hat, pants, shoes, shirt, shield;
