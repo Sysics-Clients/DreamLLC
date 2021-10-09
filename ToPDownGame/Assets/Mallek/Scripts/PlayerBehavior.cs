@@ -36,28 +36,14 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void changePos(PlayerPos pos)
     {
-        switch (pos)
-        {
-            case PlayerPos.Parking:
-                transform.position = GameObject.Find("StartPos").transform.position;   //new Vector3(92, 1, 66);
-                break;
-            case PlayerPos.Kitchen:
-                GameObject startPos = GameObject.Find("StartPos");
-                transform.position = startPos.transform.position;
-                transform.rotation = startPos.transform.rotation;
-
-                break;
-            case PlayerPos.Labo:
-                break;
-            case PlayerPos.RoofTop:
-                transform.position = new Vector3(41, 25, 97);
-                break;
-
-        }
+        GameObject startPos = GameObject.Find("StartPos");
+        transform.position = startPos.transform.position;
+        transform.rotation = startPos.transform.rotation;
         StartCoroutine(onStart());
     }
     public enum PlayerPos
     {
+        Training,
         Parking,
         RoofTop,
         Kitchen,

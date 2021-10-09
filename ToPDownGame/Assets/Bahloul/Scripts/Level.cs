@@ -20,4 +20,4 @@ public class Mission
     public short missionId;
 }
 
-public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor }
+public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor,switchToPistol,TryToRoll,NoMissionAvailale }
