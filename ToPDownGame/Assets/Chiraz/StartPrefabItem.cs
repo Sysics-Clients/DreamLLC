@@ -26,7 +26,7 @@ public class StartPrefabItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        frame.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class StartPrefabItem : MonoBehaviour
     {
         this.item = item;
         name = item.nameItem;
-        iItem.sprite = item.sprite;
+        iItem.sprite = item.spriteChoice;
         price = item.price;
         priceText.text = price + "$";
     }

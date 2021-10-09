@@ -10,8 +10,9 @@ public class dynamicweaponslist : MonoBehaviour
     public Transform contentWeapon, contentClothes;
     public GameObject prefab;
     public List<GameObject> items;
-    public Image ISelect;
+    public Image ISelect,btPis,btAK, btKnife;
     public Text weaponSelect,damege,speed;
+    public CurrentItem currentItem;
     
 
     private void OnEnable()
@@ -47,7 +48,7 @@ public class dynamicweaponslist : MonoBehaviour
                     case ItemTypes.knife:
                         items.Add(Instantiate(prefab, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                        
+                       
                         break;
                     case ItemTypes.Boots:
                         items.Add(Instantiate(prefab, contentClothes));
@@ -75,7 +76,7 @@ public class dynamicweaponslist : MonoBehaviour
             }
 
         }
-        GeneralEvents.activeItems(ItemTypes.Pistol);
+        GeneralEvents.activeItems(ItemTypes.knife);
     }
 
     public void shopActive(string type)
@@ -92,14 +93,21 @@ public class dynamicweaponslist : MonoBehaviour
                 break;
             case "AK":
                 GeneralEvents.activeItems(ItemTypes.AK);
-
+                btAK.color = Color.white;
+                btKnife.color =new Color(0.6320754f, 0.6320754f, 0.6320754f) ;
+                btPis.color = new Color(0.6320754f, 0.6320754f, 0.6320754f);
                 break;
             case "Pistol":
                 GeneralEvents.activeItems(ItemTypes.Pistol);
+                btAK.color = new Color(0.6320754f, 0.6320754f, 0.6320754f);
+                btKnife.color = new Color(0.6320754f, 0.6320754f, 0.6320754f);
+                btPis.color = Color.white;
                 break;
             case "knife":
                 GeneralEvents.activeItems(ItemTypes.knife);
-
+                btAK.color = new Color(0.6320754f, 0.6320754f, 0.6320754f);
+                btKnife.color = Color.white;
+                btPis.color = new Color(0.6320754f, 0.6320754f, 0.6320754f);
                 break;
             case "Boots":
                 GeneralEvents.activeItems(ItemTypes.Boots);
@@ -126,7 +134,7 @@ public class dynamicweaponslist : MonoBehaviour
         
         if (item.GetType().Equals(typeof(WeaponItem)))
         {
-            ISelect.sprite = item.sprite;
+            ISelect.sprite = item.spriteSelected;
             weaponSelect.text = item.nameItem;
         }
         else

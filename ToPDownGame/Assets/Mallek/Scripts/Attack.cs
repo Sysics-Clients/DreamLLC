@@ -18,6 +18,8 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        weapons[0].nbBullet = weapons[0].weaponItem.reload;
+        weapons[1].nbBullet = weapons[1].weaponItem.reload;
         onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapons[0].weaponItem.animator;
@@ -68,9 +70,7 @@ public class Attack : MonoBehaviour
     }
     private void OnEnable()
     {
-        
-        weapons[0].nbBullet = weapons[0].weaponItem.reload;
-        weapons[1].nbBullet = weapons[1].weaponItem.reload;
+        GeneralEvents.setItems += setWeapons;
         GeneralEvents.nbBulletStart += getNbStartBullet;
         GeneralEvents.nbBullet += getNbBullet;
         GeneralEvents.sendShooting += shoot;
@@ -82,6 +82,7 @@ public class Attack : MonoBehaviour
     }
     private void OnDisable()
     {
+        GeneralEvents.setItems -= setWeapons;
         GeneralEvents.nbBulletStart -= getNbStartBullet;
         GeneralEvents.nbBullet -= getNbBullet;
         GeneralEvents.sendShooting -= shoot;
@@ -321,6 +322,12 @@ public class Attack : MonoBehaviour
     }
     public ItemTypes getWeaponType() {
         return weapons[nbWeap].weaponItem.type;    
+    }
+    void setWeapons(WeaponItem ak, WeaponItem pistol, WeaponItem knife)
+    {
+        weapons[0].weaponItem = ak;
+        weapons[1].weaponItem = pistol;
+        weapons[2].weaponItem = knife;
     }
 }
 [System.Serializable]

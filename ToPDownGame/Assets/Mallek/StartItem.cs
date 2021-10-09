@@ -9,12 +9,15 @@ public class StartItem : MonoBehaviour
     private Transform transformBoots, transformLegs, transformChest;
     public Transform casque, shield;
     public GameObject hair,casqueObj,shieldObj;
+    
     private void OnEnable()
     {
+        GeneralEvents.setClwths += setClowthes;
         GeneralEvents.setItem += setItem;
     }
     private void OnDisable()
     {
+        GeneralEvents.setClwths -= setClowthes;
         GeneralEvents.setItem -= setItem;
     }
     // Start is called before the first frame update
@@ -107,5 +110,13 @@ public class StartItem : MonoBehaviour
         
         
         
+    }
+    void setClowthes(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque)
+    {
+        itemChest = top;
+        itemLegs = bot;
+        itemCasque = casque;
+        itemBoots = shoos;
+        itemShield = shield;
     }
 }

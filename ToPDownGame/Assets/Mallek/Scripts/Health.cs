@@ -59,7 +59,7 @@ public class Health : MonoBehaviour
         }
         if (player != null && corentHelth <= 0)
         {
-           
+            print("aa");
             player.die();
             //player = null;
             player.damege -= damege;

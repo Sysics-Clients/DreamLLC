@@ -7597,7 +7597,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 320162279}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 798746656}
+        m_MethodName: shopActive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Pistol
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &320162279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7611,13 +7622,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 629b7856d5c572742b8eb34d0a74ca42, type: 3}
+  m_Sprite: {fileID: 21300000, guid: efc45d27d0465d948a0bbda571e8f84e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12898,7 +12909,7 @@ RectTransform:
   m_Children:
   - {fileID: 574039877}
   m_Father: {fileID: 2019241704}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -14121,7 +14132,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471329997}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 798746656}
+        m_MethodName: shopActive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: AK
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &471329997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14135,13 +14157,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6313726, g: 0.6313726, b: 0.6313726, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 81d680a6b25577a4b8159729686e557c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 71f53e1c0bfd69d4d8a57dbf96877e36, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15983,9 +16005,13 @@ MonoBehaviour:
   prefab: {fileID: 1587245200711133663, guid: 49357d41a445fc648bb963d4ae5e5c5b, type: 3}
   items: []
   ISelect: {fileID: 1955977839}
+  btPis: {fileID: 320162279}
+  btAK: {fileID: 471329997}
+  btKnife: {fileID: 1381493513}
   weaponSelect: {fileID: 1074708363}
   damege: {fileID: 0}
   speed: {fileID: 0}
+  currentItem: {fileID: 11400000, guid: 6ae69c61d24aec141aba36d27083ddca, type: 2}
 --- !u!1 &803262632
 GameObject:
   m_ObjectHideFlags: 0
@@ -21334,7 +21360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2746, y: -5.097473}
+  m_AnchoredPosition: {x: -2746, y: -5.097412}
   m_SizeDelta: {x: 44.12004, y: 10.195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &844624383
@@ -24250,7 +24276,7 @@ RectTransform:
   m_LocalScale: {x: 1.8604, y: 2.7450202, z: 1.8604}
   m_Children: []
   m_Father: {fileID: 2019241704}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24300,37 +24326,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 365938406}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 798746656}
+        m_MethodName: shopActive
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: knife
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1381493513
@@ -24352,7 +24356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4eb8fb2942b06bd4eb02f29bd1b01c8f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 895497be960f181468346ec322508fbc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -33635,8 +33639,8 @@ RectTransform:
   m_Children:
   - {fileID: 21643977}
   - {fileID: 319972325}
-  - {fileID: 1381493511}
   - {fileID: 365938407}
+  - {fileID: 1381493511}
   - {fileID: 320162277}
   - {fileID: 471329995}
   m_Father: {fileID: 798746653}

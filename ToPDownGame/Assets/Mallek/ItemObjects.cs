@@ -11,20 +11,30 @@ using UnityEngine;
         knife,
         Boots,
         Chest,
+        Casque,
+        Shield
+}
+
+    public enum StateItem
+    {
+        toUse,
+        current,
+        toBuy
     }
 
-   
-    [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
     public class ItemObjects : ScriptableObject
     {
         public string nameItem;
-        public Sprite uiDisplay;
-        public GameObject characterDisplay;
+        public Sprite spriteSelected,spriteChoice;
+        public GameObject prefab;
+        public Material material;
         public ItemTypes type;
-        public bool activeted;
+        public bool activeted, visible;
         public int price;
         [TextArea(15, 20)]
         public string description;
+        public StateItem state;
        
 
         public List<string> boneNames = new List<string>();
@@ -34,12 +44,12 @@ using UnityEngine;
         private void OnValidate()
         {
             boneNames.Clear();
-            if (characterDisplay == null)
+            if (prefab == null)
                 return;
-            if (!characterDisplay.GetComponent<SkinnedMeshRenderer>())
+            if (!prefab.GetComponent<SkinnedMeshRenderer>())
                 return;
 
-            var renderer = characterDisplay.GetComponent<SkinnedMeshRenderer>();
+            var renderer = prefab.GetComponent<SkinnedMeshRenderer>();
             var bones = renderer.bones;
 
             foreach (var t in bones)

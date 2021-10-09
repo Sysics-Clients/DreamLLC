@@ -6,6 +6,7 @@ using System;
 public class PlayerBehavior : MonoBehaviour
 {
     public PlayerPos playerPos;
+    public CurrentItem currentItem;
 
     public delegate void Damege(float value);
     public Damege damege;
@@ -18,6 +19,8 @@ public class PlayerBehavior : MonoBehaviour
 
     public delegate void Die();
     public Die die;
+
+    
     private void OnEnable()
     {
         GeneralEvents.changePlayerPos += changePos;
@@ -25,6 +28,11 @@ public class PlayerBehavior : MonoBehaviour
     private void OnDisable()
     {
         GeneralEvents.changePlayerPos -= changePos;
+    }
+    private void Awake()
+    {
+        GeneralEvents.setClwths(currentItem.top,currentItem.bot,currentItem.shoos,currentItem.shield,currentItem.casque);
+        
     }
     private void Update()
     {
@@ -36,6 +44,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void changePos(PlayerPos pos)
     {
+        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
         switch (pos)
         {
             case PlayerPos.Parking:

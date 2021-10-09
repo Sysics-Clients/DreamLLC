@@ -95,6 +95,12 @@ public class GeneralEvents
     public delegate void ActiveItems(ItemTypes types);
     public static ActiveItems activeItems;
 
+    public delegate void SetWeapon(WeaponItem ak, WeaponItem pistol, WeaponItem knife);
+    public static SetWeapon setItems;
+
+    public delegate void SetClwths(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque);
+    public static SetClwths setClwths;
+
     /*public delegate void Situation();
     public static Situation win;
     public static Situation lose;

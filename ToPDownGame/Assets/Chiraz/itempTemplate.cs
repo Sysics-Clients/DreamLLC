@@ -12,7 +12,7 @@ public class itempTemplate : MonoBehaviour
 
     public void itemTemplate (ItemObjects item)
     {
-        image.sprite = item.uiDisplay;
+        image.sprite = item.spriteSelected;
         price.text = item.price+"$";
         active = item.activeted;
     }
