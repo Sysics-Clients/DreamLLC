@@ -30,6 +30,7 @@ public class InputSystem : MonoBehaviour
     GameManager gameManager;
     Coroutine TextErreur;
     Tween ErreurTexttween;
+    bool enableMovment=false;
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
@@ -54,8 +55,14 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.writeErrorMessage -= afficherErreurMessage;
 
     }
-    private void Start()
+    IEnumerator setUpMovment()
     {
+        yield return new WaitForSeconds(.2f);
+        enableMovment = true;
+    }
+        private void Start()
+    {
+        StartCoroutine(setUpMovment());
         bulletAKStart.text = "/ "+GeneralEvents.nbBulletStart().x;
         bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y ;
         SelectMission();
@@ -142,6 +149,10 @@ public class InputSystem : MonoBehaviour
     
     private void Update()
     {
+        if (enableMovment == false)
+        {
+            return;
+        }
         Vector3 move = Vector3.zero;
 #if UNITY_EDITOR
          move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));

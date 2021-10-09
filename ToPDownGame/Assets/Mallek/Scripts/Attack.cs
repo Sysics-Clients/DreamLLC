@@ -18,6 +18,12 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+        StartCoroutine(setUpWeap());
+    }
+    IEnumerator setUpWeap()
+    {
+        yield return new WaitForSeconds(.1f);
         weapons[0].nbBullet = weapons[0].weaponItem.reload;
         weapons[1].nbBullet = weapons[1].weaponItem.reload;
         onShot = false;
@@ -33,9 +39,9 @@ public class Attack : MonoBehaviour
         weapons[2].weap = Instantiate(weapons[2].weaponItem.prefab, weapons[2].reloadPos);
         weapons[2].weap.SetActive(false);
         bulletPool = BulletPool.Instance;
-        
+        startBullets();
         nbWeap = 0;
-        if(GeneralEvents.setSpeed!=null)///////////////////////////////:
+        if (GeneralEvents.setSpeed != null)///////////////////////////////:
             GeneralEvents.setSpeed(v: weapons[0].weaponItem.speed);
         canChange = true;
     }
