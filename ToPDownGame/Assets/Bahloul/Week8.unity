@@ -15290,6 +15290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trainingLevel: {fileID: 11400000, guid: 60d388d088350094e98d18f71c9ea6cf, type: 2}
   currentMission: 0
+  MissionBar: {fileID: 1953731307}
   ShootJoystic: {fileID: 1410944134}
   MoveJoystic: {fileID: 1134619976}
   miniMap: {fileID: 249548885}
@@ -15300,14 +15301,16 @@ MonoBehaviour:
   RollButton: {fileID: 7561620360740757435}
   HealthSlider: {fileID: 7561620361492897453}
   ShieldSlider: {fileID: 7561620360092246422}
-  PlayerState: {fileID: 1953731307}
+  PlayerState: {fileID: 7561620360224711058}
   TrainingPanel: {fileID: 2144299016}
   MiniMapImage: {fileID: 909537884}
   TrainingImage: {fileID: 1671857945}
+  _TrainingImage: {fileID: 0}
   ArrowImage: {fileID: 788656544}
   TrainingMsg: {fileID: 277477669}
   EventSystem: {fileID: 1378456096}
   CongratsPanel: {fileID: 532119642}
+  isEnded: 0
 --- !u!1001 &811047937
 PrefabInstance:
   m_ObjectHideFlags: 0
