@@ -25,7 +25,7 @@ public class PlayerBehavior : MonoBehaviour
     private void OnEnable()
     {
         GeneralEvents.changePlayerPos += changePos;
-        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
+        
     }
     private void OnDisable()
     {
@@ -33,11 +33,13 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void Awake()
     {
-        GeneralEvents.setClwths(currentItem.top,currentItem.bot,currentItem.shoos,currentItem.shield,currentItem.casque);
+        
         
     }
     private void Start()
     {
+        GeneralEvents.setClwths(currentItem.top, currentItem.bot, currentItem.shoos, currentItem.shield, currentItem.casque);
+        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
         changePos(PlayerPos.Parking);
     }
     private void Update()

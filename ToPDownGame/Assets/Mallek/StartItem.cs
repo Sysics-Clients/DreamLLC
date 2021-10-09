@@ -23,35 +23,39 @@ public class StartItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(setupclothes());
+    }
+    IEnumerator setupclothes()
+    {
+        yield return new WaitForSeconds(.1f);
         boneCombiner = new BoneCombiner(gameObject);
-        transformBoots= boneCombiner.AddLimb(itemBoots.prefab,itemBoots.boneNames);
-        if (itemBoots.material!=null)
+        transformBoots = boneCombiner.AddLimb(itemBoots.prefab, itemBoots.boneNames);
+        if (itemBoots.material != null)
         {
             transformBoots.GetComponent<SkinnedMeshRenderer>().material = itemBoots.material;
         }
-  
-        transformLegs=boneCombiner.AddLimb(itemLegs.prefab, itemLegs.boneNames);
+
+        transformLegs = boneCombiner.AddLimb(itemLegs.prefab, itemLegs.boneNames);
         if (itemLegs.material != null)
         {
             transformLegs.GetComponent<SkinnedMeshRenderer>().material = itemLegs.material;
         }
-        
-        transformChest =boneCombiner.AddLimb(itemChest.prefab, itemChest.boneNames);
+
+        transformChest = boneCombiner.AddLimb(itemChest.prefab, itemChest.boneNames);
         if (itemChest.material != null)
         {
             transformChest.GetComponent<SkinnedMeshRenderer>().material = itemChest.material;
         }
-        if (itemShield.prefab!=null)
+        if (itemShield.prefab != null)
         {
-            shieldObj= Instantiate(itemShield.prefab, shield);
+            shieldObj = Instantiate(itemShield.prefab, shield);
         }
         if (itemCasque.prefab != null)
         {
             hair.SetActive(false);
-            casqueObj=Instantiate(itemCasque.prefab, casque);
+            casqueObj = Instantiate(itemCasque.prefab, casque);
         }
     }
-    
     public void setItem(ItemObjects item)
     {
         switch (item.type)
