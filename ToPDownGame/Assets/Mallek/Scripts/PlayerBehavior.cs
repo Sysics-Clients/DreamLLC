@@ -19,11 +19,13 @@ public class PlayerBehavior : MonoBehaviour
 
     public delegate void Die();
     public Die die;
+    GameObject startPos;
 
     
     private void OnEnable()
     {
         GeneralEvents.changePlayerPos += changePos;
+        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
     }
     private void OnDisable()
     {
@@ -33,6 +35,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         GeneralEvents.setClwths(currentItem.top,currentItem.bot,currentItem.shoos,currentItem.shield,currentItem.casque);
         
+    }
+    private void Start()
+    {
+        changePos(PlayerPos.Parking);
     }
     private void Update()
     {
@@ -44,14 +50,15 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void changePos(PlayerPos pos)
     {
-        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
+        print("aa");
+        
         switch (pos)
         {
             case PlayerPos.Parking:
                 transform.position = GameObject.Find("StartPos").transform.position;   //new Vector3(92, 1, 66);
                 break;
             case PlayerPos.Kitchen:
-                GameObject startPos = GameObject.Find("StartPos");
+                 startPos = GameObject.Find("StartPos");
                 transform.position = startPos.transform.position;
                 transform.rotation = startPos.transform.rotation;
 
@@ -63,10 +70,16 @@ public class PlayerBehavior : MonoBehaviour
                 break;
 
         }
+
+         startPos = GameObject.Find("StartPos");
+        transform.position = startPos.transform.position;
+        transform.rotation = startPos.transform.rotation;
+
         StartCoroutine(onStart());
     }
     public enum PlayerPos
     {
+        Training,
         Parking,
         RoofTop,
         Kitchen,

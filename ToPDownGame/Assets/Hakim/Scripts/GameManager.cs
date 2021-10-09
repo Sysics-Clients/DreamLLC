@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -16,6 +17,9 @@ public class GameManager : MonoBehaviour
     public MissionObjects[] MissionObjects;
     public PlayerBehavior.PlayerPos playerPos;
     public GameObject InputSystem;
+    public GameObject ContentTasks;
+    public GameObject task;
+    public List<GameObject> MiniMapTasks;
 
     private void OnEnable()
     {
@@ -45,15 +49,22 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
+            GameObject obj=Instantiate(task, ContentTasks.transform);
+            MissionObjects mo = obj.GetComponent<MissionObjects>();
+            mo.missionName = m.missionName;
+            mo.id = m.missionId;
+            obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
+            MiniMapTasks.Add(obj);
         }
-        GeneralEvents.changePlayerPos(playerPos);
+        
         
 
 
     }
     private void Start()
     {
-          InputSystem = GameObject.Find("CanvasInput (1)");
+        GeneralEvents.changePlayerPos(playerPos);
+        InputSystem = GameObject.Find("CanvasInput (1)");
           InputSystem.GetComponent<Canvas>().enabled = true;
         GeneralEvents.startBullets();
     }

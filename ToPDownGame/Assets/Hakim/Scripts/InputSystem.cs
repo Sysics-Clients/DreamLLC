@@ -105,7 +105,16 @@ public class InputSystem : MonoBehaviour
                         SelectMission();
                 }
             }
-        }  
+        }
+       MissionObjects mo;
+        foreach(GameObject obj in GameManager.instance.MiniMapTasks)
+        {
+            mo = obj.GetComponent<MissionObjects>();
+            if (missionName == mo.missionName && id == mo.id)
+            {
+                obj.transform.GetChild(2).gameObject.SetActive(true);
+            }
+        }
     }
     void afficherErreurMessage(string err)
     {
