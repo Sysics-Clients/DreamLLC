@@ -59,14 +59,13 @@ public class InputSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(.2f);
         enableMovment = true;
-        SelectMission();
     }
         private void Start()
     {
         StartCoroutine(setUpMovment());
         bulletAKStart.text = "/ "+GeneralEvents.nbBulletStart().x;
         bulletPistolStart.text = "/ " + GeneralEvents.nbBulletStart().y ;
-        
+        SelectMission();
     }
     void SelectMission()
     {
