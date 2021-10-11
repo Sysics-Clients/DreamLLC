@@ -52,7 +52,6 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void changePos(PlayerPos pos)
     {
-        print("aa");
         
         switch (pos)
         {

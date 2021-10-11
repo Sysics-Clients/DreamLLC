@@ -147,6 +147,7 @@ public class TrainingLevel : MonoBehaviour
         CongratsPanel.SetActive(true);
         TrainingPanel.SetActive(false);
         isEnded = true;
+        EventSystem.SetActive(true);
     }
     public void OnContinueClick()
     {

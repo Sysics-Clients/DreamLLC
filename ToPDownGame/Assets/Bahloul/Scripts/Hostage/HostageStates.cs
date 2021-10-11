@@ -41,7 +41,6 @@ public class HostageStates : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        print(currentState);
         switch (currentState)
         {
             case State.Sleeping:

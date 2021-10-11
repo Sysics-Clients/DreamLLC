@@ -49,7 +49,6 @@ public class HostageController : MonoBehaviour
                 anim.SetBool("isIdle", true);
                 break;
         }
-        print(anim.GetFloat("State"));
     }
     void Start()
     {
