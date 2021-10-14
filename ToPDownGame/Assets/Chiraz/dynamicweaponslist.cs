@@ -13,16 +13,35 @@ public class dynamicweaponslist : MonoBehaviour
     public Image ISelect,btPis,btAK, btKnife;
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
+    public GameObject btnBuyClow, btnUseClow,btnBuyWeapon, btnUseWeapon;
     
 
     private void OnEnable()
     {
         GeneralEvents.showItem += show;
+        GeneralEvents.toBuyClow += toBuyClow;
+        GeneralEvents.toUseClow += toUseClow;
+        GeneralEvents.isCurrentClow += isCurrentClow;
+
+        GeneralEvents.toBuyWeapon += toBuyWeapon;
+        GeneralEvents.toUseWeapon += toUseWeapon;
+        GeneralEvents.isCurrentWeapon += isCurrentWeapon;
+
+        GeneralEvents.btnUseIte += btnUseItem;
     }
 
     private void OnDisable()
     {
         GeneralEvents.showItem -= show;
+        GeneralEvents.toBuyClow -= toBuyClow;
+        GeneralEvents.toUseClow -= toUseClow;
+        GeneralEvents.isCurrentClow -= isCurrentClow;
+
+        GeneralEvents.toBuyWeapon += toBuyWeapon;
+        GeneralEvents.toUseWeapon += toUseWeapon;
+        GeneralEvents.isCurrentWeapon += isCurrentWeapon;
+
+        GeneralEvents.btnUseIte += btnUseItem;
     }
     void Start() {
         
@@ -46,9 +65,13 @@ public class dynamicweaponslist : MonoBehaviour
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         break;
                     case ItemTypes.knife:
+                        
                         items.Add(Instantiate(prefab, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                       
+                        if (currentItem.knife==item)
+                        {
+                            items[items.Count - 1].GetComponent<StartPrefabItem>().clicked();
+                        }
                         break;
                     case ItemTypes.Boots:
                         items.Add(Instantiate(prefab, contentClothes));
@@ -145,8 +168,104 @@ public class dynamicweaponslist : MonoBehaviour
         
     }
 
-    public void buy()
+    public void buyWeapon()
     {
-        GeneralEvents.buy();
+        GeneralEvents.buyWeapon();
+    }
+    public void buyClowths()
+    {
+        GeneralEvents.buyClowths();
+    }
+
+    public void use()
+    {
+        GeneralEvents.useIte();
+    }
+    void toUseWeapon()
+    {
+        
+        btnUseWeapon.SetActive(true);
+        btnBuyWeapon.SetActive(false);
+        btnUseWeapon.GetComponent<Button>().interactable = true;
+    }
+    void toBuyWeapon()
+    {
+        btnUseWeapon.SetActive(false);
+        btnBuyWeapon.SetActive(true);
+        btnUseWeapon.GetComponent<Button>().interactable = true;
+    }
+    void isCurrentWeapon()
+    {
+        btnUseWeapon.SetActive(true);
+        btnBuyWeapon.SetActive(false);
+        btnUseWeapon.GetComponent<Button>().interactable = false;
+    }
+    void toUseClow()
+    {
+
+        btnUseClow.SetActive(true);
+        btnBuyClow.SetActive(false);
+        btnUseClow.GetComponent<Button>().interactable = true;
+    }
+    void toBuyClow()
+    {
+        btnUseClow.SetActive(false);
+        btnBuyClow.SetActive(true);
+        btnUseClow.GetComponent<Button>().interactable = true;
+    }
+    void isCurrentClow()
+    {
+        btnUseClow.SetActive(true);
+        btnBuyClow.SetActive(false);
+        btnUseClow.GetComponent<Button>().interactable = false;
+    }
+
+    void btnUseItem(ItemObjects item)
+    {
+        switch (item.type)
+        {
+            case ItemTypes.legs:
+                currentItem.bot.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.bot = item;
+                break;
+            case ItemTypes.AK:
+                currentItem.ak.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.ak = (WeaponItem) item;
+                break;
+            case ItemTypes.Pistol:
+                currentItem.pistol.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.pistol = (WeaponItem)item;
+                break;
+            case ItemTypes.knife:
+                currentItem.knife.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.knife = (WeaponItem)item;
+                break;
+            case ItemTypes.Boots:
+                currentItem.shoos.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.shoos = item;
+                break;
+            case ItemTypes.Chest:
+                currentItem.top.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.top = item;
+                break;
+            case ItemTypes.Shield:
+                currentItem.shield.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.shield = item;
+                break;
+            case ItemTypes.Casque:
+                currentItem.casque.state = StateItem.toUse;
+                item.state = StateItem.current;
+                currentItem.casque = item;
+                break;
+            default:
+                break;
+        }
     }
 }

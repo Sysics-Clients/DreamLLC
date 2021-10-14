@@ -87,7 +87,8 @@ public class GeneralEvents
     public static ShowItem showItem;
 
     public delegate void Buy();
-    public static Buy buy;
+    public static Buy buyWeapon;
+    public static Buy buyClowths;
 
     public delegate void SetItem(ItemObjects item);
     public static SetItem setItem;
@@ -101,6 +102,20 @@ public class GeneralEvents
     public delegate void SetClwths(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque);
     public static SetClwths setClwths;
 
+    public delegate void StateItem();
+    public static StateItem toBuyWeapon;
+    public static StateItem toUseWeapon;
+    public static StateItem isCurrentWeapon;
+
+    public static StateItem toBuyClow;
+    public static StateItem toUseClow;
+    public static StateItem isCurrentClow;
+
+    public delegate void UseItem();
+    public static UseItem useIte;
+
+    public delegate void BtnUseItem(ItemObjects item);
+    public static BtnUseItem btnUseIte;
     /*public delegate void Situation();
     public static Situation win;
     public static Situation lose;
