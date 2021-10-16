@@ -20,16 +20,37 @@ public class GameManager : MonoBehaviour
     public GameObject ContentTasks;
     public GameObject task;
     public List<GameObject> MiniMapTasks;
+    public GameObject DontDestroyObject;
+    public GameObject pad;
+    public GameObject loadingScreenGameObject;
+    LoadingScreen loadingScreen;
+
+    public void GoToNewScene(string NewSceneName)
+    {
+        InputSystem.GetComponent<Canvas>().enabled = false;
+        loadingScreenGameObject.SetActive(true);
+        // gameManager.DontDestroyObjects();
+        loadingScreen.sceneName = NewSceneName;
+        loadingScreen.ToScene = true;
+    }
 
     private void OnEnable()
     {
+        GeneralEvents.toNewScene += GoToNewScene;
         GeneralEvents.checkMissionCompletion += CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite += SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion += testAllCompletion;
     }
     private void OnDisable()
     {
+        GeneralEvents.toNewScene -= GoToNewScene;
         GeneralEvents.checkMissionCompletion -= CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite -= SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion -= testAllCompletion;
+    }
+    public void DontDestroyObjects()
+    {
+        DontDestroyOnLoad(DontDestroyObject);
     }
     private void Awake()
     {
@@ -56,17 +77,36 @@ public class GameManager : MonoBehaviour
             obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
             MiniMapTasks.Add(obj);
         }
-        
-        
-
-
+    }
+    public bool testAllCompletion(MissionName mission=MissionName.NoMissionAvailale)
+    {
+        foreach(Mission m in currentLevel.missions)
+        {
+            if (m.missionName == mission)
+            {
+                continue;
+            }
+            if (m.isCompleted == false)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     private void Start()
     {
         GeneralEvents.changePlayerPos(playerPos);
         InputSystem = GameObject.Find("CanvasInput (1)");
-          InputSystem.GetComponent<Canvas>().enabled = true;
+        InputSystem.GetComponent<Canvas>().enabled = true;
+        loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
+        loadingScreenGameObject.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            pad = GameObject.Find("Pad");
+            pad.SetActive(false);
+        }
         GeneralEvents.startBullets();
+        
     }
     public void SelectLevel(string sceneName)
     {

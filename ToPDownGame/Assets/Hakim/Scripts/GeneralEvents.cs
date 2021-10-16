@@ -2,6 +2,12 @@
 
 public class GeneralEvents
 {
+    public delegate void ToNewScene(string NewSceneName);
+    public static ToNewScene toNewScene;
+
+    public delegate bool TestAllCompletion(MissionName mission=MissionName.NoMissionAvailale);
+    public static TestAllCompletion testAllCompletion;
+
     public delegate void StopEnemies();
     public static StopEnemies stopEnemies;
 

@@ -93,7 +93,8 @@ public class DroneBehavior : MonoBehaviour
                     StopCoroutine(WaitInChase);*/
                 if (getDroneState() != DroneStates.State.Chasing)
                 {
-                        changeState(DroneStates.State.Roaming);
+                //changeState(DroneStates.State.Roaming);
+                toIdle();
                         callForHelp();
                         //changeSpeed(runSpeed);
                 }

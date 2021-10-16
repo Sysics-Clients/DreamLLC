@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 public class InputSystem : MonoBehaviour
@@ -120,6 +121,25 @@ public class InputSystem : MonoBehaviour
             if (missionName == mo.missionName && id == mo.id)
             {
                 obj.transform.GetChild(2).gameObject.SetActive(true);
+            }
+        }
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            
+            if (GeneralEvents.testAllCompletion(MissionName.collectPad))
+            {
+                GameManager.instance.pad.SetActive(true);
+                GameManager.instance.currentLevel.AddMission(MissionName.NoMissionAvailale,0);
+            }else if (GeneralEvents.testAllCompletion())
+            {
+                GeneralEvents.toNewScene("Level4");
+            }
+        }
+        else if(SceneManager.GetActiveScene().name == "Level4")
+        {
+            if (GeneralEvents.testAllCompletion())
+            {
+                GeneralEvents.toNewScene("Level5");
             }
         }
     }
