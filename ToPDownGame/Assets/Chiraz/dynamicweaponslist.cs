@@ -8,12 +8,13 @@ public class dynamicweaponslist : MonoBehaviour
     // Start is called before the first frame update
     public ListItems listitemsPrefab;
     public Transform contentWeapon, contentClothes;
-    public GameObject prefab;
+    public GameObject prefabWeap, prefabClow;
     public List<GameObject> items;
-    public Image ISelect,btPis,btAK, btKnife;
+    public Image ISelect,btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
     public GameObject btnBuyClow, btnUseClow,btnBuyWeapon, btnUseWeapon;
+    
     
 
     private void OnEnable()
@@ -52,21 +53,21 @@ public class dynamicweaponslist : MonoBehaviour
                 switch (item.type)
                 {
                     case ItemTypes.legs:
-                        items.Add(Instantiate(prefab, contentClothes));
+                        items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         break;
                     case ItemTypes.AK:
-                        items.Add(Instantiate(prefab, contentWeapon));
+                        items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         
                         break;
                     case ItemTypes.Pistol:
-                        items.Add(Instantiate(prefab, contentWeapon));
+                        items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         break;
                     case ItemTypes.knife:
                         
-                        items.Add(Instantiate(prefab, contentWeapon));
+                        items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         if (currentItem.knife==item)
                         {
@@ -74,22 +75,22 @@ public class dynamicweaponslist : MonoBehaviour
                         }
                         break;
                     case ItemTypes.Boots:
-                        items.Add(Instantiate(prefab, contentClothes));
+                        items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         
                         break;
                     case ItemTypes.Chest:
-                        items.Add(Instantiate(prefab, contentClothes));
+                        items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         
                         break;
                     case ItemTypes.Shield:
-                        items.Add(Instantiate(prefab, contentClothes));
+                        items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         
                         break;
                     case ItemTypes.Casque:
-                        items.Add(Instantiate(prefab, contentClothes));
+                        items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         break;
                     default:
@@ -113,6 +114,11 @@ public class dynamicweaponslist : MonoBehaviour
         {
             case "legs":
                 GeneralEvents.activeItems(ItemTypes.legs);
+                btCasque.color =new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShield.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btBot.color = Color.white;
+                btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 break;
             case "AK":
                 GeneralEvents.activeItems(ItemTypes.AK);
@@ -134,18 +140,35 @@ public class dynamicweaponslist : MonoBehaviour
                 break;
             case "Boots":
                 GeneralEvents.activeItems(ItemTypes.Boots);
-
+                btCasque.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShield.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShoos.color = Color.white;
                 break;
             case "Chest":
                 GeneralEvents.activeItems(ItemTypes.Chest);
-
+                btCasque.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShield.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btTop.color =  Color.white;
+                btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 break;
             case "Shield":
                 GeneralEvents.activeItems(ItemTypes.Shield);
-
+                btCasque.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShield.color = Color.white;
+                btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 break;
             case "Casque":
                 GeneralEvents.activeItems(ItemTypes.Casque);
+                btCasque.color = Color.white;
+                btShield.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
+                btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 break;
             default:
                 break;
