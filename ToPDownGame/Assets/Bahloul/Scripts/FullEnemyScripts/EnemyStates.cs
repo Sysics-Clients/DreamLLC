@@ -270,7 +270,7 @@ public class EnemyStates : MonoBehaviour
     }
     void toDie()
     {
-        print("Die");
+
         audioManager.PlaySound(AudioManager.Sounds.enemyDie);
         StopAllCoroutines();
         enemyBehavior.EnemyCanvas.enabled = false;
@@ -363,7 +363,7 @@ public class EnemyStates : MonoBehaviour
                 {
                     if (enemyBehavior.AccessCard == null)
                     {
-                            print("k,k");
+
                         transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
                         LastPlayerPosition = playerTransform.position;
                     }
@@ -383,7 +383,7 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Death:
-                print("die");
+
                     if (enemyBehavior.AccessCard != null)
                     {
                         GameObject go = Instantiate(enemyBehavior.AccessCard, transform.position+new Vector3(0,1,0), transform.rotation);

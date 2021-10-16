@@ -91,7 +91,7 @@ public class EnemyHealth : MonoBehaviour
 					if (enemyBehavior != null)
 					{
 						enemyBehavior.enemyState(EnemyStates.State.Death);
-						print("Dying");
+
 					}
 					if (sniperBehavior != null)
 						sniperBehavior.changeState(SniperStates.State.Death);
