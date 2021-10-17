@@ -104,17 +104,18 @@ public class StartPrefabItem : MonoBehaviour
     {
         ///////////////////////////////////////////////////////////////////
         print(name);
-        if (item.price<Singleton.coins)
+        if (item.price<Singleton._instance.coins)
         {
-            Singleton.coins -= item.price;
+            Singleton._instance.coins -= item.price;
             item.state = StateItem.toUse;
             clicked();
+            Singleton._instance.save();
         }
         else
         {
             print("ma chrech");
         }
-        print(Singleton.coins);
+        
     }
 
     public void activeItem(ItemTypes types)
