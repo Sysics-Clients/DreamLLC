@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
+
 public class MenuCotroller : MonoBehaviour
 {
     public GameObject PlayerInSHop;
@@ -27,6 +29,10 @@ public class MenuCotroller : MonoBehaviour
         yield return new WaitForSeconds(1);
         
 
+    }
+    public void LoadScene()
+    {
+        SceneManager.LoadScene(1);
     }
     public void weaponbtn()
     {

@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     public GameObject pad;
     public GameObject loadingScreenGameObject;
     LoadingScreen loadingScreen;
+    public Health playercontroller;
+    public GameObject GameOver;
+    public ObjectActivation objectActivation;
+    public GameObject GameWin;
 
     public void GoToNewScene(string NewSceneName)
     {
@@ -55,8 +59,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         
-        if (instance != null && instance != this)
-            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
+        /*if (instance != null && instance != this)
+            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)*/
         instance = this;
         currentLevel = Levels[0];
         MissionObjects = FindObjectsOfType<MissionObjects>();
@@ -76,6 +80,70 @@ public class GameManager : MonoBehaviour
             mo.id = m.missionId;
             obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
             MiniMapTasks.Add(obj);
+            if (Levels.Count > 0)
+            {
+                foreach (var item in Levels[0].missions)
+                {
+                    item.isCompleted = false;
+                }
+            }
+        }
+    }
+    private void Update()
+    {
+        if (GameOver.activeInHierarchy||GameWin.activeInHierarchy)
+        {
+            return;
+        }
+        if (playercontroller!=null)
+        {
+            if (playercontroller.corentHelth<=0)
+            {
+                if (!GameOver.gameObject.activeInHierarchy)
+                {
+                    GameOver.SetActive(true);
+                }
+            }
+        }
+        if (objectActivation!=null)
+        {
+            if (currentLevel!=null)
+            {
+                int count = currentLevel.missions.Count;
+                int index = 0;
+                foreach (var item in currentLevel.missions)
+                {
+                    if (item.isCompleted)
+                    {
+                        index++;
+                    }
+                }
+                if (count==index)
+                {
+                    foreach (var item in objectActivation.DroneEnemyList)
+                    {
+                        if (item!=null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.FullEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.SniperEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    GameWin.SetActive(true);
+                }
+            }
         }
     }
     public bool testAllCompletion(MissionName mission=MissionName.NoMissionAvailale)
@@ -107,6 +175,7 @@ public class GameManager : MonoBehaviour
         }
         GeneralEvents.startBullets();
         
+
     }
     public void SelectLevel(string sceneName)
     {
@@ -117,6 +186,8 @@ public class GameManager : MonoBehaviour
                 currentLevel = l;
             }
         }
+        
+        
     }
     public bool CheckMissiionCompletion(MissionName missionName,int id=0)
     {

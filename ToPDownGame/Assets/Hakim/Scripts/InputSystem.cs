@@ -35,6 +35,7 @@ public class InputSystem : MonoBehaviour
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         GeneralEvents.health += changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
        // GeneralEvents.changeColorHealth += chageColorBar;
@@ -180,7 +181,7 @@ public class InputSystem : MonoBehaviour
 #if UNITY_ANDROID
         move = new Vector3(MvtJoystic.Horizontal, 0, MvtJoystic.Vertical);
 #endif
-         move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+         //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 shootDir = new Vector3(ShootJoystic.Horizontal, 0, ShootJoystic.Vertical);
         
         

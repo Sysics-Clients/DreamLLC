@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf2a19722b0e4e49a1b7222b984ae31, type: 3}
+  m_Name: easy The Chaser 1
+  m_EditorClassIdentifier: 
+  enemyDescription: He roams around and when he caught a player in his field of view
+    he will chase him and attack him when he gets closer
+  enemyName: The chaser
+  health: 50
+  shield: 50
+  damage: 20
+  EnemySprite: {fileID: 8498755948774895425, guid: 34c1645bc0361a84f8003a20523ad444,
+    type: 3}
+  runSpeed: 4
+  walkSpeed: 2
+  FovRadius: 7
+  FovAngle: 90
