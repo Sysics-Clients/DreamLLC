@@ -240,7 +240,7 @@ public class Attack : MonoBehaviour
     {
         canChange = false;
         animator.SetTrigger("change");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
@@ -284,42 +284,54 @@ public class Attack : MonoBehaviour
 
     public void changeToBlade()
     {
-        bladeStart.gameObject.active = false;
-        weapons[2].weap.active = true;
+        bladeStart.gameObject.SetActive(false);
+        pistolStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[1].weap.SetActive(false);
         canChange = true;
 
     }
     public void changeBlade()
     {
-        bladeStart.gameObject.active = true;
-        weapons[2].weap.active = false;
+        bladeStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(false);
 
     }
 
     public void changeToAk()
     {
-        AkStart.gameObject.active = false;
-        weapons[0].weap.active = true;
+        AkStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        pistolStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(true);
+        weapons[1].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changeAk()
     {
-        AkStart.gameObject.active = true;
-        weapons[0].weap.active = false;
+        AkStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(false);
 
     }
     public void changeToPistol()
     {
-        pistolStart.gameObject.active = false;
-        weapons[1].weap.active = true;
+        pistolStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changePistol()
     {
-        pistolStart.gameObject.active = true;
-        weapons[1].weap.active = false;
+        pistolStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive( false);
     }
 
     public bool getCanChange()
