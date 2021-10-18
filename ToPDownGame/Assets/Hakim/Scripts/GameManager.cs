@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
     public void GoToNewScene(string NewSceneName)
     {
         InputSystem.GetComponent<Canvas>().enabled = false;
-        loadingScreenGameObject.SetActive(true);
+       // loadingScreenGameObject.SetActive(true);
         // gameManager.DontDestroyObjects();
-        loadingScreen.sceneName = NewSceneName;
-        loadingScreen.ToScene = true;
+       // loadingScreen.sceneName = NewSceneName;
+       // loadingScreen.ToScene = true;
     }
 
     private void OnEnable()
