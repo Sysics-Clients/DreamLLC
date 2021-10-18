@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToNewScene(string NewSceneName)
     {
-        InputSystem.GetComponent<Canvas>().enabled = false;
+        //InputSystem.GetComponent<Canvas>().enabled = false;
        // loadingScreenGameObject.SetActive(true);
         // gameManager.DontDestroyObjects();
        // loadingScreen.sceneName = NewSceneName;
