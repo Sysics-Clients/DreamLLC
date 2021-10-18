@@ -35,6 +35,10 @@ public class EnemyBullet : MonoBehaviour
         if (other.tag == "Player")
         {
 
+            if (sender==null)
+            {
+                return;
+            }
             if (sender.tag == "Sniper")
             {
                 if(other.gameObject.GetComponent<PlayerBehavior>().damege!=null)
@@ -60,7 +64,10 @@ public class EnemyBullet : MonoBehaviour
 
         }
 
-
+        if (sender == null)
+        {
+            return;
+        }
         if (sender.tag == "Sniper")
         {
             sniperBehavior.returnBullet(gameObject);

@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
+    private bool opened=false;
     public Sprite lockedDoor;
     public Sprite unlockedDoor;
     public Image DoorImage;
     public Button DoorBtn;
     public bool islocked;
-    public GameObject dontDestroyObjects;
+    public bool withKey;
+    public bool forMission;
     public GameObject InputPanel;
     public GameObject loadingScreenGameObject;
     private LoadingScreen loadingScreen;
@@ -52,38 +54,50 @@ public class OpenDoor : MonoBehaviour
     }
     public void OnDoorClick()
     {
+        
+        if (withKey)
+        {
+            if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
+            {
+                GeneralEvents.writeErrorMessage("No key found!!");
+                return;
+            }
+        }
         if (NewSceneName == "")
         {
+            DoorImage.enabled = false;
             if (DoorType == Doors.rotator)
             {
-                transform.DORotate(new Vector3(0, 90, 0), 2);
+                transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 2);
             }
             else
                 transform.DOMoveX(transform.position.x + 3, 2);
+            opened = true;
+
+            GeneralEvents.checkMissionCompletion(MissionName.openDoor, 0);
+            /*if (forMission)
+            {
+                print("task finished");
+                
+            }*/
         }
         else
         {
-            if (GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
+            if (!GeneralEvents.testAllCompletion(MissionName.openDoor))
             {
-                InputPanel.GetComponent<Canvas>().enabled = false;
-                loadingScreenGameObject.SetActive(true);
-                DontDestroyOnLoad(dontDestroyObjects);
-                loadingScreen.sceneName = NewSceneName;
-                loadingScreen.ToScene = true;
-                Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen);
+                GeneralEvents.writeErrorMessage("Finish All your missions first");
+                return;
             }
-            else
-            {
-                GeneralEvents.writeErrorMessage("No key found!!");
-            }
-            
+            GeneralEvents.toNewScene(NewSceneName);
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-
+            if (opened)
+                return;
             DoorImage.enabled = true;
             
             

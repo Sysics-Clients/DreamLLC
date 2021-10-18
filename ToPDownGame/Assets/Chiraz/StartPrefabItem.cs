@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class StartPrefabItem : MonoBehaviour
 {
     public Text priceText;
@@ -28,6 +28,8 @@ public class StartPrefabItem : MonoBehaviour
     {
         frame.SetActive(false);
     }
+
+   
 
     // Update is called once per frame
     void Update()

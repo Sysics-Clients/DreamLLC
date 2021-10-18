@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 public class InputSystem : MonoBehaviour
@@ -34,6 +35,7 @@ public class InputSystem : MonoBehaviour
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         GeneralEvents.health += changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
        // GeneralEvents.changeColorHealth += chageColorBar;
@@ -122,6 +124,25 @@ public class InputSystem : MonoBehaviour
                 obj.transform.GetChild(2).gameObject.SetActive(true);
             }
         }
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            
+            if (GeneralEvents.testAllCompletion(MissionName.collectPad))
+            {
+                GameManager.instance.pad.SetActive(true);
+                GameManager.instance.currentLevel.AddMission(MissionName.NoMissionAvailale,0);
+            }else if (GeneralEvents.testAllCompletion())
+            {
+                GeneralEvents.toNewScene("Level4");
+            }
+        }
+        else if(SceneManager.GetActiveScene().name == "Level4")
+        {
+            if (GeneralEvents.testAllCompletion())
+            {
+                GeneralEvents.toNewScene("Level5");
+            }
+        }
     }
     void afficherErreurMessage(string err)
     {
@@ -160,7 +181,7 @@ public class InputSystem : MonoBehaviour
 #if UNITY_ANDROID
         move = new Vector3(MvtJoystic.Horizontal, 0, MvtJoystic.Vertical);
 #endif
-         move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+         //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 shootDir = new Vector3(ShootJoystic.Horizontal, 0, ShootJoystic.Vertical);
         
         
