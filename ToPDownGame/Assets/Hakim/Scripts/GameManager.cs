@@ -32,10 +32,32 @@ public class GameManager : MonoBehaviour
     public void GoToNewScene(string NewSceneName)
     {
         //InputSystem.GetComponent<Canvas>().enabled = false;
-       // loadingScreenGameObject.SetActive(true);
+        // loadingScreenGameObject.SetActive(true);
         // gameManager.DontDestroyObjects();
-       // loadingScreen.sceneName = NewSceneName;
-       // loadingScreen.ToScene = true;
+        // loadingScreen.sceneName = NewSceneName;
+        // loadingScreen.ToScene = true;
+        foreach (var item in objectActivation.DroneEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        foreach (var item in objectActivation.FullEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        foreach (var item in objectActivation.SniperEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        GameWin.SetActive(true);
     }
 
     private void OnEnable()

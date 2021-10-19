@@ -117,4 +117,9 @@ public class LoadingScreen : MonoBehaviour
         }
 
     }
+
+    private void Update()
+    {
+        Time.timeScale = 1;
+    }
 }
