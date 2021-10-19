@@ -11034,26 +11034,27 @@ MonoBehaviour:
   bulletStart: {fileID: 1197660882}
   AkStart: {fileID: 1175640517}
   pistolStart: {fileID: 1708481091}
+  bladeStart: {fileID: 8367881652813401867}
   playerBehavior: {fileID: 5126205884208259521}
   animator: {fileID: 0}
   AkshootPos: {fileID: 1197660882}
   audio: {fileID: 1301724288}
   weapons:
   - weap: {fileID: 0}
-    weaponItem: {fileID: 11400000, guid: 1986dbe1cc56d6a438de001f2bc4dab5, type: 2}
+    weaponItem: {fileID: 0}
     reloadPos: {fileID: 5630831331944806102}
     nbBullet: 0
     nbTotalBullet: 30
   - weap: {fileID: 0}
-    weaponItem: {fileID: 11400000, guid: f09363a463af10e4a86d2f7bb9ec8e0c, type: 2}
+    weaponItem: {fileID: 0}
     reloadPos: {fileID: 5126205884788924028}
     nbBullet: 0
     nbTotalBullet: 30
   - weap: {fileID: 0}
-    weaponItem: {fileID: 11400000, guid: a69e2046829ce6d44a01f62f3407ec5a, type: 2}
-    reloadPos: {fileID: 0}
-    nbBullet: 0
-    nbTotalBullet: 0
+    weaponItem: {fileID: 0}
+    reloadPos: {fileID: 5126205884788924028}
+    nbBullet: -1
+    nbTotalBullet: -1
   vfxDeath: {fileID: 5126205884329950919}
 --- !u!114 &5126205884208259526
 MonoBehaviour:
@@ -11083,6 +11084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPos: 0
+  currentItem: {fileID: 11400000, guid: 6ae69c61d24aec141aba36d27083ddca, type: 2}
 --- !u!114 &5126205884208259520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11328,9 +11330,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e3ae8d032636242b360b5993311294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemBoots: {fileID: 11400000, guid: 1491bc3fedea12b42a071f76e8f75b34, type: 2}
-  itemLegs: {fileID: 11400000, guid: 7123a1378e38d8a4aa53a864c5ba7791, type: 2}
-  itemChest: {fileID: 11400000, guid: 6be5d4a7e3a60894095732b85771eb6d, type: 2}
+  itemBoots: {fileID: 0}
+  itemLegs: {fileID: 0}
+  itemChest: {fileID: 0}
+  itemShield: {fileID: 0}
+  itemCasque: {fileID: 0}
+  casque: {fileID: 4583703152846185616}
+  shield: {fileID: 617524700052333050}
+  hair: {fileID: 7014075815758633214}
+  casqueObj: {fileID: 0}
+  shieldObj: {fileID: 0}
 --- !u!1 &5760695654394638718
 GameObject:
   m_ObjectHideFlags: 0
@@ -11515,6 +11524,7 @@ Transform:
   - {fileID: 6308521643727369490}
   - {fileID: 1175640517}
   - {fileID: 1708481091}
+  - {fileID: 8367881652813401867}
   m_Father: {fileID: 934807699989484137}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12505,6 +12515,36 @@ Transform:
   m_Father: {fileID: 7491681830098187468}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9181538555644859825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8367881652813401867}
+  m_Layer: 0
+  m_Name: SwordStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8367881652813401867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181538555644859825}
+  m_LocalRotation: {x: 0.17560282, y: -0.64120734, z: 0.4112505, w: 0.6236103}
+  m_LocalPosition: {x: -0.119, y: -0.246, z: 0.404}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 617524700052333050}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 48.280003, y: -79.95901, z: 25.617}
 --- !u!1001 &5126205884330020961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12570,15 +12610,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6de9c3e430816d40aedcaaf84000975, type: 3}
---- !u!4 &5126205884330244305 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 485552, guid: c6de9c3e430816d40aedcaaf84000975,
-    type: 3}
-  m_PrefabInstance: {fileID: 5126205884330020961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5126205884329950919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 192166, guid: c6de9c3e430816d40aedcaaf84000975,
+    type: 3}
+  m_PrefabInstance: {fileID: 5126205884330020961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5126205884330244305 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 485552, guid: c6de9c3e430816d40aedcaaf84000975,
     type: 3}
   m_PrefabInstance: {fileID: 5126205884330020961}
   m_PrefabAsset: {fileID: 0}

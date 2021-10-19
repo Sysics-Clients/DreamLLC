@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
-    public static WeopenType weopenType;
+    public static ItemTypes weopenType;
     public Level currentLevel;
     public Mission currentMission;
     public List<Level> Levels;
@@ -20,22 +20,47 @@ public class GameManager : MonoBehaviour
     public GameObject ContentTasks;
     public GameObject task;
     public List<GameObject> MiniMapTasks;
+    public GameObject DontDestroyObject;
+    public GameObject pad;
+    public GameObject loadingScreenGameObject;
+    LoadingScreen loadingScreen;
+    public Health playercontroller;
+    public GameObject GameOver;
+    public ObjectActivation objectActivation;
+    public GameObject GameWin;
+
+    public void GoToNewScene(string NewSceneName)
+    {
+        //InputSystem.GetComponent<Canvas>().enabled = false;
+       // loadingScreenGameObject.SetActive(true);
+        // gameManager.DontDestroyObjects();
+       // loadingScreen.sceneName = NewSceneName;
+       // loadingScreen.ToScene = true;
+    }
 
     private void OnEnable()
     {
+        GeneralEvents.toNewScene += GoToNewScene;
         GeneralEvents.checkMissionCompletion += CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite += SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion += testAllCompletion;
     }
     private void OnDisable()
     {
+        GeneralEvents.toNewScene -= GoToNewScene;
         GeneralEvents.checkMissionCompletion -= CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite -= SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion -= testAllCompletion;
+    }
+    public void DontDestroyObjects()
+    {
+        DontDestroyOnLoad(DontDestroyObject);
     }
     private void Awake()
     {
         
-        if (instance != null && instance != this)
-            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
+        /*if (instance != null && instance != this)
+            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)*/
         instance = this;
         currentLevel = Levels[0];
         MissionObjects = FindObjectsOfType<MissionObjects>();
@@ -55,17 +80,102 @@ public class GameManager : MonoBehaviour
             mo.id = m.missionId;
             obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
             MiniMapTasks.Add(obj);
+            if (Levels.Count > 0)
+            {
+                foreach (var item in Levels[0].missions)
+                {
+                    item.isCompleted = false;
+                }
+            }
         }
-        GeneralEvents.changePlayerPos(playerPos);
-        
-
-
+    }
+    private void Update()
+    {
+        if (GameOver.activeInHierarchy||GameWin.activeInHierarchy)
+        {
+            return;
+        }
+        if (playercontroller!=null)
+        {
+            if (playercontroller.corentHelth<=0)
+            {
+                if (!GameOver.gameObject.activeInHierarchy)
+                {
+                    GameOver.SetActive(true);
+                }
+            }
+        }
+        if (objectActivation!=null)
+        {
+            if (currentLevel!=null)
+            {
+                int count = currentLevel.missions.Count;
+                int index = 0;
+                foreach (var item in currentLevel.missions)
+                {
+                    if (item.isCompleted)
+                    {
+                        index++;
+                    }
+                }
+                if (count==index)
+                {
+                    foreach (var item in objectActivation.DroneEnemyList)
+                    {
+                        if (item!=null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.FullEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.SniperEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    GameWin.SetActive(true);
+                }
+            }
+        }
+    }
+    public bool testAllCompletion(MissionName mission=MissionName.NoMissionAvailale)
+    {
+        foreach(Mission m in currentLevel.missions)
+        {
+            if (m.missionName == mission)
+            {
+                continue;
+            }
+            if (m.isCompleted == false)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     private void Start()
     {
-          InputSystem = GameObject.Find("CanvasInput (1)");
-          InputSystem.GetComponent<Canvas>().enabled = true;
+        GeneralEvents.changePlayerPos(playerPos);
+        InputSystem = GameObject.Find("CanvasInput (1)");
+        InputSystem.GetComponent<Canvas>().enabled = true;
+        loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
+        loadingScreenGameObject.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            pad = GameObject.Find("Pad");
+            pad.SetActive(false);
+        }
         GeneralEvents.startBullets();
+        
+
     }
     public void SelectLevel(string sceneName)
     {
@@ -76,6 +186,8 @@ public class GameManager : MonoBehaviour
                 currentLevel = l;
             }
         }
+        
+        
     }
     public bool CheckMissiionCompletion(MissionName missionName,int id=0)
     {

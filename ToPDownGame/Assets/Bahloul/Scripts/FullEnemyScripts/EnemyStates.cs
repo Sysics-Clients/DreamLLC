@@ -77,13 +77,16 @@ public class EnemyStates : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         LastPlayerPosition = playerTransform.position;
-        if (enemyBehavior.Item.enemyName != "Shooters")
+        if ((enemyBehavior.Item.enemyName != "Shooters"))
         {
             currentState = State.Idle;
-            WaitIdle = StartCoroutine(WaitOnIdle());      
-            Positions.Add(transform);
-            activeGun = 0;
-            listGuns[0].SetActive(true);
+            if ((enemyBehavior.Item.enemyName != "Passive"))
+            {
+                WaitIdle = StartCoroutine(WaitOnIdle());
+                Positions.Add(transform);
+                activeGun = 0;
+                listGuns[0].SetActive(true);
+            }
         }
         else
         {
@@ -96,7 +99,7 @@ public class EnemyStates : MonoBehaviour
     }
     public void toHelp(Vector3 position)
     {
-        if (enemyBehavior.Item.enemyName == "Shooters")
+        if ((enemyBehavior.Item.enemyName == "Shooters")||(enemyBehavior.Item.enemyName == "Passive"))
             return;
         anim.SetBool("isShooting", false);
         agent.SetDestination(position);
@@ -152,7 +155,7 @@ public class EnemyStates : MonoBehaviour
     void toHide() {
         if (enemyBehavior.Item.enemyName == "Shooters")
             return;
-        if (!isHiding)
+            if (!isHiding)
         {
             if (WaitIdle != null)
                 StopCoroutine(WaitIdle);
@@ -175,8 +178,7 @@ public class EnemyStates : MonoBehaviour
                     if (maxDistance < currentDistance)
                     {
                         maxDistance = currentDistance;
-                        PosToHide = rangeChecks[i].transform.position;
-                        
+                        PosToHide = rangeChecks[i].transform.position; 
                     }
                 }
                 anim.SetBool("isShooting", false);
@@ -186,7 +188,6 @@ public class EnemyStates : MonoBehaviour
                 currentState = State.Hide;
                 agent.speed = enemyBehavior.Item.runSpeed;
                 changeGun(1);
-
             }
             else
             {
@@ -202,7 +203,7 @@ public class EnemyStates : MonoBehaviour
                             agent.SetDestination(new Vector3( rangeChecks[i].transform.position.x,transform.position.y, rangeChecks[i].transform.position.z));
                             enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                             enemyBehavior.setEnemyFovColor(Color.yellow);
-                            currentState = State.Hide;
+                                currentState = State.Hide;
                             agent.speed = enemyBehavior.Item.runSpeed;
                             changeGun(1);
                             goAskHelp = true;
@@ -218,7 +219,7 @@ public class EnemyStates : MonoBehaviour
                     agent.SetDestination(2* transform.position- playerTransform.position);
                     enemyBehavior.enemyMovement(EnemyController.Movement.Run);
                     enemyBehavior.setEnemyFovColor(Color.yellow);
-                    currentState = State.Hide;
+                        currentState = State.Hide;
                     agent.speed = enemyBehavior.Item.runSpeed;
                     changeGun(1);
                     runAway = true;
@@ -269,6 +270,7 @@ public class EnemyStates : MonoBehaviour
     }
     void toDie()
     {
+
         audioManager.PlaySound(AudioManager.Sounds.enemyDie);
         StopAllCoroutines();
         enemyBehavior.EnemyCanvas.enabled = false;
@@ -279,8 +281,9 @@ public class EnemyStates : MonoBehaviour
         enemyBehavior.disableOrEnableRenderingFov(false);
         enabled = false;
         enemyBehavior.isVisible = false;
-        if (GetComponent<MissionObjects>() != null)
-            GeneralEvents.onTaskFinish(MissionName.destroyEnemy);
+        MissionObjects mo = GetComponent<MissionObjects>();
+        if ( mo!= null)
+            GeneralEvents.onTaskFinish(MissionName.destroyEnemy,mo.id);
     }
     private void changeGun(int i) {
         listGuns[activeGun].SetActive(false);
@@ -292,17 +295,16 @@ public class EnemyStates : MonoBehaviour
     {
         if (!enemyBehavior.isVisible)
             return;
-        
+
         switch (currentState) {
             case State.Idle:
-               
-                if (enemyBehavior.canSeeThePlayer())
-                {
-                    if(WaitIdle!=null)
-                    StopCoroutine(WaitIdle);
-                    toAttack();
-                }
-                if(LookAtPlayer)
+                    if (enemyBehavior.canSeeThePlayer())
+                    {
+                        if (WaitIdle != null)
+                            StopCoroutine(WaitIdle);
+                        toAttack();
+                    }
+                if (LookAtPlayer)
                 {
                     transform.LookAt(playerTransform.position);
                 }
@@ -361,6 +363,7 @@ public class EnemyStates : MonoBehaviour
                 {
                     if (enemyBehavior.AccessCard == null)
                     {
+
                         transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
                         LastPlayerPosition = playerTransform.position;
                     }
@@ -380,6 +383,7 @@ public class EnemyStates : MonoBehaviour
                 }
                 break;
             case State.Death:
+
                     if (enemyBehavior.AccessCard != null)
                     {
                         GameObject go = Instantiate(enemyBehavior.AccessCard, transform.position+new Vector3(0,1,0), transform.rotation);

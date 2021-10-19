@@ -22,7 +22,7 @@ public class GrenadeEffect : MonoBehaviour
         {
             SniperBehavior sniperBehavior = sender.GetComponent<SniperBehavior>();
             if (sniperBehavior != null)
-                Instantiate(effectFreeze, sniperBehavior.playerTransform);
+                Instantiate(effectFreeze, sniperBehavior.Player.transform);
             else
                 Instantiate(effectFreeze, transform.position, Quaternion.identity);
             Destroy(gameObject);

@@ -2,6 +2,12 @@
 
 public class GeneralEvents
 {
+    public delegate void ToNewScene(string NewSceneName);
+    public static ToNewScene toNewScene;
+
+    public delegate bool TestAllCompletion(MissionName mission=MissionName.NoMissionAvailale);
+    public static TestAllCompletion testAllCompletion;
+
     public delegate void StopEnemies();
     public static StopEnemies stopEnemies;
 
@@ -32,7 +38,7 @@ public class GeneralEvents
     public delegate void PlaySound(AudioManager.Sounds sound);
     public PlaySound playSound;
 
-    public delegate bool ChangeWeopen(WeopenType type);
+    public delegate bool ChangeWeopen(ItemTypes type);
     public static ChangeWeopen changeWeopen;
 
     public delegate Vector2 NbBullet();
@@ -58,6 +64,9 @@ public class GeneralEvents
 
     public delegate bool GetCanChange();
     public static GetCanChange getCanChange;
+    
+    public delegate ItemTypes GetWeaponType();
+    public static GetWeaponType getWeaponType;
 
     public delegate void StartBullets();
     public static StartBullets startBullets;
@@ -77,6 +86,46 @@ public class GeneralEvents
     public delegate void ChangePlayerPos(PlayerBehavior.PlayerPos pos);
     public static ChangePlayerPos changePlayerPos;
 
+    public delegate void Select();
+    public static Select select;
+
+    public delegate void ShowItem(ItemObjects item);
+    public static ShowItem showItem;
+
+    public delegate void Buy();
+    public static Buy buyWeapon;
+    public static Buy buyClowths;
+
+    public delegate void SetItem(ItemObjects item);
+    public static SetItem setItem;
+
+    public delegate void ActiveItems(ItemTypes types);
+    public static ActiveItems activeItems;
+
+    public delegate void SetWeapon(WeaponItem ak, WeaponItem pistol, WeaponItem knife);
+    public static SetWeapon setItems;
+
+    public delegate void SetClwths(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque);
+    public static SetClwths setClwths;
+
+    public delegate void StateItem();
+    public static StateItem toBuyWeapon;
+    public static StateItem toUseWeapon;
+    public static StateItem isCurrentWeapon;
+
+    public static StateItem toBuyClow;
+    public static StateItem toUseClow;
+    public static StateItem isCurrentClow;
+
+    public delegate void UseItem();
+    public static UseItem useIte;
+
+    public delegate void BtnUseItem(ItemObjects item);
+    public static BtnUseItem btnUseIte;
+    /*public delegate void Situation();
+    public static Situation win;
+    public static Situation lose;
+    */
     public static clothes currentClothes;
     public class clothes{
         public GameObject hat, pants, shoes, shirt, shield;

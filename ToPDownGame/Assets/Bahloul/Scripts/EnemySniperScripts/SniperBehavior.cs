@@ -6,7 +6,7 @@ public class SniperBehavior : MonoBehaviour
 {
     public bool isVisible = true;
     public EnemyItem Item;
-    public Transform playerTransform;
+    public GameObject Player;
     public Canvas EnemyCanvas;
     public float TimeToDisappear = 3;
 

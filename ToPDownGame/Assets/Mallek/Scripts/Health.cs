@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
     {
         if (armor > 0)
         {
-            armor -= value/10;
+            armor -= value;
             //sliderArmor.fillAmount = armor/100;
             
             if (armor < 0)
@@ -52,14 +52,14 @@ public class Health : MonoBehaviour
             }
         }else if (corentHelth > 0)
         {
-            corentHelth -= value/10;
+            corentHelth -= value;
             //sliderHelth.fillAmount = corentHelth / 100;
 
            
         }
         if (player != null && corentHelth <= 0)
         {
-           
+            print("aa");
             player.die();
             //player = null;
             player.damege -= damege;

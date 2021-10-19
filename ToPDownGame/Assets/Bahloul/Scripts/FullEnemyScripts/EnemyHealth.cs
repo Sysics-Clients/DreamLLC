@@ -79,6 +79,7 @@ public class EnemyHealth : MonoBehaviour
 			{
 				if (currentHealth > health)
 				{
+					
 					currentHealth -= health;
 					HealthSlider.fillAmount -= health/maxHealth;
 					HealthSlider.color = gradient.Evaluate(currentHealth / maxHealth);
@@ -88,7 +89,10 @@ public class EnemyHealth : MonoBehaviour
 				else
 				{
 					if (enemyBehavior != null)
+					{
 						enemyBehavior.enemyState(EnemyStates.State.Death);
+
+					}
 					if (sniperBehavior != null)
 						sniperBehavior.changeState(SniperStates.State.Death);
 					HealthSlider.fillAmount = 0;
@@ -100,9 +104,6 @@ public class EnemyHealth : MonoBehaviour
 			}
 			if (enemyBehavior != null)
 				enemyBehavior.toHide();
-
-
-
 		}
 	}
 }

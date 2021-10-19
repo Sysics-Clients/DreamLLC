@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Attack : MonoBehaviour
 {
-    public Transform gun, bulletStart,AkStart,pistolStart;
+    public Transform gun, bulletStart,AkStart,pistolStart, bladeStart;
     public PlayerBehavior playerBehavior;
     public Animator animator;
     BulletPool bulletPool;
@@ -18,21 +18,30 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+        StartCoroutine(setUpWeap());
+    }
+    IEnumerator setUpWeap()
+    {
+        yield return new WaitForSeconds(.1f);
+        weapons[0].nbBullet = weapons[0].weaponItem.reload;
+        weapons[1].nbBullet = weapons[1].weaponItem.reload;
         onShot = false;
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = weapons[0].weaponItem.animator;
-        weapons[0].weap = Instantiate(weapons[0].weaponItem.Prefab, weapons[0].reloadPos);
-        Instantiate(weapons[0].weaponItem.Prefab, AkStart);
-        Instantiate(weapons[1].weaponItem.Prefab, pistolStart);
-        weapons[0].weap.active = false;
-        weapons[1].weap = Instantiate(weapons[1].weaponItem.Prefab, weapons[1].reloadPos);
+        weapons[0].weap = Instantiate(weapons[0].weaponItem.prefab, weapons[0].reloadPos);
+        Instantiate(weapons[0].weaponItem.prefab, AkStart);
+        Instantiate(weapons[1].weaponItem.prefab, pistolStart);
+        Instantiate(weapons[2].weaponItem.prefab, bladeStart);
+        weapons[0].weap.SetActive(false);
+        weapons[1].weap = Instantiate(weapons[1].weaponItem.prefab, weapons[1].reloadPos);
         weapons[1].weap.SetActive(false);
-        weapons[2].weap = Instantiate(weapons[2].weaponItem.Prefab, weapons[2].reloadPos);
+        weapons[2].weap = Instantiate(weapons[2].weaponItem.prefab, weapons[2].reloadPos);
         weapons[2].weap.SetActive(false);
         bulletPool = BulletPool.Instance;
-        
+        startBullets();
         nbWeap = 0;
-        if(GeneralEvents.setSpeed!=null)///////////////////////////////:
+        if (GeneralEvents.setSpeed != null)///////////////////////////////:
             GeneralEvents.setSpeed(v: weapons[0].weaponItem.speed);
         canChange = true;
     }
@@ -67,25 +76,26 @@ public class Attack : MonoBehaviour
     }
     private void OnEnable()
     {
-        
-        weapons[0].nbBullet = weapons[0].weaponItem.reload;
-        weapons[1].nbBullet = weapons[1].weaponItem.reload;
+        GeneralEvents.setItems += setWeapons;
         GeneralEvents.nbBulletStart += getNbStartBullet;
         GeneralEvents.nbBullet += getNbBullet;
         GeneralEvents.sendShooting += shoot;
         GeneralEvents.changeWeopen += SwitchWeopen;
         GeneralEvents.getCanChange += getCanChange;
         GeneralEvents.startBullets += startBullets;
+        GeneralEvents.getWeaponType += getWeaponType;
         playerBehavior.die += die;
     }
     private void OnDisable()
     {
+        GeneralEvents.setItems -= setWeapons;
         GeneralEvents.nbBulletStart -= getNbStartBullet;
         GeneralEvents.nbBullet -= getNbBullet;
         GeneralEvents.sendShooting -= shoot;
         GeneralEvents.changeWeopen -= SwitchWeopen;
         GeneralEvents.getCanChange -= getCanChange;
         GeneralEvents.startBullets -= startBullets;
+        GeneralEvents.getWeaponType -= getWeaponType;
         playerBehavior.die -= die;
     }
     // Update is called once per frame
@@ -185,20 +195,25 @@ public class Attack : MonoBehaviour
         animator.SetBool("crouch", crouch);
         bulletStart = weapons[nbWeap].weap.transform.Find("pos");
     }
-    public bool SwitchWeopen(WeopenType type)
+    public bool SwitchWeopen(ItemTypes type)
     {
         //weapons[nbWeap].weap.SetActive(false);
         if (canChange)
         {
             switch (type)
             {
-                case WeopenType.AK:
+                case ItemTypes.AK:
                     nbWeap = 0;
                     GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
                     break;
-                case WeopenType.Gun:
+                case ItemTypes.Pistol:
 
                     nbWeap = 1;
+                    GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
+                    break;
+                case ItemTypes.knife:
+
+                    nbWeap = 2;
                     GeneralEvents.setSpeed(weapons[nbWeap].weaponItem.speed);
                     break;
                 default:
@@ -225,7 +240,7 @@ public class Attack : MonoBehaviour
     {
         canChange = false;
         animator.SetTrigger("change");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
@@ -267,34 +282,70 @@ public class Attack : MonoBehaviour
         return new Vector2(weapons[0].nbTotalBullet, weapons[1].nbTotalBullet);
     }
 
+    public void changeToBlade()
+    {
+        bladeStart.gameObject.SetActive(false);
+        pistolStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[1].weap.SetActive(false);
+        canChange = true;
+
+    }
+    public void changeBlade()
+    {
+        bladeStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(false);
+
+    }
+
     public void changeToAk()
     {
-        AkStart.gameObject.active = false;
-        weapons[0].weap.active = true;
+        AkStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        pistolStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(true);
+        weapons[1].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changeAk()
     {
-        AkStart.gameObject.active = true;
-        weapons[0].weap.active = false;
+        AkStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(false);
 
     }
     public void changeToPistol()
     {
-        pistolStart.gameObject.active = false;
-        weapons[1].weap.active = true;
+        pistolStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changePistol()
     {
-        pistolStart.gameObject.active = true;
-        weapons[1].weap.active = false;
+        pistolStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive( false);
     }
+
     public bool getCanChange()
     {
         return canChange;
+    }
+    public ItemTypes getWeaponType() {
+        return weapons[nbWeap].weaponItem.type;    
+    }
+    void setWeapons(WeaponItem ak, WeaponItem pistol, WeaponItem knife)
+    {
+        weapons[0].weaponItem = ak;
+        weapons[1].weaponItem = pistol;
+        weapons[2].weaponItem = knife;
     }
 }
 [System.Serializable]
