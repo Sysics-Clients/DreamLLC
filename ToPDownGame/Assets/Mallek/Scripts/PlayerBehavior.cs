@@ -38,9 +38,11 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void Start()
     {
-        GeneralEvents.setClwths(currentItem.top, currentItem.bot, currentItem.shoos, currentItem.shield, currentItem.casque);
-        GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
-        changePos(PlayerPos.Parking);
+        if (GeneralEvents.setClwths != null)
+            GeneralEvents.setClwths(currentItem.top, currentItem.bot, currentItem.shoos, currentItem.shield, currentItem.casque);
+        if(GeneralEvents.setItems!=null)
+            GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
+        //changePos(PlayerPos.Parking);
     }
     private void Update()
     {
@@ -52,7 +54,6 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void changePos(PlayerPos pos)
     {
-        print("aa");
         
         switch (pos)
         {
@@ -70,6 +71,9 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerPos.RoofTop:
                 transform.position = new Vector3(41, 25, 97);
                 break;
+            case PlayerPos.UI:
+                return;
+                break;
 
         }
 
@@ -86,6 +90,7 @@ public class PlayerBehavior : MonoBehaviour
         RoofTop,
         Kitchen,
         Labo,
+        UI
     }
     IEnumerator onStart()
     {

@@ -28,7 +28,7 @@ public class SniperShooting : MonoBehaviour
     }
     public void ThrowGrenade() {
         sniperBehavior.enemyMovement(SniperMovement.Movement.Idle);
-        Vector3 vo = Calculatevelocity(sniperBehavior.playerTransform.position, GrenadeFirePoint.position, GrenadeSpeed);
+        Vector3 vo = Calculatevelocity(sniperBehavior.Player.transform.position, GrenadeFirePoint.position, GrenadeSpeed);
         shootGrenade(vo);
         StartCoroutine(WaitToShoot());
     }
@@ -69,7 +69,7 @@ public class SniperShooting : MonoBehaviour
     {
         yield return new WaitForSeconds(10);
         anim.SetBool("isShooting", false);
-        if (Vector3.Distance(sniperBehavior.playerTransform.position, transform.position) < 50)
+        if (Vector3.Distance(sniperBehavior.Player.transform.position, transform.position) < 50)
         {
             sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
         }
@@ -85,7 +85,7 @@ public class SniperShooting : MonoBehaviour
     newBullet.transform.position = BulletFirePoint.position;
     newBullet.transform.rotation = BulletFirePoint.rotation;
         //newBullet.GetComponent<Rigidbody>().velocity = BulletFirePoint.forward*Bulletspeed;
-        newBullet.GetComponent<Rigidbody>().velocity = (new Vector3(sniperBehavior.playerTransform.position.x,sniperBehavior.playerTransform.position.y-0.5f, sniperBehavior.playerTransform.position.z) - transform.position).normalized * Bulletspeed;
+        newBullet.GetComponent<Rigidbody>().velocity = (new Vector3(sniperBehavior.Player.transform.position.x,sniperBehavior.Player.transform.position.y-0.5f, sniperBehavior.Player.transform.position.z) - transform.position).normalized * Bulletspeed;
     newBullet.GetComponent<EnemyBullet>().sender = gameObject;
 }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class StartPrefabItem : MonoBehaviour
 {
     public Text priceText;
@@ -10,7 +10,7 @@ public class StartPrefabItem : MonoBehaviour
     public string name;
     private int price;
     public GameObject frame;
-    ItemObjects item;
+    public ItemObjects item;
 
     private void OnEnable()
     {
@@ -28,6 +28,8 @@ public class StartPrefabItem : MonoBehaviour
     {
         frame.SetActive(false);
     }
+
+   
 
     // Update is called once per frame
     void Update()
@@ -49,7 +51,50 @@ public class StartPrefabItem : MonoBehaviour
         GeneralEvents.select();
         frame.SetActive(true);
         GeneralEvents.showItem(item);
-        GeneralEvents.buy = buy;
+        
+        if (item.state == StateItem.current)
+        {
+            if (item.type == ItemTypes.AK || item.type == ItemTypes.knife || item.type == ItemTypes.Pistol)
+            {
+                GeneralEvents.isCurrentWeapon();
+                
+            }
+            else
+            {
+                GeneralEvents.isCurrentClow();
+                
+            }
+            
+        }
+        else if (item.state == StateItem.toBuy)
+        {
+            if (item.type == ItemTypes.AK || item.type == ItemTypes.knife || item.type == ItemTypes.Pistol)
+            {
+                GeneralEvents.buyWeapon = buy;
+                GeneralEvents.toBuyWeapon();
+            }
+            else
+            {
+                GeneralEvents.buyClowths = buy;
+                GeneralEvents.toBuyClow();
+            }
+            // GeneralEvents.toBuy();
+        }
+        else
+        {
+            if (item.type == ItemTypes.AK || item.type == ItemTypes.knife || item.type == ItemTypes.Pistol)
+            {
+                GeneralEvents.toUseWeapon();
+                
+            }
+            else
+            {
+                
+                GeneralEvents.toUseClow();
+            }
+            GeneralEvents.useIte = use;
+            //GeneralEvents.toUse();
+        }
     } 
 
     void inselect()
@@ -61,7 +106,17 @@ public class StartPrefabItem : MonoBehaviour
     {
         ///////////////////////////////////////////////////////////////////
         print(name);
-        item.state = StateItem.toUse;
+        if (item.price<Singleton.coins)
+        {
+            Singleton.coins -= item.price;
+            item.state = StateItem.toUse;
+            clicked();
+        }
+        else
+        {
+            print("ma chrech");
+        }
+        print(Singleton.coins);
     }
 
     public void activeItem(ItemTypes types)
@@ -71,5 +126,11 @@ public class StartPrefabItem : MonoBehaviour
             this.gameObject.SetActive(false);
         }
         
+    }
+    void use()
+    {
+        GeneralEvents.btnUseIte(item);
+        clicked();
+        print(name);
     }
 }

@@ -22,10 +22,10 @@ public class LoadingScreen : MonoBehaviour
     public GameObject MainMenu;
     public GameObject savingPanel;
     public Image savingIcon;
-
+    public bool isWin;
     void Start()
     {
-        if (typeOfLoading == TypeOfLoading.Loading)
+        /*if (typeOfLoading == TypeOfLoading.Loading)
         {
             StartCoroutine(caroutineBar());
             loadingPanel.SetActive(true);
@@ -34,13 +34,32 @@ public class LoadingScreen : MonoBehaviour
         {
             StartCoroutine(CouroutineSave());
             savingPanel.SetActive(true);
-        }
+        }*/
+        StartCoroutine(CouroutineSave());
+        savingPanel.SetActive(true);
     }
     IEnumerator CouroutineSave()
     {
+        Time.timeScale = 1;
+        print("heyyy");
+        Time.timeScale = 1;
         savingIcon.transform.DORotate(new Vector3(0, 0, 180),0.5f).SetLoops(-1, LoopType.Incremental);
+        Time.timeScale = 1;
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(sceneName);
+        print("heyyy");
+
+        int index = SceneManager.GetActiveScene().buildIndex;
+        if (isWin)
+        {
+            SceneManager.LoadScene(index + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(index);
+        }
+        print("heyyy");
+
+
     }
     IEnumerator caroutineBar()
     {
