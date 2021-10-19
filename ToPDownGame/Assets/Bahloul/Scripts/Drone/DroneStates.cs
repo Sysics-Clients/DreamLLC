@@ -58,6 +58,7 @@ public class DroneStates : MonoBehaviour
         Positions.Add(transform);
         currentState = State.Idle;
         WaitIdle = StartCoroutine(WaitOnIdle());
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
