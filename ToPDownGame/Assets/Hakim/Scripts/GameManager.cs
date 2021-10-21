@@ -228,12 +228,14 @@ public class GameManager : MonoBehaviour
     public void SetMissionSpriteDirection(GameObject obj=null,Sprite sprite=null)
     {
         if ((obj != null) && (sprite != null)) {
+            print(obj.name);
             MiniMapDirectionSprite.sprite = sprite;
             MiniMapObjectDirection.SetActive(true);
             MiniMapObjectDirection.GetComponent<RotateSprite>().iPad = obj.transform;
         }
         else
         {
+            print("not"+obj.name);
             MiniMapObjectDirection.SetActive(false);
         }
     }
