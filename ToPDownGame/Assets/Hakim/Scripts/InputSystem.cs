@@ -124,24 +124,31 @@ public class InputSystem : MonoBehaviour
                 obj.transform.GetChild(2).gameObject.SetActive(true);
             }
         }
-        if (SceneManager.GetActiveScene().name == "Level3")
+        switch (SceneManager.GetActiveScene().name)
         {
-            
-            if (GeneralEvents.testAllCompletion(MissionName.collectPad))
-            {
-                GameManager.instance.pad.SetActive(true);
-                GameManager.instance.currentLevel.AddMission(MissionName.NoMissionAvailale,0);
-            }else if (GeneralEvents.testAllCompletion())
-            {
-                GeneralEvents.toNewScene("Level4");
-            }
-        }
-        else if(SceneManager.GetActiveScene().name == "Level4")
-        {
-            if (GeneralEvents.testAllCompletion())
-            {
-                GeneralEvents.toNewScene("Level5");
-            }
+            case "Level3":
+                if (GeneralEvents.testAllCompletion(MissionName.collectPad))
+                {
+                    GameManager.instance.pad.SetActive(true);
+                    GameManager.instance.currentLevel.AddMission(MissionName.NoMissionAvailale, 0);
+                }
+                else if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level4");
+                }
+                break;
+            case "Level4":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level5");
+                }
+                break;
+            case "Level5":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level6");
+                }
+                break;
         }
     }
     void afficherErreurMessage(string err)
