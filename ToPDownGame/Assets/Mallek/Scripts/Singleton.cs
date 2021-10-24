@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Singleton : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Singleton : MonoBehaviour
     public int coins=1000;
     public ListItems items;
     #endregion
-
+    
     #region save&load
     public void save()
     {
@@ -21,8 +22,9 @@ public class Singleton : MonoBehaviour
         if (data!=null)
         {
             coins = data.coins;
-            for (int i = 0; i < items.items.Count; i++)
+            for (int i = 0; i < data.shop.Length; i++)
             {
+                
                 items.items[i].state = (StateItem)data.shop[i];
             }
         }
@@ -46,6 +48,7 @@ public class Singleton : MonoBehaviour
         {
             Destroy(this);
         }
+        GeneralEvents.setCoin(coins);
     }
 
     // Update is called once per frame
@@ -53,4 +56,5 @@ public class Singleton : MonoBehaviour
     {
         
     }
+    
 }

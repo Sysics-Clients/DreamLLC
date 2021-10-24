@@ -105,7 +105,7 @@ public class GeneralEvents
     public delegate void SetWeapon(WeaponItem ak, WeaponItem pistol, WeaponItem knife);
     public static SetWeapon setItems;
 
-    public delegate void SetClwths(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque);
+    public delegate void SetClwths(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects casque);
     public static SetClwths setClwths;
 
     public delegate void StateItem();
@@ -126,6 +126,10 @@ public class GeneralEvents
     public static Situation win;
     public static Situation lose;
     */
+
+    public delegate void SetCoin(int v);
+    public static SetCoin setCoin;
+
     public static clothes currentClothes;
     public class clothes{
         public GameObject hat, pants, shoes, shirt, shield;

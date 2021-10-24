@@ -60,6 +60,36 @@ Transform:
   m_Father: {fileID: 4659334912831271677}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1212070096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1212070097}
+  m_Layer: 9
+  m_Name: posStartBullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1212070097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212070096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28, y: 1.348, z: 0.813}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4659334912831271677}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708481090
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5878457837424737704
 Transform:
   m_ObjectHideFlags: 0
@@ -10945,6 +10975,7 @@ Transform:
   - {fileID: 5126205884330244305}
   - {fileID: 7161580703497682998}
   - {fileID: 5628840355609885725}
+  - {fileID: 1212070097}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 150.28201, z: 0}
@@ -11031,7 +11062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 5878457837424737704}
-  bulletStart: {fileID: 1197660882}
+  bulletStart: {fileID: 1212070097}
   AkStart: {fileID: 1175640517}
   pistolStart: {fileID: 1708481091}
   bladeStart: {fileID: 8367881652813401867}
@@ -11333,7 +11364,6 @@ MonoBehaviour:
   itemBoots: {fileID: 0}
   itemLegs: {fileID: 0}
   itemChest: {fileID: 0}
-  itemShield: {fileID: 0}
   itemCasque: {fileID: 0}
   casque: {fileID: 4583703152846185616}
   shield: {fileID: 617524700052333050}

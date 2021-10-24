@@ -16,6 +16,7 @@ public class StartPrefabItem : MonoBehaviour
     {
         GeneralEvents.select += inselect;
         GeneralEvents.activeItems += activeItem;
+        frame.SetActive(false);
     }
 
     private void OnDisable()
@@ -105,7 +106,7 @@ public class StartPrefabItem : MonoBehaviour
     void buy()
     {
         ///////////////////////////////////////////////////////////////////
-        print(name);
+
         if (item.price<Singleton._instance.coins)
         {
             Singleton._instance.coins -= item.price;

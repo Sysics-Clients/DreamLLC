@@ -51,7 +51,7 @@ public class Attack : MonoBehaviour
         bulletPool.objectToPool = weapons[0].weaponItem.bullet;
         bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
         bulletPool.start();
-        bulletStart = weapons[0].weap.transform.Find("pos");
+        //bulletStart = weapons[0].weap.transform.Find("pos");
     }
     public void SwitchStateGun()
     {
@@ -103,7 +103,7 @@ public class Attack : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            nextWeapon();
+            Time.timeScale = 0;
         }
     }
     //Getting From GenralEvents
@@ -145,7 +145,8 @@ public class Attack : MonoBehaviour
                 }
             }
             else
-            {   
+            {
+                
                 bulletPool.spownBullet(bulletStart.position, transform.forward);
                 weapons[0].nbBullet--;
                 StartCoroutine("waitBullet", weapons[nbWeap].weaponItem.wait);
@@ -193,7 +194,10 @@ public class Attack : MonoBehaviour
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
-        bulletStart = weapons[nbWeap].weap.transform.Find("pos");
+        if (nbWeap == 0)
+            bulletStart = transform.FindChild("posStartBullet");
+        else
+            bulletStart = weapons[nbWeap].weap.transform.Find("pos");
     }
     public bool SwitchWeopen(ItemTypes type)
     {
@@ -244,8 +248,18 @@ public class Attack : MonoBehaviour
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
-        bulletStart = weapons[nbWeap].weap.transform.Find("pos");
-        
+        if (nbWeap == 0)
+        {
+            print(1);
+            bulletStart = transform.FindChild("posStartBullet");
+        }
+        else
+        {
+            print(2);
+            bulletStart = weapons[nbWeap].weap.transform.Find("pos");
+        }
+            
+
     }
     IEnumerator reload(int wap)
     {

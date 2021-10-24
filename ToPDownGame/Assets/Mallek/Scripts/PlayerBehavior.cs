@@ -39,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         if (GeneralEvents.setClwths != null)
-            GeneralEvents.setClwths(currentItem.top, currentItem.bot, currentItem.shoos, currentItem.shield, currentItem.casque);
+            GeneralEvents.setClwths(currentItem.top, currentItem.bot, currentItem.shoos, currentItem.casque);
         if(GeneralEvents.setItems!=null)
             GeneralEvents.setItems(currentItem.ak, currentItem.pistol, currentItem.knife);
         //changePos(PlayerPos.Parking);
