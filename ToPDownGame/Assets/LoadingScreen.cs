@@ -52,10 +52,14 @@ public class LoadingScreen : MonoBehaviour
         if (isWin)
         {
             SceneManager.LoadScene(index + 1);
+            Singleton._instance.Level = index + 1;
+            Singleton._instance.save();
         }
         else
         {
             SceneManager.LoadScene(index);
+            Singleton._instance.Level = index;
+            Singleton._instance.save();
         }
         print("heyyy");
 

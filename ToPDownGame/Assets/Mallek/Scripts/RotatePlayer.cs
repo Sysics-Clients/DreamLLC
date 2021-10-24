@@ -6,11 +6,7 @@ public class RotatePlayer : MonoBehaviour
 {
     private float touch;
     public float speed;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool canrotate;
 
     // Update is called once per frame
     void Update()
@@ -19,8 +15,16 @@ public class RotatePlayer : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             touch = Input.mousePosition.x;
+            if (touch<=Screen.width/3)
+            {
+                canrotate = true;
+            }
+            else
+            {
+                canrotate = false;
+            }
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)&&canrotate)
         {
             if (Input.mousePosition.x != touch)
             {

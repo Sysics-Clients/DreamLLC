@@ -8,6 +8,7 @@ public class Singleton : MonoBehaviour
     public static Singleton _instance;
     #region data
     public int coins=1000;
+    public int Level;
     public ListItems items;
     #endregion
     
@@ -22,6 +23,7 @@ public class Singleton : MonoBehaviour
         if (data!=null)
         {
             coins = data.coins;
+            Level=data.Level;
             for (int i = 0; i < data.shop.Length; i++)
             {
                 
@@ -32,7 +34,7 @@ public class Singleton : MonoBehaviour
     }
     #endregion
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         load();
         if (_instance == null)
@@ -48,9 +50,16 @@ public class Singleton : MonoBehaviour
         {
             Destroy(this);
         }
-        GeneralEvents.setCoin(coins);
+        
     }
-
+    private void Start()
+    {
+        if (GeneralEvents.setCoin!=null)
+        {
+            GeneralEvents.setCoin(coins);
+        }
+        
+    }
     // Update is called once per frame
     void Update()
     {
