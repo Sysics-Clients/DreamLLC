@@ -31,7 +31,7 @@ public class CollecteCard : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            GeneralEvents.onTaskFinish(MissionName.collectAccessCard);
+            GeneralEvents.onTaskFinish(gameObject.GetComponent<MissionObjects>().missionName, gameObject.GetComponent<MissionObjects>().id);
             Destroy(gameObject);
         }
     }

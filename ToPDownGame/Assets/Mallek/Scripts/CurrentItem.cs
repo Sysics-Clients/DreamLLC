@@ -6,5 +6,5 @@ using UnityEngine;
 public class CurrentItem : ScriptableObject
 {
     public WeaponItem ak, pistol, knife;
-    public ItemObjects  top, bot, shoos, shield, casque;
+    public ItemObjects  top, bot, shoos, casque;
 }

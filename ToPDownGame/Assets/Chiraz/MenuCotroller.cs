@@ -32,7 +32,14 @@ public class MenuCotroller : MonoBehaviour
     }
     public void LoadScene()
     {
-        SceneManager.LoadScene(1);
+        if (Singleton._instance.Level==0)
+        {
+            SceneManager.LoadScene(Singleton._instance.Level+1);
+        }
+        else
+        {
+            SceneManager.LoadScene(Singleton._instance.Level);
+        }
     }
     public void weaponbtn()
     {
