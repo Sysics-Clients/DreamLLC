@@ -195,7 +195,7 @@ public class Attack : MonoBehaviour
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
         if (nbWeap == 0)
-            bulletStart = transform.FindChild("posStartBullet");
+            bulletStart = transform.Find("posStartBullet");
         else
             bulletStart = weapons[nbWeap].weap.transform.Find("pos");
     }
@@ -251,7 +251,7 @@ public class Attack : MonoBehaviour
         if (nbWeap == 0)
         {
             print(1);
-            bulletStart = transform.FindChild("posStartBullet");
+            bulletStart = transform.Find("posStartBullet");
         }
         else
         {
