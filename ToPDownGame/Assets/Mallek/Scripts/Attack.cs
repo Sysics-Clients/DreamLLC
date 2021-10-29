@@ -47,7 +47,7 @@ public class Attack : MonoBehaviour
     }
     public void startBullets()
     {
-        
+        //print("aa");
         bulletPool.objectToPool = weapons[0].weaponItem.bullet;
         bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
         bulletPool.start();
@@ -82,7 +82,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting += shoot;
         GeneralEvents.changeWeopen += SwitchWeopen;
         GeneralEvents.getCanChange += getCanChange;
-        GeneralEvents.startBullets += startBullets;
+        //GeneralEvents.startBullets += startBullets;
         GeneralEvents.getWeaponType += getWeaponType;
         playerBehavior.die += die;
     }
@@ -94,7 +94,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting -= shoot;
         GeneralEvents.changeWeopen -= SwitchWeopen;
         GeneralEvents.getCanChange -= getCanChange;
-        GeneralEvents.startBullets -= startBullets;
+        //GeneralEvents.startBullets -= startBullets;
         GeneralEvents.getWeaponType -= getWeaponType;
         playerBehavior.die -= die;
     }

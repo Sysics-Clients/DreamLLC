@@ -37,7 +37,7 @@ public class MovmentControler : MonoBehaviour
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
-        //StartCoroutine(FOVRoutine());
+        StartCoroutine(FOVRoutine());
         slow = 1;
 
     }
@@ -121,7 +121,11 @@ public class MovmentControler : MonoBehaviour
         }
         if (_courentState != State.roll)
         {
-            if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
+            if (target != null)
+            {
+                transform.LookAt(target);
+            }
+            else if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
@@ -223,6 +227,7 @@ public class MovmentControler : MonoBehaviour
         if (rangeChecks.Length != 0)
         {
             target = rangeChecks[0].transform;
+            
         }
         else
         {
