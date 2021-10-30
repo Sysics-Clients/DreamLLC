@@ -15,7 +15,10 @@ public class MenuCotroller : MonoBehaviour
     {
         
     }
-
+    public void vibration()
+    {
+       
+    }
     // Update is called once per frame
     public void shopbtn()
     {
