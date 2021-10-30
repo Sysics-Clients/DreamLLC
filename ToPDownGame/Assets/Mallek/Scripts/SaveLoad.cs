@@ -21,7 +21,6 @@ public class SaveLoad
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-
             GeneralPlayerData data = formatter.Deserialize(stream) as GeneralPlayerData;
             stream.Close();
             return data;

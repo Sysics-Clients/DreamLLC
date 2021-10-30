@@ -13,7 +13,7 @@ public class dynamicweaponslist : MonoBehaviour
     public Image ISelect,btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
-    public GameObject btnBuyClow, btnUseClow,btnBuyWeapon, btnUseWeapon,btAdsWeap,btAdsClow;
+    public GameObject btnBuyClow, btnUseClow, btnBuyWeapon, btnUseWeapon;
 
     public Text coinMenu, coinWeap, coinClow, coinShop, coinChar;
     private void setCoin(int coin)
@@ -37,7 +37,7 @@ public class dynamicweaponslist : MonoBehaviour
         GeneralEvents.isCurrentWeapon += isCurrentWeapon;
 
         GeneralEvents.btnUseIte += btnUseItem;
-
+        
         GeneralEvents.setCoin += setCoin;
     }
 
@@ -71,14 +71,12 @@ public class dynamicweaponslist : MonoBehaviour
                     case ItemTypes.AK:
                         items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                        
                         break;
                     case ItemTypes.Pistol:
                         items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         break;
                     case ItemTypes.knife:
-                        
                         items.Add(Instantiate(prefabWeap, contentWeapon));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
                         if (currentItem.knife==item)
@@ -89,17 +87,14 @@ public class dynamicweaponslist : MonoBehaviour
                     case ItemTypes.Boots:
                         items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                        
                         break;
                     case ItemTypes.Chest:
                         items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                        
                         break;
                     case ItemTypes.Shield:
                         items.Add(Instantiate(prefabClow, contentClothes));
                         items[items.Count - 1].GetComponent<StartPrefabItem>().setValues(item);
-                        
                         break;
                     case ItemTypes.Casque:
                         items.Add(Instantiate(prefabClow, contentClothes));
@@ -108,9 +103,7 @@ public class dynamicweaponslist : MonoBehaviour
                     default:
                         break;
                 }
-
             }
-
         }
         GeneralEvents.activeItems(ItemTypes.knife);
     }
@@ -127,7 +120,6 @@ public class dynamicweaponslist : MonoBehaviour
             case "legs":
                 GeneralEvents.activeItems(ItemTypes.legs);
                 btCasque.color =new Color(0.4627451f, 0.4627451f, 0.4627451f);
-                
                 btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btBot.color = Color.white;
                 btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
@@ -153,7 +145,6 @@ public class dynamicweaponslist : MonoBehaviour
             case "Boots":
                 GeneralEvents.activeItems(ItemTypes.Boots);
                 btCasque.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
-                
                 btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btShoos.color = Color.white;
@@ -161,7 +152,6 @@ public class dynamicweaponslist : MonoBehaviour
             case "Chest":
                 GeneralEvents.activeItems(ItemTypes.Chest);
                 btCasque.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
-                
                 btTop.color =  Color.white;
                 btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
@@ -170,7 +160,6 @@ public class dynamicweaponslist : MonoBehaviour
             case "Casque":
                 GeneralEvents.activeItems(ItemTypes.Casque);
                 btCasque.color = Color.white;
-                
                 btTop.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btBot.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
                 btShoos.color = new Color(0.4627451f, 0.4627451f, 0.4627451f);
@@ -213,49 +202,35 @@ public class dynamicweaponslist : MonoBehaviour
     {
         btnUseWeapon.SetActive(true);
         btnBuyWeapon.SetActive(false);
-        btAdsWeap.SetActive(true);
         btnUseWeapon.GetComponent<Button>().interactable = true;
-        btAdsWeap.GetComponent<Button>().interactable = false;
     }
     void toBuyWeapon()
     {
-        btAdsWeap.SetActive(true);
-        btnUseWeapon.SetActive(false);
         btnBuyWeapon.SetActive(true);
-        btnUseWeapon.GetComponent<Button>().interactable = true;
-        btAdsWeap.GetComponent<Button>().interactable = true;
+        btnUseWeapon.SetActive(false);
     }
     void isCurrentWeapon()
     {
-        btAdsWeap.SetActive(true);
-        btnUseWeapon.SetActive(true);
         btnBuyWeapon.SetActive(false);
+        btnUseWeapon.SetActive(true);
         btnUseWeapon.GetComponent<Button>().interactable = false;
-        btAdsWeap.GetComponent<Button>().interactable = false;
     }
     void toUseClow()
     {
-        btAdsClow.SetActive(true);
-        btnUseClow.SetActive(true);
         btnBuyClow.SetActive(false);
+        btnUseClow.SetActive(true);
         btnUseClow.GetComponent<Button>().interactable = true;
-        btAdsClow.GetComponent<Button>().interactable = false;
     }
     void toBuyClow()
     {
-        btAdsClow.SetActive(true);
-        btnUseClow.SetActive(false);
         btnBuyClow.SetActive(true);
-        btnUseClow.GetComponent<Button>().interactable = true;
-        btAdsClow.GetComponent<Button>().interactable = true;
+        btnUseClow.SetActive(false);
     }
     void isCurrentClow()
     {
-        btAdsClow.SetActive(true);
-        btnUseClow.SetActive(true);
         btnBuyClow.SetActive(false);
+        btnUseClow.SetActive(true);
         btnUseClow.GetComponent<Button>().interactable = false;
-        btAdsClow.GetComponent<Button>().interactable = false;
     }
 
     void btnUseItem(ItemObjects item)

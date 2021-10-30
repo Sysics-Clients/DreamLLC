@@ -134,5 +134,6 @@ public class StartPrefabItem : MonoBehaviour
         GeneralEvents.btnUseIte(item);
         clicked();
         print(name);
+        Singleton._instance.save();
     }
 }
