@@ -134,4 +134,7 @@ public class GeneralEvents
     public class clothes{
         public GameObject hat, pants, shoes, shirt, shield;
     }
+
+    public delegate void EnemyDamage(float health,Vector3 pos);
+    public static EnemyDamage enemyDamage;
 } 

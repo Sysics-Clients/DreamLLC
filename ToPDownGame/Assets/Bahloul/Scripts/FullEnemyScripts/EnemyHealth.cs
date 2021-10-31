@@ -62,6 +62,11 @@ public class EnemyHealth : MonoBehaviour
 	
 	public void getDamage(float health)
 	{
+        if (GeneralEvents.enemyDamage!=null)
+        {
+			GeneralEvents.enemyDamage(health, transform.position);
+
+		}
 		if (currentHealth > 0)
 		{
 			if (currentShield >= health)

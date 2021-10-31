@@ -23,8 +23,8 @@ public class MovmentControler : MonoBehaviour
     Transform target;
     public float radius;
     public LayerMask targetMask;
-    Vector3 move;
-    Vector3 ShootingDir;
+     Vector3 move;
+     Vector3 ShootingDir;
     bool crouch;
 
     public AudioSource audio;
@@ -109,6 +109,7 @@ public class MovmentControler : MonoBehaviour
         }
         else
         {
+            
             if (audio.clip==walk)
             {
                 audio.Stop();
