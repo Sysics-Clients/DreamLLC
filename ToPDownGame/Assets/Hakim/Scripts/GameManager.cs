@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour
             pad = GameObject.Find("Pad");
             pad.SetActive(false);
         }
-        GeneralEvents.startBullets();
+        //GeneralEvents.startBullets();
         
 
     }

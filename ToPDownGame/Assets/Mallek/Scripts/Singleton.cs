@@ -10,6 +10,7 @@ public class Singleton : MonoBehaviour
     public int coins=1000;
     public int Level;
     public ListItems items;
+    public CurrentItem current;
     #endregion
     
     #region save&load
@@ -26,10 +27,39 @@ public class Singleton : MonoBehaviour
             Level=data.Level;
             for (int i = 0; i < data.shop.Length; i++)
             {
-                
+                if (data.shop[i]==1 )
+                    switch (items.items[i].type)
+                    {
+                        case ItemTypes.legs:
+                            current.bot = items.items[i];
+                            break;
+                        case ItemTypes.AK:
+                            current.ak =(WeaponItem) items.items[i];
+                            break;
+                        case ItemTypes.Pistol:
+                            current.pistol = (WeaponItem)items.items[i];
+                            break;
+                        case ItemTypes.knife:
+                            current.knife = (WeaponItem)items.items[i];
+                            break;
+                        case ItemTypes.Boots:
+                            current.shoos = items.items[i];
+
+                            break;
+                        case ItemTypes.Chest:
+                            current.top = items.items[i];
+                            break;
+                        case ItemTypes.Casque:
+                            current.casque = items.items[i];
+                            break;
+                        default:
+                            break;
+                    }
                 items.items[i].state = (StateItem)data.shop[i];
+                print(data.shop[i]);
             }
         }
+        
         
     }
     #endregion
