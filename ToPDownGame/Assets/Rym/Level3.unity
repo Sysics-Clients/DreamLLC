@@ -4094,9 +4094,10 @@ GameObject:
   - component: {fileID: 525198516}
   - component: {fileID: 525198518}
   - component: {fileID: 525198517}
+  - component: {fileID: 525198519}
   m_Layer: 10
   m_Name: pCube1 (2)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4162,6 +4163,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525198515}
   m_Mesh: {fileID: 4068373912626513877, guid: e08a492d0d311d64680adf01fecbd518, type: 3}
+--- !u!65 &525198519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525198515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.50000036, y: 0.5000003, z: 0.5000001}
+  m_Center: {x: 0, y: 0.00000032782555, z: -0.0000009536743}
 --- !u!1001 &528691482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19675,7 +19689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1454a0c04edcaf544b07128a83bcddec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 7
   missionName: 1
 --- !u!1 &1840868749
 GameObject:
