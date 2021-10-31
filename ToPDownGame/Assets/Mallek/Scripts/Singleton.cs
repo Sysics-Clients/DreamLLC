@@ -66,21 +66,14 @@ public class Singleton : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        load();
-        if (_instance == null)
-        {
-
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-
-            //Rest of your Awake code
-
-        }
-        else
-        {
-            Destroy(this);
-        }
         
+         if (_instance != null) {
+     Destroy(gameObject);
+   }else{
+     _instance = this;
+     DontDestroyOnLoad(gameObject);
+   }
+        load();
     }
     private void Start()
     {

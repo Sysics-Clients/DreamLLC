@@ -9,8 +9,8 @@ public class CollecteCard : MonoBehaviour
     public Ease ease;
     private void Start()
     {
-        float y = SpriteTransform.localPosition.y;
-        SpriteTransform.DOMoveY(y -3, 1.5f).SetEase(ease).SetLoops(-1, LoopType.Yoyo);
+        //float y = SpriteTransform.localPosition.y;
+       // SpriteTransform.DOMoveY(y -3, 1.5f).SetEase(ease).SetLoops(-1, LoopType.Yoyo);
         StartCoroutine(waitToActive());
         GetComponent<MeshRenderer>().enabled = false;
     }
