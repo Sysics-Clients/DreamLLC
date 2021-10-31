@@ -2,6 +2,12 @@
 
 public class GeneralEvents
 {
+    public delegate void ShakeErreurMessage();
+    public static ShakeErreurMessage shakeErreurMessage;
+
+    public delegate void HideErreurMessage(float time=0);
+    public static HideErreurMessage hideErreurMessage;
+
     public delegate void ToNewScene(string NewSceneName);
     public static ToNewScene toNewScene;
 
@@ -77,7 +83,7 @@ public class GeneralEvents
     public delegate bool CheckMissionCompletion(MissionName missionName, int id = 0);
     public static CheckMissionCompletion checkMissionCompletion;
 
-    public delegate void WriteErrorMessage(string err);
+    public delegate void WriteErrorMessage(string err,Color color);
     public static WriteErrorMessage writeErrorMessage;
 
     public delegate void SetMissionObjectAndSprite(GameObject tr = null, Sprite sp = null);

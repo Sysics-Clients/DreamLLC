@@ -367,18 +367,16 @@ public class EnemyStates : MonoBehaviour
                         transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
                         LastPlayerPosition = playerTransform.position;
                     }
+                    
+                    if (!enemyBehavior.canSeeThePlayer())
+                    {
+                        anim.SetBool("isShooting", false);
+                    }
                     else
                     {
-                        if (Vector3.Distance(playerTransform.position, transform.position) > 10)
-                        {
-                            anim.SetBool("isShooting", false);
-                        }
-                        else
-                        {
-                            anim.SetBool("isShooting", true);
-                            transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
-                            LastPlayerPosition = playerTransform.position;
-                        }
+                        anim.SetBool("isShooting", true);
+                        transform.LookAt(new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z));
+                        LastPlayerPosition = playerTransform.position;
                     }
                 }
                 break;

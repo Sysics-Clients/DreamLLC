@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 public class InputSystem : MonoBehaviour
-{   
-    
+{
+    private float ErreurImgYPos=76;
     public Image miniMapDirectionImage;
-    public GameObject ErreurText;
+    public GameObject ErreurImg;
     public Image OpenDoorIcon;
     public Joystick MvtJoystic;
     public Joystick ShootJoystic;
@@ -42,7 +42,9 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         GeneralEvents.onTaskFinish += SetMission;
-        GeneralEvents.writeErrorMessage += afficherErreurMessage;
+        GeneralEvents.writeErrorMessage += ErreurMessage;
+        GeneralEvents.hideErreurMessage += HideMessageImg;
+        GeneralEvents.shakeErreurMessage += ShakeMessage;
     }
 
     
@@ -54,7 +56,9 @@ public class InputSystem : MonoBehaviour
        // GeneralEvents.changeColorHealth -= chageColorBar;
         GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
         GeneralEvents.onTaskFinish -= SetMission;
-        GeneralEvents.writeErrorMessage -= afficherErreurMessage;
+        GeneralEvents.writeErrorMessage -= ErreurMessage;
+        GeneralEvents.hideErreurMessage -= HideMessageImg;
+        GeneralEvents.shakeErreurMessage -= ShakeMessage;
 
     }
     IEnumerator setUpMovment()
@@ -149,9 +153,15 @@ public class InputSystem : MonoBehaviour
                     GeneralEvents.toNewScene("Level6");
                 }
                 break;
+            case "Level6":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level7");
+                }
+                break;
         }
     }
-    void afficherErreurMessage(string err)
+   /* void afficherErreurMessage(string err)
     {
         if(TextErreur!=null)
             StopCoroutine(TextErreur);
@@ -165,16 +175,29 @@ public class InputSystem : MonoBehaviour
         ErreurText.transform.localPosition = Vector3.zero;
         ErreurTexttween = ErreurText.transform.DOMoveY(ErreurText.transform.position.y + 25, 2);
 
-    }
-    IEnumerator TranslateText()
+    }*/
+   public void ErreurMessage(string err,Color color)
     {
-        while (ErreurText.GetComponent<Text>().color.a > 0)
-        {
-            yield return new WaitForSeconds(0.06f);
-            ErreurText.GetComponent<Text>().color = new Color(ErreurText.GetComponent<Text>().color.r, ErreurText.GetComponent<Text>().color.g, ErreurText.GetComponent<Text>().color.b, ErreurText.GetComponent<Text>().color.a - 0.05f) ;
-        }
+        ErreurImg.SetActive(true);
+        ErreurImg.GetComponent<Image>().color = color;
+        ErreurImg.GetComponentInChildren<Text>().text = err;
+        if (ErreurTexttween != null)
+            ErreurTexttween.Complete();
+        ErreurTexttween = ErreurImg.GetComponent<RectTransform>().transform.DOLocalMoveY(250, 2);
+    } 
+    IEnumerator HideMessage(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ErreurTexttween = ErreurImg.transform.DOLocalMoveY(350, 2);
     }
-    
+    public void HideMessageImg(float time=0)
+    {
+        StartCoroutine(HideMessage(time));
+    }
+    public void ShakeMessage()
+    {
+        ErreurTexttween = ErreurImg.transform.DOShakeRotation(1);
+    }
     private void Update()
     {
         if (enableMovment == false)
