@@ -86,7 +86,7 @@ public class Singleton : MonoBehaviour
     {
         if (GeneralEvents.setCoin!=null)
         {
-            GeneralEvents.setCoin(coins);
+            setCoin();
         }
         
     }
@@ -94,6 +94,11 @@ public class Singleton : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void setCoin()
+    {
+        GeneralEvents.setCoin(coins);
     }
     
 }
