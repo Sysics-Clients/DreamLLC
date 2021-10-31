@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CollecteCard : MonoBehaviour
 {
+    public Transform SpriteTransform;
+    public Ease ease;
     private void Start()
     {
+        float y = SpriteTransform.localPosition.y;
+        SpriteTransform.DOMoveY(y -3, 1.5f).SetEase(ease).SetLoops(-1, LoopType.Yoyo);
         StartCoroutine(waitToActive());
         GetComponent<MeshRenderer>().enabled = false;
     }
@@ -31,7 +36,11 @@ public class CollecteCard : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            SpriteTransform.DOTogglePause();
+            SpriteTransform.gameObject.SetActive(false);
             GeneralEvents.onTaskFinish(gameObject.GetComponent<MissionObjects>().missionName, gameObject.GetComponent<MissionObjects>().id);
+            GeneralEvents.writeErrorMessage("Access Card Collected! Door is Opened now!",Color.green);
+            GeneralEvents.hideErreurMessage(4);
             Destroy(gameObject);
         }
     }

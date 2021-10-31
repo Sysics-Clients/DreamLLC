@@ -55,41 +55,7 @@ public class OpenDoor : MonoBehaviour
     public void OnDoorClick()
     {
         
-        if (withKey)
-        {
-            if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
-            {
-                GeneralEvents.writeErrorMessage("No key found!!");
-                return;
-            }
-        }
-        if (NewSceneName == "")
-        {
-            DoorImage.enabled = false;
-            if (DoorType == Doors.rotator)
-            {
-                transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 2);
-            }
-            else
-                transform.DOMoveX(transform.position.x + 3, 2);
-            opened = true;
-
-            GeneralEvents.checkMissionCompletion(MissionName.openDoor, 0);
-            /*if (forMission)
-            {
-                print("task finished");
-                
-            }*/
-        }
-        else
-        {
-            if (!GeneralEvents.testAllCompletion(MissionName.openDoor))
-            {
-                GeneralEvents.writeErrorMessage("Finish All your missions first");
-                return;
-            }
-            GeneralEvents.toNewScene(NewSceneName);
-        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -98,16 +64,47 @@ public class OpenDoor : MonoBehaviour
         {
             if (opened)
                 return;
-            DoorImage.enabled = true;
             
-            
+            if (withKey)
+            {
+                if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
+                {
+                    GeneralEvents.writeErrorMessage("Door locked security key required!",Color.red);
+                    return;
+                }
+            }
+            if (NewSceneName == "")
+            {
+                opened = true;
+                if (DoorType == Doors.rotator)
+                {
+                    transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 2);
+                }
+                else
+                    transform.DOMoveX(transform.position.x + 3, 2);
+
+                GeneralEvents.checkMissionCompletion(MissionName.openDoor, 0);
+
+            }
+            else
+            {
+                if (!GeneralEvents.testAllCompletion(MissionName.openDoor))
+                {
+                    GeneralEvents.writeErrorMessage("Finish All your missions first",Color.red);
+                    return;
+                }
+                GeneralEvents.toNewScene(NewSceneName);
+            }
+
+
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            DoorImage.enabled = false;
+            
+            GeneralEvents.hideErreurMessage();
 
         }
     }
