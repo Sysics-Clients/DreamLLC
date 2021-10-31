@@ -113,6 +113,7 @@ public class StartPrefabItem : MonoBehaviour
             item.state = StateItem.toUse;
             clicked();
             Singleton._instance.save();
+            Singleton._instance.setCoin();
         }
         else
         {

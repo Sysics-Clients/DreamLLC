@@ -14,7 +14,7 @@ public class dynamicweaponslist : MonoBehaviour
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
     public GameObject btnBuyClow, btnUseClow, btnBuyWeapon, btnUseWeapon;
-
+    int coin;
     public Text coinMenu, coinWeap, coinClow, coinShop, coinChar;
     private void setCoin(int coin)
     {
@@ -23,6 +23,12 @@ public class dynamicweaponslist : MonoBehaviour
         coinMenu.text = coin + "";
         coinShop.text = coin + "";
         coinWeap.text = coin + "";
+    }
+
+    IEnumerator changeCoin(int coin)
+    {
+        yield return new WaitForSeconds(0.5f);
+       
     }
 
     private void OnEnable()
