@@ -32,7 +32,7 @@ public class Attack : MonoBehaviour
         weapons[0].weap = Instantiate(weapons[0].weaponItem.prefab, weapons[0].reloadPos);
         Instantiate(weapons[0].weaponItem.prefab, AkStart);
         Instantiate(weapons[1].weaponItem.prefab, pistolStart);
-        Instantiate(weapons[2].weaponItem.prefab, bladeStart);
+        Destroy( Instantiate(weapons[2].weaponItem.prefab, bladeStart).GetComponent<Blade>());
         weapons[0].weap.SetActive(false);
         weapons[1].weap = Instantiate(weapons[1].weaponItem.prefab, weapons[1].reloadPos);
         weapons[1].weap.SetActive(false);
@@ -104,6 +104,10 @@ public class Attack : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.E))
         {
             Time.timeScale = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            Time.timeScale = 1;
         }
     }
     //Getting From GenralEvents

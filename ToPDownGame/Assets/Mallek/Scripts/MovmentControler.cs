@@ -212,7 +212,7 @@ public class MovmentControler : MonoBehaviour
 
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
         while (true)
         {
             yield return wait;
@@ -223,10 +223,17 @@ public class MovmentControler : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
-        if (rangeChecks.Length != 0)
+        List<Collider> colliders = new List<Collider>();
+        foreach (var item in rangeChecks)
         {
-            target = rangeChecks[0].transform;
+            if (item.gameObject.tag!="Drone")
+            {
+                colliders.Add(item);
+            }
+        }
+        if (colliders.Count != 0)
+        {
+            target = colliders[0].transform;
             
         }
         else
