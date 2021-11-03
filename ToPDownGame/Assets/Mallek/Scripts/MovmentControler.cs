@@ -124,7 +124,8 @@ public class MovmentControler : MonoBehaviour
         {
             if (target != null)
             {
-                transform.LookAt(target);
+                if(target.position.y <transform.position.y+1&& target.position.y > transform.position.y - 1)
+                    transform.LookAt(target);
             }
             else if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
