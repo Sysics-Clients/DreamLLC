@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public string AccessCode;
     public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
@@ -190,11 +191,6 @@ public class GameManager : MonoBehaviour
         InputSystem.GetComponent<Canvas>().enabled = true;
         loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
         loadingScreenGameObject.SetActive(false);
-        if (SceneManager.GetActiveScene().name == "Level3")
-        {
-            pad = GameObject.Find("Pad");
-            pad.SetActive(false);
-        }
         //GeneralEvents.startBullets();
         
 

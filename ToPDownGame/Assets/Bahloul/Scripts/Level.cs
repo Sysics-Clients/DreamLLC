@@ -29,4 +29,4 @@ public class Mission
     }
 }
 
-public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor,switchToPistol,TryToRoll,NoMissionAvailale,CollectStamina,freeHostage }
+public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor,switchToPistol,TryToRoll,NoMissionAvailale,CollectStamina,freeHostage,CollectCodePaper,enterAccessCode }

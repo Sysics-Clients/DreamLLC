@@ -5,8 +5,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+
 public class InputSystem : MonoBehaviour
 {
+    public GameObject Flamethrower;
+    public Text SDText;
+    public GameObject AccessPanel;
+    public GameObject CodePaperPanel;
+    public Text Codetxt;
     private float ErreurImgYPos=76;
     public Image miniMapDirectionImage;
     public GameObject ErreurImg;
@@ -45,6 +51,8 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.writeErrorMessage += ErreurMessage;
         GeneralEvents.hideErreurMessage += HideMessageImg;
         GeneralEvents.shakeErreurMessage += ShakeMessage;
+        GeneralEvents.newAccessCode += NewAccessCode;
+        GeneralEvents.enableSD += ActivateAccessCode;
     }
 
     
@@ -59,6 +67,55 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.writeErrorMessage -= ErreurMessage;
         GeneralEvents.hideErreurMessage -= HideMessageImg;
         GeneralEvents.shakeErreurMessage -= ShakeMessage;
+        GeneralEvents.newAccessCode -= NewAccessCode;
+        GeneralEvents.enableSD -= ActivateAccessCode;
+
+    }
+    public void ActivateAccessCode()
+    {
+        AccessPanel.SetActive(true);
+    }
+    public void OnNumberClick(int i)
+    {
+        switch (i)
+        {
+            case -1:
+                if(SDText.text.Equals(GameManager.instance.AccessCode))
+                {
+                    GeneralEvents.onTaskFinish(MissionName.enterAccessCode, 0);
+                    AccessPanel.SetActive(false);
+                    Flamethrower.SetActive(false);
+                    GeneralEvents.writeErrorMessage("Flame Thrower Desactivated", Color.green);
+                    GeneralEvents.hideErreurMessage(4);
+                }
+                else
+                {
+                    SDText.text = "";
+                    GeneralEvents.writeErrorMessage("Access Denied!", Color.red);
+                    GeneralEvents.hideErreurMessage(4);
+                }
+                break;
+            case -2:
+                SDText.text = "";
+                break;
+            default:
+                if (SDText.text.Length >= 4)
+                {
+                    GeneralEvents.writeErrorMessage("Only 4 Numbers required!", Color.red);
+                    GeneralEvents.hideErreurMessage(4);
+                    return;
+                }
+                print(i);
+                SDText.text += i;
+                break;
+        }
+    }
+    public void NewAccessCode()
+    {
+        CodePaperPanel.SetActive(true);
+        Codetxt.text=UnityEngine.Random.Range(1000, 10000).ToString();
+        GameManager.instance.AccessCode = Codetxt.text;
+
 
     }
     IEnumerator setUpMovment()
@@ -131,12 +188,7 @@ public class InputSystem : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "Level3":
-                if (GeneralEvents.testAllCompletion(MissionName.collectPad))
-                {
-                    GameManager.instance.pad.SetActive(true);
-                    GameManager.instance.currentLevel.AddMission(MissionName.NoMissionAvailale, 0);
-                }
-                else if (GeneralEvents.testAllCompletion())
+                if (GeneralEvents.testAllCompletion())
                 {
                     GeneralEvents.toNewScene("Level4");
                 }
@@ -178,12 +230,14 @@ public class InputSystem : MonoBehaviour
     }*/
    public void ErreurMessage(string err,Color color)
     {
-        ErreurImg.SetActive(true);
-        ErreurImg.GetComponent<Image>().color = color;
-        ErreurImg.GetComponentInChildren<Text>().text = err;
-        if (ErreurTexttween != null)
-            ErreurTexttween.Complete();
-        ErreurTexttween = ErreurImg.GetComponent<RectTransform>().transform.DOLocalMoveY(250, 2);
+        
+            ErreurImg.SetActive(true);
+            ErreurImg.GetComponent<Image>().color = color;
+            ErreurImg.GetComponentInChildren<Text>().text = err;
+           if (ErreurTexttween != null)
+                ErreurTexttween.Complete();
+            ErreurTexttween = ErreurImg.GetComponent<RectTransform>().transform.DOLocalMoveY(250, 2);
+        
     } 
     IEnumerator HideMessage(float time)
     {

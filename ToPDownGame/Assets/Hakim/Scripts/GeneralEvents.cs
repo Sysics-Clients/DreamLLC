@@ -2,6 +2,12 @@
 
 public class GeneralEvents
 {
+    public delegate void EnableSD();
+    public static EnableSD enableSD;
+
+    public delegate void NewAccessCode();
+    public static NewAccessCode newAccessCode;
+
     public delegate void ShakeErreurMessage();
     public static ShakeErreurMessage shakeErreurMessage;
 
