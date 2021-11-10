@@ -2,6 +2,9 @@
 
 public class GeneralEvents
 {
+    public delegate void WaveMessage(string msg);
+    public static WaveMessage waveMessage;
+
     public delegate void EnableSD();
     public static EnableSD enableSD;
 

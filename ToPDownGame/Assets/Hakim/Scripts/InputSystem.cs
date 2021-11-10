@@ -8,6 +8,7 @@ using DG.Tweening;
 
 public class InputSystem : MonoBehaviour
 {
+    public GameObject WavesTextObject;
     public GameObject Flamethrower;
     public Text SDText;
     public GameObject AccessPanel;
@@ -53,6 +54,7 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.shakeErreurMessage += ShakeMessage;
         GeneralEvents.newAccessCode += NewAccessCode;
         GeneralEvents.enableSD += ActivateAccessCode;
+        GeneralEvents.waveMessage += WaveMessage;
     }
 
     
@@ -69,6 +71,7 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.shakeErreurMessage -= ShakeMessage;
         GeneralEvents.newAccessCode -= NewAccessCode;
         GeneralEvents.enableSD -= ActivateAccessCode;
+        GeneralEvents.waveMessage -= WaveMessage;
 
     }
     public void ActivateAccessCode()
@@ -211,6 +214,18 @@ public class InputSystem : MonoBehaviour
                     GeneralEvents.toNewScene("Level7");
                 }
                 break;
+            case "Level8":
+                if (zombiesManager.instance.currentWave < zombiesManager.instance.waveNumber-1)
+                {
+                    zombiesManager.instance.NewWave();
+                    print("new wave");
+                }
+                else
+                {
+                    print("finishWaves");
+                    GeneralEvents.toNewScene("Level9");
+                }
+                break;
         }
     }
    /* void afficherErreurMessage(string err)
@@ -228,6 +243,27 @@ public class InputSystem : MonoBehaviour
         ErreurTexttween = ErreurText.transform.DOMoveY(ErreurText.transform.position.y + 25, 2);
 
     }*/
+   public void WaveMessage(string msg)
+    {
+        Color color = WavesTextObject.GetComponent<Text>().color;
+        color.a = 1;
+        WavesTextObject.GetComponent<Text>().color = color;
+        WavesTextObject.SetActive(true);
+        WavesTextObject.GetComponent<Text>().text = msg;
+        StartCoroutine(setInvisible());
+    }
+    IEnumerator setInvisible()
+    {
+        yield return new WaitForSeconds(2);
+        while (WavesTextObject.GetComponent<Text>().color.a > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Color color = WavesTextObject.GetComponent<Text>().color;
+            color.a -= 0.05f;
+            WavesTextObject.GetComponent<Text>().color = color;
+        }
+        WavesTextObject.SetActive(false);
+    }
    public void ErreurMessage(string err,Color color)
     {
         

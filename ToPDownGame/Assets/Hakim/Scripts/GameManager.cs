@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         MissionObjects = FindObjectsOfType<MissionObjects>();
         foreach (Mission m in currentLevel.missions)
         {
-           foreach(MissionObjects missionObjects in MissionObjects)
+            foreach (MissionObjects missionObjects in MissionObjects)
             {
                 if (m.missionName == missionObjects.missionName && m.missionId == missionObjects.id)
                 {
@@ -97,18 +97,18 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
-            GameObject obj=Instantiate(task, ContentTasks.transform);
+            GameObject obj = Instantiate(task, ContentTasks.transform);
             MissionObjects mo = obj.GetComponent<MissionObjects>();
             mo.missionName = m.missionName;
-            mo.id = m.missionId;
+            mo.id = (short)m.missionId;
             obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
             MiniMapTasks.Add(obj);
-            if (Levels.Count > 0)
+        }
+        if (Levels.Count > 0)
+        {
+            foreach (var item in Levels[0].missions)
             {
-                foreach (var item in Levels[0].missions)
-                {
-                    item.isCompleted = false;
-                }
+                item.isCompleted = false;
             }
         }
     }
@@ -230,7 +230,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            print("not"+obj.name);
             MiniMapObjectDirection.SetActive(false);
         }
     }

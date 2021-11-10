@@ -25,7 +25,8 @@ public class ZombieMvt : MonoBehaviour
 
     public void changeMovement(Movement move)
     {
-
+        if(anim.GetBool("Die"))
+            anim.SetBool("Die", false);
         currentMovement = move;
         switch (move)
         {

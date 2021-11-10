@@ -9,6 +9,7 @@ public class Level : ScriptableObject
     public string SceneName;
     public void AddMission(MissionName mn, int id)
     {
+        Debug.Log(id);
         missions.Add(new Mission(mn, id));
     }
 }
@@ -21,12 +22,12 @@ public class Mission
     public GameObject MissionObject;
     public Sprite MissionSprite;
     public short priority;
-    public short missionId;
+    public int missionId;
     public Mission(MissionName mn,int id)
     {
         missionName = mn;
-        id = missionId;
+        missionId =id;
     }
 }
 
-public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor,switchToPistol,TryToRoll,NoMissionAvailale,CollectStamina,freeHostage,CollectCodePaper,enterAccessCode }
+public enum MissionName { destroybox, collectPad,destroyEnemy,collectAccessCard,openDoor,switchToPistol,TryToRoll,NoMissionAvailale,CollectStamina,freeHostage,CollectCodePaper,enterAccessCode,KillAllZombies,CompleteWaves }

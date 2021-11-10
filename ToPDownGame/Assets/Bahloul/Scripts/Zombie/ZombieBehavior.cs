@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieBehavior : MonoBehaviour
 {
+    public List<float> Damages;
+    public List<float> Healths;
+    public float CurrentDamage;
+    public float CurrentHealth;
+    public float CurrentShield;
+
+    public BoxCollider HandCollider; 
     public GameObject player;
     public bool isVisible = true;
     
-    public Canvas EnemyCanvas;
+    public GameObject EnemyCanvas;
     public float TimeToDisappear = 3;
 
     public delegate void EnemyMovement(ZombieMvt.Movement move);
     public EnemyMovement enemyMovement;
 
-    public delegate void EnemyState(EnemyStates.State state);
+    public delegate void EnemyState(ZombieState.State state);
     public EnemyState enemyState;
 
     public delegate EnemyStates.State GetCurrentState();
@@ -36,6 +44,7 @@ public class ZombieBehavior : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    
     private void Update()
     {
 
@@ -56,13 +65,20 @@ public class ZombieBehavior : MonoBehaviour
             }
         }
     }
-    private void dying()
+    public void enableCanvas()
     {
-        StartCoroutine(WaitAndDie());
+        EnemyCanvas.SetActive(true);
     }
-    IEnumerator WaitAndDie()
+    public void disableCanvas()
     {
-        yield return new WaitForSeconds(TimeToDisappear);
-        Destroy(gameObject);
+        EnemyCanvas.SetActive(false);
+    }
+    public void HandColliderEnable()
+    {
+        HandCollider.enabled = true;
+    }
+    public void HandColliderDisable()
+    {
+        HandCollider.enabled = false;
     }
 }

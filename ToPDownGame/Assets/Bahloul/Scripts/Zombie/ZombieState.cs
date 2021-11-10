@@ -8,15 +8,15 @@ public class ZombieState : MonoBehaviour
     public ZombieBehavior zombieBehavior;
     private AudioManager audioManager;
     float distance;
-    Vector3 startPos;
+    public Vector3 startPos;
     private void OnEnable()
     {
-
+        zombieBehavior.enemyState += changeState;
 
     }
     private void OnDisable()
     {
-
+        zombieBehavior.enemyState -= changeState;
     }
 
     public enum State
@@ -82,13 +82,26 @@ public class ZombieState : MonoBehaviour
         if (mo != null)
             GeneralEvents.onTaskFinish(MissionName.destroyEnemy, mo.id);
         gameObject.tag = "Untagged";
-        gameObject.layer = 0;
+        zombieBehavior.disableCanvas();
+        
     }
-
+    public void FinishDying()
+    {
+        zombieBehavior.enemyMovement(ZombieMvt.Movement.Idle);
+        transform.position = startPos;
+        gameObject.tag = "zombie";
+        zombieBehavior.enableCanvas();
+        gameObject.SetActive(false);
+        if (zombiesManager.instance.testActiveZombies())
+        {
+            print(zombiesManager.instance.currentWave);
+            GeneralEvents.onTaskFinish(MissionName.KillAllZombies,zombiesManager.instance.currentWave);
+        }
+        
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        print(currentState);
         switch (currentState)
         {
             
@@ -102,13 +115,13 @@ public class ZombieState : MonoBehaviour
             case State.Chasing:
                 
                 distance = Vector3.Distance(transform.position, zombieBehavior.player.transform.position);
-                transform.LookAt(new Vector3(zombieBehavior.player.transform.position.x, transform.position.y, zombieBehavior.player.transform.position.z));
+               // transform.LookAt(new Vector3(zombieBehavior.player.transform.position.x, transform.position.y, zombieBehavior.player.transform.position.z));
                 if (distance < distanceToAttack)
                 {
                     toAttack();
                     return;
                 }
-                    agent.SetDestination(zombieBehavior.player.transform.position);
+                agent.SetDestination(zombieBehavior.player.transform.position);
                 break;
             case State.Attack:
                 transform.LookAt(new Vector3(zombieBehavior.player.transform.position.x, transform.position.y, zombieBehavior.player.transform.position.z));
