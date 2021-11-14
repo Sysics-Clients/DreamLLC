@@ -70,6 +70,15 @@ public class Bullet : MonoBehaviour
                 GameObject vfx = Instantiate(WoodEffect, transform.position, transform.rotation);
                 Destroy(vfx, 1);
             }
+            else if(other.transform.tag == "zombie")
+                {
+                    target = true;
+                    other.gameObject.GetComponent<ZombieBehavior>().takeDamage(damege);
+                    StopAllCoroutines();
+                    StartCoroutine(damegeEnemy(other.transform.position));
+                    return;
+                }
+
             this.gameObject.SetActive(false);
     }
     IEnumerator damegeEnemy(Vector3 v)
