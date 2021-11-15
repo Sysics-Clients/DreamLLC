@@ -148,6 +148,8 @@ public class SniperStates : MonoBehaviour
                 guns[currentGun].SetActive(false);
                 enabled = false;
                 MissionObjects mo = GetComponent<MissionObjects>();
+                gameObject.tag = "Untagged";
+                gameObject.layer = 0;
                 if (mo != null)
                     GeneralEvents.onTaskFinish(MissionName.destroyEnemy, mo.id);
                 break;

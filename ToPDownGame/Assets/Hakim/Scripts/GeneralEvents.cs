@@ -2,6 +2,15 @@
 
 public class GeneralEvents
 {
+    public delegate void WaveMessage(string msg);
+    public static WaveMessage waveMessage;
+
+    public delegate void EnableSD();
+    public static EnableSD enableSD;
+
+    public delegate void NewAccessCode();
+    public static NewAccessCode newAccessCode;
+
     public delegate void ShakeErreurMessage();
     public static ShakeErreurMessage shakeErreurMessage;
 

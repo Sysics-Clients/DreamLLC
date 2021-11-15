@@ -284,6 +284,8 @@ public class EnemyStates : MonoBehaviour
         MissionObjects mo = GetComponent<MissionObjects>();
         if ( mo!= null)
             GeneralEvents.onTaskFinish(MissionName.destroyEnemy,mo.id);
+        gameObject.tag = "Untagged";
+        gameObject.layer = 0;
     }
     private void changeGun(int i) {
         listGuns[activeGun].SetActive(false);
