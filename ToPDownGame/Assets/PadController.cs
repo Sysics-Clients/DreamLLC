@@ -83,8 +83,10 @@ public class PadController : MonoBehaviour
             }
             else
             {
-                 canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+                 //canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
                 canvasInput.SetActive(true);
+                 GeneralEvents.onTaskFinish(MissionName.collectPad, gameObject.GetComponent<MissionObjects>().id);
+
             }
             
             if (GeneralEvents.sendMvt != null)

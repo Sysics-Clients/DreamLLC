@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7865351989538672218}
   - component: {fileID: 9132948703568501780}
   m_Layer: 0
-  m_Name: bullet
+  m_Name: bullet 1
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   WoodEffect: {fileID: 138890, guid: 85c42c69cd6a99a44baea39f65c67510, type: 3}
   vfxBlood: {fileID: 9079954193815246395, guid: 67edb71a9f3977e44b94edffcc208722,
     type: 3}
+  effects: {fileID: 196009677}
 --- !u!54 &-7865351989538672218
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -334,6 +335,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eecfd95aa06159440b824635d22e0f24, type: 3}
+--- !u!1 &196009677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 144206, guid: eecfd95aa06159440b824635d22e0f24,
+    type: 3}
+  m_PrefabInstance: {fileID: 195882371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &195721147 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 432696, guid: eecfd95aa06159440b824635d22e0f24,

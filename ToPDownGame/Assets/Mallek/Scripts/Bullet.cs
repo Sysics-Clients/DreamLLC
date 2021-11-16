@@ -16,13 +16,24 @@ public class Bullet : MonoBehaviour
     public GameObject vfxBlood;
     bool target;
     
-
+    public GameObject effects;
 
     private void OnEnable()
     {
+        
         target = false;
+       StartCoroutine(enableeffects());
         rb.velocity = transform.forward * speed;
         StartCoroutine(stop(2));
+    }
+    IEnumerator enableeffects(){
+        effects.SetActive(false);
+        yield return new WaitForSeconds(0.03f);
+        effects.SetActive(true);
+    }
+
+    void useeffects(){
+        effects.SetActive(true);
     }
     private void Start()
     {
