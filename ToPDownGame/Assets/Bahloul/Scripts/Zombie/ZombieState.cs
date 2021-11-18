@@ -11,6 +11,8 @@ public class ZombieState : MonoBehaviour
     public Vector3 startPos;
     private void OnEnable()
     {
+        gameObject.tag="zombie";
+        gameObject.layer=8;
         zombieBehavior.enemyState += changeState;
 
     }
@@ -47,17 +49,20 @@ public class ZombieState : MonoBehaviour
         startPos = transform.position;
         StartCoroutine(startWave());
     }
+    
     IEnumerator startWave()
     {
         yield return new WaitForSeconds(2);
         startRound = true;
     }
+
     void toChase()
     {
         currentState = State.Chasing;
         agent.speed = 2;
         zombieBehavior.enemyMovement(ZombieMvt.Movement.Walk);
-        agent.enabled = true;
+        agent.isStopped = false;
+       
     }
     void toIdle()
     {
@@ -82,6 +87,7 @@ public class ZombieState : MonoBehaviour
         if (mo != null)
             GeneralEvents.onTaskFinish(MissionName.destroyEnemy, mo.id);
         gameObject.tag = "Untagged";
+        gameObject.layer=0;
         zombieBehavior.disableCanvas();
         
     }
@@ -120,6 +126,10 @@ public class ZombieState : MonoBehaviour
                 {
                     toAttack();
                     return;
+                }
+                else
+                {
+                    currentState=State.Chasing;
                 }
                 agent.SetDestination(zombieBehavior.player.transform.position);
                 break;
