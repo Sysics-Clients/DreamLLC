@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
+    public int missionNumber = 0;
     private bool opened=false;
     public Sprite lockedDoor;
     public Sprite unlockedDoor;
@@ -71,7 +72,7 @@ public class OpenDoor : MonoBehaviour
             }            
             if (withKey)
             {
-                if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
+                if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard, missionNumber))
                 {
                     GeneralEvents.writeErrorMessage("Door locked security key required!",Color.red);
                     return;
