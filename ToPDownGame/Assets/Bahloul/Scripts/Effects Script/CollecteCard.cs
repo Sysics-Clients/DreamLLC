@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class CollecteCard : MonoBehaviour
 {
+    public CardType cardType;
     public Transform SpriteTransform;
     public Ease ease;
     private void Start()
@@ -36,12 +37,28 @@ public class CollecteCard : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            SpriteTransform.DOTogglePause();
-            SpriteTransform.gameObject.SetActive(false);
-            GeneralEvents.onTaskFinish(gameObject.GetComponent<MissionObjects>().missionName, gameObject.GetComponent<MissionObjects>().id);
-            GeneralEvents.writeErrorMessage("Access Card Collected! Door is Opened now!",Color.green);
-            GeneralEvents.hideErreurMessage(4);
+            if (cardType == CardType.accessCard)
+            {
+                SpriteTransform.DOTogglePause();
+                SpriteTransform.gameObject.SetActive(false);
+                GeneralEvents.onTaskFinish(gameObject.GetComponent<MissionObjects>().missionName, gameObject.GetComponent<MissionObjects>().id);
+                GeneralEvents.writeErrorMessage("Access Card Collected! Door is Opened now!", Color.green);
+                GeneralEvents.hideErreurMessage(4);
+            }
+            else if(cardType == CardType.MedicalCard)
+            {
+                GeneralEvents.onTaskFinish(gameObject.GetComponent<MissionObjects>().missionName, gameObject.GetComponent<MissionObjects>().id);
+                if (!GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.writeErrorMessage("Medical box Collected!", Color.green);
+                    GeneralEvents.hideErreurMessage(4);
+                }
+            }
             Destroy(gameObject);
         }
     }
+}
+public enum CardType
+{
+    accessCard,MedicalCard
 }

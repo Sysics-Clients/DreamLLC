@@ -90,6 +90,7 @@ public class InputSystem : MonoBehaviour
                     Flamethrower.SetActive(false);
                     GeneralEvents.writeErrorMessage("Flame Thrower Desactivated", Color.green);
                     GeneralEvents.hideErreurMessage(4);
+                    GameObject.FindGameObjectWithTag("sd").gameObject.GetComponent<BoxCollider>().enabled = false;
                 }
                 else
                 {
@@ -224,6 +225,12 @@ public class InputSystem : MonoBehaviour
                 {
                     print("finishWaves");
                     GeneralEvents.toNewScene("Level9");
+                }
+                break;
+            case "Level9":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level10");
                 }
                 break;
         }
