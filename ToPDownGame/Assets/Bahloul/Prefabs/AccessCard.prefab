@@ -110,8 +110,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6220872603650583273}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.073204, y: 0.62, z: 102.507065}
-  m_LocalScale: {x: 1, y: 0.11531, z: 1}
+  m_LocalPosition: {x: 62.073204, y: 0.97519, z: 102.507065}
+  m_LocalScale: {x: 0.46586, y: 0.053718317, z: 0.46586}
   m_Children:
   - {fileID: 8570631927451025821}
   - {fileID: 7180728727015349214}
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9adfac12a7ba5d74ab0f20655f2b0b82, type: 2}
+  - {fileID: 2100000, guid: 5d3f9026a58008a4f8796538267cd256, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39edf3407ecd274c9b8be09b030981f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardType: 0
   SpriteTransform: {fileID: 7180728727015349214}
   ease: 29
 --- !u!114 &8495577471767550284
@@ -216,6 +217,22 @@ PrefabInstance:
     - target: {fileID: 131378, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
       propertyPath: m_Name
       value: BasicZoneBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 458130, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1247
+      objectReference: {fileID: 0}
+    - target: {fileID: 458130, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1247
+      objectReference: {fileID: 0}
+    - target: {fileID: 458130, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.84352493
+      objectReference: {fileID: 0}
+    - target: {fileID: 458130, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 471988, guid: 79cd481c8e7a27a44ba9a78fbb16b903, type: 3}
       propertyPath: m_RootOrder
