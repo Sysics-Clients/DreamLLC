@@ -29,7 +29,7 @@ public class zombiesManager : MonoBehaviour
         for (i = 0; i < waveNumber; i++)
         {
             GameManager.instance.currentLevel.AddMission(MissionName.KillAllZombies, i);
-            GameManager.instance.currentLevel.missions[i].missionText = "Kill the zombies of wave " + (i + 1);
+            GameManager.instance.currentLevel.missions[i].missionText = "Kill the walkers of wave " + (i + 1);
         }
     }
     public bool testActiveZombies()
