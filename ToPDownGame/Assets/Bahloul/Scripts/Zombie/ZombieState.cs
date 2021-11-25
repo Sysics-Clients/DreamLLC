@@ -83,9 +83,6 @@ public class ZombieState : MonoBehaviour
         audioManager.PlaySound(AudioManager.Sounds.enemyDie);
         zombieBehavior.enemyMovement(ZombieMvt.Movement.Die);
         agent.speed = 0;
-        MissionObjects mo = GetComponent<MissionObjects>();
-        if (mo != null)
-            GeneralEvents.onTaskFinish(MissionName.destroyEnemy, mo.id);
         gameObject.tag = "Untagged";
         gameObject.layer=0;
         zombieBehavior.disableCanvas();
@@ -101,7 +98,9 @@ public class ZombieState : MonoBehaviour
         if (zombiesManager.instance.testActiveZombies())
         {
             print(zombiesManager.instance.currentWave);
-            GeneralEvents.onTaskFinish(MissionName.KillAllZombies,zombiesManager.instance.currentWave);
+            GeneralEvents.onTaskFinish(MissionName.KillAllZombies,zombiesManager.instance.currentWave+1);
+            print(zombiesManager.instance.currentWave);
+
         }
         
     }

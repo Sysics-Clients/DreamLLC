@@ -216,14 +216,13 @@ public class InputSystem : MonoBehaviour
                 }
                 break;
             case "Level8":
-                if (zombiesManager.instance.currentWave < zombiesManager.instance.waveNumber-1)
+                if (!GeneralEvents.testAllCompletion(MissionName.CompleteWaves))
                 {
+                    gameManager.currentLevel.missions[1].isCompleted = true;
                     zombiesManager.instance.NewWave();
-                    print("new wave");
                 }
                 else
                 {
-                    print("finishWaves");
                     GeneralEvents.toNewScene("Level9");
                 }
                 break;

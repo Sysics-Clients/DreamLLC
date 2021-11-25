@@ -8,16 +8,13 @@ public class zombiesManager : MonoBehaviour
     public static zombiesManager instance;
     public List<GameObject> Zombies;
     public byte waveNumber;
-    public byte currentWave = 0;
+    public byte currentWave = 1;
     private void Awake()
     {
         instance = this;
-        
-
-    }
-    void Start()
-    {
         GameManager.instance.currentLevel.missions.Clear();
+        GameManager.instance.currentLevel.AddMission(MissionName.CompleteWaves, 0);
+        GameManager.instance.currentLevel.missions[0].missionText = "Kill all walkers of all waves";
         Zombies = new List<GameObject>();
         GameObject[] gameObj = GameObject.FindGameObjectsWithTag("zombie");
         foreach (GameObject obj in gameObj)
@@ -26,11 +23,18 @@ public class zombiesManager : MonoBehaviour
 
         }
         int i;
-        for (i = 0; i < waveNumber; i++)
+        for (i = 1; i <= waveNumber; i++)
         {
             GameManager.instance.currentLevel.AddMission(MissionName.KillAllZombies, i);
-            GameManager.instance.currentLevel.missions[i].missionText = "Kill the walkers of wave " + (i + 1);
+            GameManager.instance.currentLevel.missions[i].missionText = "Kill walkers of wave " + i;
         }
+
+
+    }
+    void Start()
+    {
+
+        
     }
     public bool testActiveZombies()
     {
@@ -44,12 +48,13 @@ public class zombiesManager : MonoBehaviour
     }
     public void NewWave()
     {
+        currentWave++;
         foreach (GameObject obj in Zombies)
         {
             obj.GetComponent<ZombieBehavior>().CurrentHealth *= 1.2f;
             obj.GetComponent<ZombieBehavior>().CurrentDamage *= 1.2f;
         }
-        GeneralEvents.waveMessage("WAVE "+(currentWave+2));
+        GeneralEvents.waveMessage("WAVE "+(currentWave+1));
         StartCoroutine(WaitForNewWave());
         
     }
@@ -57,7 +62,6 @@ public class zombiesManager : MonoBehaviour
     {
        
         yield return new WaitForSeconds(4);
-        currentWave += 1;
         for (int i = 0; i < Zombies.Count; i++)
         {
 
