@@ -9,7 +9,6 @@ public class Level : ScriptableObject
     public string SceneName;
     public void AddMission(MissionName mn, int id)
     {
-        Debug.Log(id);
         missions.Add(new Mission(mn, id));
     }
 }
