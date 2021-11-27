@@ -105,7 +105,7 @@ public class Attack : MonoBehaviour
         {
             Time.timeScale = 0;
         }
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             Time.timeScale = 1;
         }
@@ -151,7 +151,7 @@ public class Attack : MonoBehaviour
             else
             {
                 
-                bulletPool.spownBullet(bulletStart.position, transform.forward);
+                bulletPool.spownBullet(bulletStart, transform.forward);
                 weapons[0].nbBullet--;
                 StartCoroutine("waitBullet", weapons[nbWeap].weaponItem.wait);
                 

@@ -64,7 +64,11 @@ public class OpenDoor : MonoBehaviour
         {
             if (opened)
                 return;
-            
+            if(islocked)
+            {
+                GeneralEvents.writeErrorMessage("Door locked!", Color.red);
+                return;
+            }            
             if (withKey)
             {
                 if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))

@@ -15,6 +15,7 @@ public class EnemyHealth : MonoBehaviour
 
 	public EnemyBehavior enemyBehavior;
 	public SniperBehavior sniperBehavior;
+	public ZombieBehavior zombieBehavior;
 	private void OnEnable()
 	{
 		if (enemyBehavior != null)
@@ -27,6 +28,30 @@ public class EnemyHealth : MonoBehaviour
 			sniperBehavior.currentHealth += getHealth;
 			sniperBehavior.takeDamage += getDamage;
 		}
+		if (zombieBehavior != null)
+		{
+			zombieBehavior.currentHealth += getHealth;
+			zombieBehavior.takeDamage += getDamage;
+		}
+		if (enemyBehavior != null)
+		{
+			maxHealth = enemyBehavior.Item.health;
+			maxShield = enemyBehavior.Item.shield;
+		}
+		if (sniperBehavior != null)
+		{
+			maxHealth = sniperBehavior.Item.health;
+			maxShield = sniperBehavior.Item.shield;
+		}
+		if (zombieBehavior != null)
+		{
+			maxHealth = zombieBehavior.CurrentHealth;
+			maxShield = zombieBehavior.CurrentShield;
+		}
+		HealthSlider.fillAmount = 1;
+		ShieldSlider.fillAmount = 1;
+		currentHealth = maxHealth;
+		currentShield = maxShield;
 	}
 	private void OnDisable()
 	{
@@ -40,24 +65,16 @@ public class EnemyHealth : MonoBehaviour
 			sniperBehavior.currentHealth -= getHealth;
 			sniperBehavior.takeDamage -= getDamage;
 		}
+		if (zombieBehavior != null)
+		{
+			zombieBehavior.currentHealth -= getHealth;
+			zombieBehavior.takeDamage -= getDamage;
+		}
 	}
 	public float getHealth() { return currentHealth+currentShield; }
 	void Start()
 	{
-		if (enemyBehavior != null)
-		{
-			maxHealth = enemyBehavior.Item.health;
-			maxShield = enemyBehavior.Item.shield;
-		}
-		if(sniperBehavior!=null)
-        {
-			maxHealth = sniperBehavior.Item.health;
-			maxShield = sniperBehavior.Item.shield;
-		}
-		HealthSlider.fillAmount = 1;
-		ShieldSlider.fillAmount = 1;
-		currentHealth = maxHealth;
-		currentShield = maxShield;
+		
 	}
 	
 	public void getDamage(float health)
@@ -100,6 +117,8 @@ public class EnemyHealth : MonoBehaviour
 					}
 					if (sniperBehavior != null)
 						sniperBehavior.changeState(SniperStates.State.Death);
+					if(zombieBehavior!=null)
+						zombieBehavior.enemyState(ZombieState.State.Death);
 					HealthSlider.fillAmount = 0;
 					currentHealth = 0;
 					HealthSlider.color = gradient.Evaluate(0);
