@@ -119,8 +119,14 @@ public class InputSystem : MonoBehaviour
         CodePaperPanel.SetActive(true);
         Codetxt.text=UnityEngine.Random.Range(1000, 10000).ToString();
         GameManager.instance.AccessCode = Codetxt.text;
+        Time.timeScale=0;
 
 
+    }
+    public void exitCodePaperPanel()
+    {
+        Time.timeScale = 1;
+        CodePaperPanel.SetActive(false);
     }
     IEnumerator setUpMovment()
     {
