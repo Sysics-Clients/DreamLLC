@@ -10,12 +10,13 @@ public class dynamicweaponslist : MonoBehaviour
     public Transform contentWeapon, contentClothes;
     public GameObject prefabWeap, prefabClow;
     public List<GameObject> items;
-    public Image ISelect,btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
+    public Image ISelect, IPresent, btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
     public GameObject btnBuyClow, btnUseClow, btnBuyWeapon, btnUseWeapon;
     int coin;
     public Text coinMenu, coinWeap, coinClow, coinShop, coinChar;
+    public Image damegeBar, speedBar, rateBar, reloadBar;
     private void setCoin(int coin)
     {
         coinChar.text = coin + "";
@@ -181,7 +182,12 @@ public class dynamicweaponslist : MonoBehaviour
         if (item.GetType().Equals(typeof(WeaponItem)))
         {
             ISelect.sprite = item.spriteChoice;
+            IPresent.sprite = ((WeaponItem)item).presentation;
             weaponSelect.text = item.nameItem;
+            damegeBar.fillAmount = ((WeaponItem)item).damege / 200.0f;
+            speedBar.fillAmount = ((WeaponItem)item).speed / 10.0f;
+            rateBar.fillAmount = ((WeaponItem)item).wait / 2;
+            reloadBar.fillAmount = ((WeaponItem)item).reload / 100.0f;
         }
         else
         {
