@@ -127,8 +127,12 @@ public class StartPrefabItem : MonoBehaviour
         if (types!=item.type)
         {
             this.gameObject.SetActive(false);
+        }else if (item.GetType().Equals(typeof(WeaponItem))&& item.state==StateItem.current)
+        {
+            
+            clicked();
         }
-        
+      
     }
     void use()
     {
