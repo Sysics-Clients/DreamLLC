@@ -50,6 +50,7 @@ public class StartItem : MonoBehaviour
         if (itemCasque.prefab != null)
         {
             hair.SetActive(false);
+            print("aaa");
             casqueObj = Instantiate(itemCasque.prefab, casque);
         }
     }
@@ -89,7 +90,9 @@ public class StartItem : MonoBehaviour
                 if (item.prefab != null)
                 {
                     hair.SetActive(false);
+                    print("vvv");
                     casqueObj = Instantiate(item.prefab, casque);
+                    casqueObj.transform.localPosition =new Vector3(0, 0, -0.05f);
                 }
                 else
                 {
