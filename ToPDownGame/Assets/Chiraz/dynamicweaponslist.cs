@@ -184,10 +184,10 @@ public class dynamicweaponslist : MonoBehaviour
             ISelect.sprite = item.spriteChoice;
             IPresent.sprite = ((WeaponItem)item).presentation;
             weaponSelect.text = item.nameItem;
-            damegeBar.fillAmount = ((WeaponItem)item).damege / 200.0f;
-            speedBar.fillAmount = ((WeaponItem)item).speed / 10.0f;
-            rateBar.fillAmount = ((WeaponItem)item).wait / 2;
-            reloadBar.fillAmount = ((WeaponItem)item).reload / 100.0f;
+            damegeBar.fillAmount = (((WeaponItem)item).damege+(100/((100-((WeaponItem)item).damege))/10)) / 70.0f;
+            speedBar.fillAmount = ((WeaponItem)item).speed / 6.0f;
+            rateBar.fillAmount = ((WeaponItem)item).wait / 1;
+            reloadBar.fillAmount = ((WeaponItem)item).reload / 50.0f;
         }
         else
         {
