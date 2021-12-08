@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2870a98ad869434285607459f77e9cd, type: 3}
   m_Name: pistol
   m_EditorClassIdentifier: 
-  nameItem: Pistol
+  nameItem: Phantom
   spriteChoice: {fileID: 21300000, guid: 28a437357fb8c474f9bf191251e2ebda, type: 3}
   prefab: {fileID: 2055300471771618537, guid: 11b2e4445891c084981bd323fd8b6159, type: 3}
   material: {fileID: 0}
@@ -21,14 +21,14 @@ MonoBehaviour:
   visible: 1
   price: 20
   description: 
-  state: 0
+  state: 1
   boneNames: []
   presentation: {fileID: 21300000, guid: 9507d63a53232da4e9100962382efd61, type: 3}
   bullet: {fileID: 1061504794296090223, guid: 79e8e7813602744419c85f59db8863ae, type: 3}
   animator: {fileID: 9100000, guid: 41d8cdc9044e2434aa4bf3c338e26d35, type: 2}
   AudioReload: {fileID: 0}
   emptyGun: {fileID: 0}
-  damege: 0
-  reload: 15
-  wait: 1
-  speed: 7
+  damege: 50
+  reload: 30
+  wait: 0.2
+  speed: 3
