@@ -33,16 +33,24 @@ public class MenuCotroller : MonoBehaviour
         
 
     }
-    public void LoadScene()
+    IEnumerator CaroutinreLoadScene()
     {
-        if (Singleton._instance.Level==0)
+        yield return new WaitForSeconds(5);
+
+        if (Singleton._instance.Level == 0)
         {
-            SceneManager.LoadScene(Singleton._instance.Level+1);
+            SceneManager.LoadScene(Singleton._instance.Level + 1);
         }
         else
         {
             SceneManager.LoadScene(Singleton._instance.Level);
         }
+    }
+    public void LoadScene()
+    {
+        LoadingController loadingController = GameObject.FindObjectOfType<LoadingController>();
+        loadingController.init();
+        StartCoroutine(CaroutinreLoadScene());
     }
     public void weaponbtn()
     {
