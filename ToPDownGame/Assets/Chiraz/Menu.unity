@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1894,6 +1894,7 @@ MonoBehaviour:
   Level: 0
   items: {fileID: 11400000, guid: 95d06640e61aa4df08d9ab26ed946f62, type: 2}
   current: {fileID: 11400000, guid: 6ae69c61d24aec141aba36d27083ddca, type: 2}
+  soundMixer: {fileID: 24100000, guid: ed286207568f5462fa36068b1119ad5a, type: 2}
 --- !u!4 &268139612
 Transform:
   m_ObjectHideFlags: 0
@@ -4615,6 +4616,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620992345}
   m_CullTransparentMesh: 0
+--- !u!114 &622285269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1875637113159530177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &635001779
 GameObject:
   m_ObjectHideFlags: 0
@@ -21496,6 +21509,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Value
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 268139611}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: changeSoundMixer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 622285269}
+    - target: {fileID: 1875637112206948320, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Slider, UnityEngine.UI
       objectReference: {fileID: 0}
     - target: {fileID: 1875637112380449482, guid: 98295362dbeb6584093af58fa1288efd,
         type: 3}
