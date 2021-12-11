@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2870a98ad869434285607459f77e9cd, type: 3}
   m_Name: knif
   m_EditorClassIdentifier: 
-  nameItem: knife
+  nameItem: Deathraze
   spriteChoice: {fileID: 21300000, guid: 4fa43acd64785e645b2a9830e000e40e, type: 3}
   prefab: {fileID: 3085212278759319933, guid: d2034ea9a632cea429e0f4339dab381a, type: 3}
   material: {fileID: 0}
@@ -26,8 +26,9 @@ MonoBehaviour:
   presentation: {fileID: 21300000, guid: e5d3d1dbfd91ac549aba185468396ff1, type: 3}
   bullet: {fileID: 0}
   animator: {fileID: 9100000, guid: eec95c60398418442ae6a7d599ae7bd2, type: 2}
-  reload: 0
-  wait: 0
   AudioReload: {fileID: 0}
   emptyGun: {fileID: 0}
-  speed: 9
+  damege: 200
+  reload: 0
+  wait: 0.7
+  speed: 6
