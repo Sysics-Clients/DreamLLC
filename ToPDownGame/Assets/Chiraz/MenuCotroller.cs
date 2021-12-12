@@ -4,17 +4,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class MenuCotroller : MonoBehaviour
 {
     public GameObject PlayerInSHop;
     public List<ShopItems> shopItems;
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
+    public AudioMixer soundMixer;
+
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        
+        if (!PlayerPrefs.HasKey("music"))
+        {
+          
+            soundMixer.SetFloat("MasterVolume", Mathf.Log10(0.5f) * 20);
+            PlayerPrefs.SetFloat("music", 0.5f);
+        }
+        else
+        {
+            
+            float datasound = PlayerPrefs.GetFloat("music");
+            Debug.Log("We are here"+datasound);
+            if (datasound <= 0)
+            {
+                datasound = -80;
+            }
+            soundMixer.SetFloat("MasterVolume", Mathf.Log10(datasound) * 20);
+
+        }
+
+        if (!PlayerPrefs.HasKey("effect"))
+        {
+            
+            soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(0.5f) * 20);
+            PlayerPrefs.SetFloat("effect", 0.5f);
+        }
+        else
+        {
+            float datasound = PlayerPrefs.GetFloat("effect");
+           
+            if (datasound <= 0)
+            {
+                datasound = -80;
+            }
+            soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(datasound) * 20);
+
+        }
+
     }
+
     public void vibration()
     {
        
@@ -39,7 +80,7 @@ public class MenuCotroller : MonoBehaviour
 
         if (Singleton._instance.Level == 0)
         {
-            SceneManager.LoadScene(Singleton._instance.Level + 1);
+            SceneManager.LoadScene(Singleton._instance.Level + 2);
         }
         else
         {
@@ -85,5 +126,7 @@ public class MenuCotroller : MonoBehaviour
     {
         weaponsmenu.DOAnchorPos(new Vector2(2800, 0), 0.50f);
     }
+
+   
 
 }

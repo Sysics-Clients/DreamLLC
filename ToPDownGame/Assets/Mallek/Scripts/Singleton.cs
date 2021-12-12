@@ -11,7 +11,6 @@ public class Singleton : MonoBehaviour
     public int Level;
     public ListItems items;
     public CurrentItem current;
-    public AudioMixer soundMixer;
     #endregion
     
     #region save&load
@@ -95,17 +94,5 @@ public class Singleton : MonoBehaviour
         GeneralEvents.setCoin(coins);
     }
 
-    public void changeSoundMixer(Slider s)
-       
-    {
-        if (s.value==0)
-        {
-            soundMixer.SetFloat("MasterVolume", -80);
-        }
-        else
-        {
-            soundMixer.SetFloat("MasterVolume", Mathf.Log10(s.value) * 20);
-        }
-        
-    }
+    
 }
