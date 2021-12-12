@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Audio;
 public class Singleton : MonoBehaviour
 {
     public static Singleton _instance;
@@ -93,5 +93,6 @@ public class Singleton : MonoBehaviour
     {
         GeneralEvents.setCoin(coins);
     }
+
     
 }
