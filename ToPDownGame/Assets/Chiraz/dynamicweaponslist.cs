@@ -13,7 +13,7 @@ public class dynamicweaponslist : MonoBehaviour
     public Image ISelect, IPresent, btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
     public Text weaponSelect,damege,speed;
     public CurrentItem currentItem;
-    public GameObject btnBuyClow, btnUseClow, btnBuyWeapon, btnUseWeapon;
+    public GameObject btnBuyClow, btnUseClow, btnAdsClow, btnBuyWeapon, btnUseWeapon;
     int coin;
     public Text coinMenu, coinWeap, coinClow, coinShop, coinChar;
     public Image damegeBar, speedBar, rateBar, reloadBar;
@@ -229,17 +229,20 @@ public class dynamicweaponslist : MonoBehaviour
     }
     void toUseClow()
     {
+        btnAdsClow.SetActive(false);
         btnBuyClow.SetActive(false);
         btnUseClow.SetActive(true);
         btnUseClow.GetComponent<Button>().interactable = true;
     }
     void toBuyClow()
     {
+        btnAdsClow.SetActive(true);
         btnBuyClow.SetActive(true);
         btnUseClow.SetActive(false);
     }
     void isCurrentClow()
     {
+        btnAdsClow.SetActive(false);
         btnBuyClow.SetActive(false);
         btnUseClow.SetActive(true);
         btnUseClow.GetComponent<Button>().interactable = false;
