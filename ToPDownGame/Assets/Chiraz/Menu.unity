@@ -4009,6 +4009,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580581446}
   m_CullTransparentMesh: 0
+--- !u!1 &582037363 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1875637112691775857, guid: 98295362dbeb6584093af58fa1288efd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1875637113159530177}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &582037364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582037363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: 1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &588189407
 GameObject:
   m_ObjectHideFlags: 0
@@ -21494,6 +21515,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 1875637112380449482, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1875637112380449485, guid: 98295362dbeb6584093af58fa1288efd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -21609,6 +21635,102 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1764056855}
+    - target: {fileID: 1875637112528346364, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112528346367, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8379e3d2fa9aa6d4894e37cb90cdbed5,
+        type: 3}
+    - target: {fileID: 1875637112528346367, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.80784315
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112528346367, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112528346367, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112528346367, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775856, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 24.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Text
+      value: 'This game is created by
+
+        Sysics Video Game Studio.
+
+
+        Special
+        thanks to: our team leader Rym Hamdi
+
+        Design Team: Chiraz Bougoffa,
+        Ines zagoub, Farah Ben Dhieb
+
+        Dev Team: Mohamed Bahloul, Mohamed
+        Mallek and Hakim Njim
+
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775858, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875637112691775859, guid: 98295362dbeb6584093af58fa1288efd,
+        type: 3}
+      propertyPath: m_EffectColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1875637112925930372, guid: 98295362dbeb6584093af58fa1288efd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
