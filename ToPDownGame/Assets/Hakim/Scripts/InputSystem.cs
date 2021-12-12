@@ -39,6 +39,7 @@ public class InputSystem : MonoBehaviour
     Coroutine TextErreur;
     Tween ErreurTexttween;
     bool enableMovment=false;
+    public GameObject miniMapPanel;
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
@@ -73,6 +74,16 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.enableSD -= ActivateAccessCode;
         GeneralEvents.waveMessage -= WaveMessage;
 
+    }
+    public void activateMiniMapPanel()
+    {
+        miniMapPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void desactivateMiniMapPanel()
+    {
+        miniMapPanel.SetActive(false);
+        Time.timeScale = 1;
     }
     public void ActivateAccessCode()
     {
