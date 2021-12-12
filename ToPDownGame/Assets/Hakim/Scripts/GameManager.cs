@@ -227,6 +227,7 @@ public class GameManager : MonoBehaviour
             MiniMapDirectionSprite.sprite = sprite;
             MiniMapObjectDirection.SetActive(true);
             MiniMapObjectDirection.GetComponent<RotateSprite>().iPad = obj.transform;
+            MiniMapObjectDirection.GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
         else
         {

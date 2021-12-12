@@ -2837,6 +2837,7 @@ MonoBehaviour:
   MissionObject: {fileID: 8526649818472208409}
   MissionRect: {fileID: 8526649818472208408}
   MissionText: {fileID: 8526649817508883376}
+  miniMapPanel: {fileID: 8526649817257322759}
 --- !u!1 &8526649816659001204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,7 +3470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -40, y: 11.689819}
+  m_AnchoredPosition: {x: -40, y: 11.689835}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &8526649816934354950
@@ -5379,9 +5380,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8526649817257322759}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8526649816611123552}
+        m_MethodName: activateMiniMapPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7376,9 +7377,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8526649817257322759}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8526649816611123552}
+        m_MethodName: desactivateMiniMapPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
