@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: GlowOrbBlue 1
+  m_Name: GlowOrbBlue 2
   m_EditorClassIdentifier: 
   m_Parent: {fileID: 0}
   m_Children:
@@ -55,7 +55,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GlowOrbBlue 1
+  m_Name: GlowOrbBlue 2
   m_Graph: {fileID: 114350483966674976}
   m_ShaderSources:
   - compute: 1
@@ -187,7 +187,7 @@ VisualEffectResource:
       = index;\n#endif\n#endif\n\t}\n}\n"
   - compute: 0
     name: '[System 1]Output Particle Quad'
-    source: "Shader \"Hidden/VFX/GlowOrbBlue 1/System 1/Output Particle Quad\"\n{\n\tSubShader\n\t{\t\n\t\tCull
+    source: "Shader \"Hidden/VFX/GlowOrbBlue 2/System 1/Output Particle Quad\"\n{\n\tSubShader\n\t{\t\n\t\tCull
       Off\n\t\t\n\t\tTags { \"Queue\"=\"Transparent\" \"IgnoreProjector\"=\"True\"
       \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha One\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t\n\t\t#define
@@ -756,9 +756,9 @@ VisualEffectResource:
           m_Value:
             serializedVersion: 2
             key0: {r: 1, g: 1, b: 1, a: 0}
-            key1: {r: 0.16386835, g: 0.8807924, b: 1.4952986, a: 1}
-            key2: {r: 0.11545628, g: 0.73236054, b: 1.8828248, a: 1}
-            key3: {r: 0.21339582, g: 0.90934366, b: 1.6755522, a: 0}
+            key1: {r: 0.50062484, g: 0.25360867, b: 1.143937, a: 1}
+            key2: {r: 0.38235947, g: 0.10924557, b: 1.6796505, a: 1}
+            key3: {r: 0.56570107, g: 0.031692456, b: 1.3437604, a: 0}
             key4: {r: 0, g: 0, b: 0, a: 0}
             key5: {r: 0, g: 0, b: 0, a: 0}
             key6: {r: 0, g: 0, b: 0, a: 0}
@@ -2226,7 +2226,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":0.16386835277080537,"g":0.8807923793792725,"b":1.4952986240386963,"a":1.0},"time":0.08824292570352555},{"color":{"r":0.11545628309249878,"g":0.7323605418205261,"b":1.8828247785568238,"a":1.0},"time":0.502937376499176},{"color":{"r":0.21339581906795503,"g":0.9093436598777771,"b":1.675552248954773,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.10000763088464737},{"alpha":1.0,"time":0.800000011920929},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":0.5006248354911804,"g":0.25360867381095889,"b":1.1439369916915894,"a":1.0},"time":0.08824292570352555},{"color":{"r":0.38235947489738467,"g":0.10924556851387024,"b":1.6796505451202393,"a":1.0},"time":0.502937376499176},{"color":{"r":0.5657010674476624,"g":0.03169245645403862,"b":1.343760371208191,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.10000763088464737},{"alpha":1.0,"time":0.800000011920929},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
