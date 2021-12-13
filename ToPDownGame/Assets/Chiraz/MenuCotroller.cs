@@ -12,11 +12,17 @@ public class MenuCotroller : MonoBehaviour
     public List<ShopItems> shopItems;
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
     public AudioMixer soundMixer;
-
+public GameObject Story;
+public GameObject menu; 
     // Start is called before the first frame update
 
     private void Awake()
     {
+        if (PlayerPrefs.HasKey("ShowStory"))
+        {
+            menu.SetActive(true);
+            Story.SetActive(false);
+        }
         if (!PlayerPrefs.HasKey("music"))
         {
           
@@ -54,6 +60,10 @@ public class MenuCotroller : MonoBehaviour
 
         }
 
+    }
+    void Start ()
+    {
+        PlayerPrefs.SetFloat("ShowStory",1);
     }
 
     public void vibration()
