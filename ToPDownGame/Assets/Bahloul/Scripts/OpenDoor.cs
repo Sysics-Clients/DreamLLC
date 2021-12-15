@@ -7,12 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
+    public int missionNumber = 0;
+    private bool opened=false;
     public Sprite lockedDoor;
     public Sprite unlockedDoor;
     public Image DoorImage;
     public Button DoorBtn;
     public bool islocked;
-    public GameObject dontDestroyObjects;
+    public bool withKey;
+    public bool forMission;
     public GameObject InputPanel;
     public GameObject loadingScreenGameObject;
     private LoadingScreen loadingScreen;
@@ -52,48 +55,61 @@ public class OpenDoor : MonoBehaviour
     }
     public void OnDoorClick()
     {
-        if (NewSceneName == "")
-        {
-            if (DoorType == Doors.rotator)
-            {
-                transform.DORotate(new Vector3(0, 90, 0), 2);
-            }
-            else
-                transform.DOMoveX(transform.position.x + 3, 2);
-        }
-        else
-        {
-            if (GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard))
-            {
-                InputPanel.GetComponent<Canvas>().enabled = false;
-                loadingScreenGameObject.SetActive(true);
-                DontDestroyOnLoad(dontDestroyObjects);
-                loadingScreen.sceneName = NewSceneName;
-                loadingScreen.ToScene = true;
-                Player.GetComponent<PlayerBehavior>().changePos(PlayerBehavior.PlayerPos.Kitchen);
-            }
-            else
-            {
-                GeneralEvents.writeErrorMessage("No key found!!");
-            }
-            
-        }
+        
+        
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
+            if (opened)
+                return;
+            if(islocked)
+            {
+                GeneralEvents.writeErrorMessage("Door locked!", Color.red);
+                return;
+            }            
+            if (withKey)
+            {
+                if (!GeneralEvents.checkMissionCompletion(MissionName.collectAccessCard, missionNumber))
+                {
+                    GeneralEvents.writeErrorMessage("Door locked security key required!",Color.red);
+                    return;
+                }
+            }
+            if (NewSceneName == "")
+            {
+                opened = true;
+                if (DoorType == Doors.rotator)
+                {
+                    transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 2);
+                }
+                else
+                    transform.DOMoveX(transform.position.x + 3, 2);
 
-            DoorImage.enabled = true;
-            
-            
+                GeneralEvents.checkMissionCompletion(MissionName.openDoor, 0);
+
+            }
+            else
+            {
+                if (!GeneralEvents.testAllCompletion(MissionName.openDoor))
+                {
+                    GeneralEvents.writeErrorMessage("Finish All your missions first",Color.red);
+                    return;
+                }
+                GeneralEvents.toNewScene(NewSceneName);
+            }
+
+
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            DoorImage.enabled = false;
+            
+            GeneralEvents.hideErreurMessage();
 
         }
     }

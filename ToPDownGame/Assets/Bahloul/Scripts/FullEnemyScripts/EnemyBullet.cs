@@ -35,6 +35,10 @@ public class EnemyBullet : MonoBehaviour
         if (other.tag == "Player")
         {
 
+            if (sender==null)
+            {
+                return;
+            }
             if (sender.tag == "Sniper")
             {
                 if(other.gameObject.GetComponent<PlayerBehavior>().damege!=null)
@@ -59,8 +63,17 @@ public class EnemyBullet : MonoBehaviour
             Instantiate(WoodEffect, other.transform.position, Quaternion.identity);
 
         }
+        else 
+        {
+            audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.Wood);
+            Instantiate(WoodEffect, other.transform.position, Quaternion.identity);
+        }
 
-
+        if (sender == null)
+        {
+       
+            return;
+        }
         if (sender.tag == "Sniper")
         {
             sniperBehavior.returnBullet(gameObject);

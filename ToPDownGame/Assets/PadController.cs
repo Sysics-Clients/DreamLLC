@@ -56,12 +56,23 @@ public class PadController : MonoBehaviour
             thisColloder.enabled = false;
             Canvas.SetActive(true);
             canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+            canvasInput.GetComponent<InputSystem>().MvtJoystic.Init();
+            canvasInput.GetComponent<InputSystem>().ShootJoystic.Init();
+            if (GeneralEvents.sendMvt!=null)
+            {
+                GeneralEvents.sendMvt(Vector3.zero);
+            }
+            if (GeneralEvents.sendShooting != null)
+            {
+                GeneralEvents.sendShooting(Vector3.zero);
+            }
             canvasInput.SetActive(false);
         }
     }
     public void SkipButton()
     {
         Time.timeScale = 1;
+       
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(ImageText.DOScaleY(0, 0.3f)).SetEase(Ease.InBack);
         mySequence.OnComplete(() =>
@@ -72,12 +83,23 @@ public class PadController : MonoBehaviour
             }
             else
             {
-                 canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+                 //canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
                 canvasInput.SetActive(true);
+                 GeneralEvents.onTaskFinish(MissionName.collectPad, gameObject.GetComponent<MissionObjects>().id);
+
+            }
+            
+            if (GeneralEvents.sendMvt != null)
+            {
+                GeneralEvents.sendMvt(Vector3.zero);
+            }
+            if (GeneralEvents.sendShooting != null)
+            {
+                GeneralEvents.sendShooting(Vector3.zero);
             }
             //Destroy(gameObject);
             //PadObject.SetActive(false);
         });
-
+        
     }
 }

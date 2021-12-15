@@ -2,13 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+
 public class InputSystem : MonoBehaviour
-{   
-    
+{
+    public GameObject WavesTextObject;
+    public GameObject Flamethrower;
+    public Text SDText;
+    public GameObject AccessPanel;
+    public GameObject CodePaperPanel;
+    public Text Codetxt;
+    private float ErreurImgYPos=76;
     public Image miniMapDirectionImage;
-    public GameObject ErreurText;
+    public GameObject ErreurImg;
     public Image OpenDoorIcon;
     public Joystick MvtJoystic;
     public Joystick ShootJoystic;
@@ -31,16 +39,23 @@ public class InputSystem : MonoBehaviour
     Coroutine TextErreur;
     Tween ErreurTexttween;
     bool enableMovment=false;
+    public GameObject miniMapPanel;
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         GeneralEvents.health += changeHealth;
         GeneralEvents.takeDamege += bloodEffect;
        // GeneralEvents.changeColorHealth += chageColorBar;
         GeneralEvents.changeColorWeaponButton += chageColorweaponButton;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         GeneralEvents.onTaskFinish += SetMission;
-        GeneralEvents.writeErrorMessage += afficherErreurMessage;
+        GeneralEvents.writeErrorMessage += ErreurMessage;
+        GeneralEvents.hideErreurMessage += HideMessageImg;
+        GeneralEvents.shakeErreurMessage += ShakeMessage;
+        GeneralEvents.newAccessCode += NewAccessCode;
+        GeneralEvents.enableSD += ActivateAccessCode;
+        GeneralEvents.waveMessage += WaveMessage;
     }
 
     
@@ -52,8 +67,77 @@ public class InputSystem : MonoBehaviour
        // GeneralEvents.changeColorHealth -= chageColorBar;
         GeneralEvents.changeColorWeaponButton -= chageColorweaponButton;
         GeneralEvents.onTaskFinish -= SetMission;
-        GeneralEvents.writeErrorMessage -= afficherErreurMessage;
+        GeneralEvents.writeErrorMessage -= ErreurMessage;
+        GeneralEvents.hideErreurMessage -= HideMessageImg;
+        GeneralEvents.shakeErreurMessage -= ShakeMessage;
+        GeneralEvents.newAccessCode -= NewAccessCode;
+        GeneralEvents.enableSD -= ActivateAccessCode;
+        GeneralEvents.waveMessage -= WaveMessage;
 
+    }
+    public void activateMiniMapPanel()
+    {
+        miniMapPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void desactivateMiniMapPanel()
+    {
+        miniMapPanel.SetActive(false);
+        Time.timeScale = 1;
+    }
+    public void ActivateAccessCode()
+    {
+        AccessPanel.SetActive(true);
+    }
+    public void OnNumberClick(int i)
+    {
+        switch (i)
+        {
+            case -1:
+                if(SDText.text.Equals(GameManager.instance.AccessCode))
+                {
+                    GeneralEvents.onTaskFinish(MissionName.enterAccessCode, 0);
+                    AccessPanel.SetActive(false);
+                    Flamethrower.SetActive(false);
+                    GeneralEvents.writeErrorMessage("Flame Thrower Desactivated", Color.green);
+                    GeneralEvents.hideErreurMessage(4);
+                    GameObject.FindGameObjectWithTag("sd").gameObject.GetComponent<BoxCollider>().enabled = false;
+                }
+                else
+                {
+                    SDText.text = "";
+                    GeneralEvents.writeErrorMessage("Access Denied!", Color.red);
+                    GeneralEvents.hideErreurMessage(4);
+                }
+                break;
+            case -2:
+                SDText.text = "";
+                break;
+            default:
+                if (SDText.text.Length >= 4)
+                {
+                    GeneralEvents.writeErrorMessage("Only 4 Numbers required!", Color.red);
+                    GeneralEvents.hideErreurMessage(4);
+                    return;
+                }
+                print(i);
+                SDText.text += i;
+                break;
+        }
+    }
+    public void NewAccessCode()
+    {
+        CodePaperPanel.SetActive(true);
+        Codetxt.text=UnityEngine.Random.Range(1000, 10000).ToString();
+        GameManager.instance.AccessCode = Codetxt.text;
+        Time.timeScale=0;
+
+
+    }
+    public void exitCodePaperPanel()
+    {
+        Time.timeScale = 1;
+        CodePaperPanel.SetActive(false);
     }
     IEnumerator setUpMovment()
     {
@@ -122,8 +206,52 @@ public class InputSystem : MonoBehaviour
                 obj.transform.GetChild(2).gameObject.SetActive(true);
             }
         }
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Level3":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level4");
+                }
+                break;
+            case "Level4":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level5");
+                }
+                break;
+            case "Level5":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level6");
+                }
+                break;
+            case "Level6":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level7");
+                }
+                break;
+            case "Level8":
+                if (!GeneralEvents.testAllCompletion(MissionName.CompleteWaves))
+                {
+                    gameManager.currentLevel.missions[1].isCompleted = true;
+                    zombiesManager.instance.NewWave();
+                }
+                else
+                {
+                    GeneralEvents.toNewScene("Level9");
+                }
+                break;
+            case "Level9":
+                if (GeneralEvents.testAllCompletion())
+                {
+                    GeneralEvents.toNewScene("Level10");
+                }
+                break;
+        }
     }
-    void afficherErreurMessage(string err)
+   /* void afficherErreurMessage(string err)
     {
         if(TextErreur!=null)
             StopCoroutine(TextErreur);
@@ -137,16 +265,52 @@ public class InputSystem : MonoBehaviour
         ErreurText.transform.localPosition = Vector3.zero;
         ErreurTexttween = ErreurText.transform.DOMoveY(ErreurText.transform.position.y + 25, 2);
 
-    }
-    IEnumerator TranslateText()
+    }*/
+   public void WaveMessage(string msg)
     {
-        while (ErreurText.GetComponent<Text>().color.a > 0)
-        {
-            yield return new WaitForSeconds(0.06f);
-            ErreurText.GetComponent<Text>().color = new Color(ErreurText.GetComponent<Text>().color.r, ErreurText.GetComponent<Text>().color.g, ErreurText.GetComponent<Text>().color.b, ErreurText.GetComponent<Text>().color.a - 0.05f) ;
-        }
+        Color color = WavesTextObject.GetComponent<Text>().color;
+        color.a = 1;
+        WavesTextObject.GetComponent<Text>().color = color;
+        WavesTextObject.SetActive(true);
+        WavesTextObject.GetComponent<Text>().text = msg;
+        StartCoroutine(setInvisible());
     }
-    
+    IEnumerator setInvisible()
+    {
+        yield return new WaitForSeconds(2);
+        while (WavesTextObject.GetComponent<Text>().color.a > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Color color = WavesTextObject.GetComponent<Text>().color;
+            color.a -= 0.05f;
+            WavesTextObject.GetComponent<Text>().color = color;
+        }
+        WavesTextObject.SetActive(false);
+    }
+   public void ErreurMessage(string err,Color color)
+    {
+        
+            ErreurImg.SetActive(true);
+            ErreurImg.GetComponent<Image>().color = color;
+            ErreurImg.GetComponentInChildren<Text>().text = err;
+           if (ErreurTexttween != null)
+                ErreurTexttween.Complete();
+            ErreurTexttween = ErreurImg.GetComponent<RectTransform>().transform.DOLocalMoveY(250, 2);
+        
+    } 
+    IEnumerator HideMessage(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ErreurTexttween = ErreurImg.transform.DOLocalMoveY(350, 2);
+    }
+    public void HideMessageImg(float time=0)
+    {
+        StartCoroutine(HideMessage(time));
+    }
+    public void ShakeMessage()
+    {
+        ErreurTexttween = ErreurImg.transform.DOShakeRotation(1);
+    }
     private void Update()
     {
         if (enableMovment == false)
@@ -160,7 +324,7 @@ public class InputSystem : MonoBehaviour
 #if UNITY_ANDROID
         move = new Vector3(MvtJoystic.Horizontal, 0, MvtJoystic.Vertical);
 #endif
-         move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+         //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 shootDir = new Vector3(ShootJoystic.Horizontal, 0, ShootJoystic.Vertical);
         
         

@@ -16,13 +16,24 @@ public class Bullet : MonoBehaviour
     public GameObject vfxBlood;
     bool target;
     
-
+    public GameObject effects;
 
     private void OnEnable()
     {
+        
         target = false;
+       StartCoroutine(enableeffects());
         rb.velocity = transform.forward * speed;
         StartCoroutine(stop(2));
+    }
+    IEnumerator enableeffects(){
+        effects.SetActive(false);
+        yield return new WaitForSeconds(0.03f);
+        effects.SetActive(true);
+    }
+
+    void useeffects(){
+        effects.SetActive(true);
     }
     private void Start()
     {
@@ -70,6 +81,15 @@ public class Bullet : MonoBehaviour
                 GameObject vfx = Instantiate(WoodEffect, transform.position, transform.rotation);
                 Destroy(vfx, 1);
             }
+            else if(other.transform.tag == "zombie")
+                {
+                    target = true;
+                    other.gameObject.GetComponent<ZombieBehavior>().takeDamage(damege);
+                    StopAllCoroutines();
+                    StartCoroutine(damegeEnemy(other.transform.position));
+                    return;
+                }
+
             this.gameObject.SetActive(false);
     }
     IEnumerator damegeEnemy(Vector3 v)

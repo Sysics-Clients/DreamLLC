@@ -32,7 +32,7 @@ public class Attack : MonoBehaviour
         weapons[0].weap = Instantiate(weapons[0].weaponItem.prefab, weapons[0].reloadPos);
         Instantiate(weapons[0].weaponItem.prefab, AkStart);
         Instantiate(weapons[1].weaponItem.prefab, pistolStart);
-        Instantiate(weapons[2].weaponItem.prefab, bladeStart);
+        Destroy( Instantiate(weapons[2].weaponItem.prefab, bladeStart).GetComponent<Blade>());
         weapons[0].weap.SetActive(false);
         weapons[1].weap = Instantiate(weapons[1].weaponItem.prefab, weapons[1].reloadPos);
         weapons[1].weap.SetActive(false);
@@ -47,11 +47,11 @@ public class Attack : MonoBehaviour
     }
     public void startBullets()
     {
-        
+        //print("aa");
         bulletPool.objectToPool = weapons[0].weaponItem.bullet;
         bulletPool.objectToPoolPistol = weapons[1].weaponItem.bullet;
         bulletPool.start();
-        bulletStart = weapons[0].weap.transform.Find("pos");
+        //bulletStart = weapons[0].weap.transform.Find("pos");
     }
     public void SwitchStateGun()
     {
@@ -82,7 +82,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting += shoot;
         GeneralEvents.changeWeopen += SwitchWeopen;
         GeneralEvents.getCanChange += getCanChange;
-        GeneralEvents.startBullets += startBullets;
+        //GeneralEvents.startBullets += startBullets;
         GeneralEvents.getWeaponType += getWeaponType;
         playerBehavior.die += die;
     }
@@ -94,7 +94,7 @@ public class Attack : MonoBehaviour
         GeneralEvents.sendShooting -= shoot;
         GeneralEvents.changeWeopen -= SwitchWeopen;
         GeneralEvents.getCanChange -= getCanChange;
-        GeneralEvents.startBullets -= startBullets;
+        //GeneralEvents.startBullets -= startBullets;
         GeneralEvents.getWeaponType -= getWeaponType;
         playerBehavior.die -= die;
     }
@@ -103,7 +103,11 @@ public class Attack : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            nextWeapon();
+            Time.timeScale = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Time.timeScale = 1;
         }
     }
     //Getting From GenralEvents
@@ -145,8 +149,9 @@ public class Attack : MonoBehaviour
                 }
             }
             else
-            {   
-                bulletPool.spownBullet(bulletStart.position, transform.forward);
+            {
+                
+                bulletPool.spownBullet(bulletStart, transform.forward);
                 weapons[0].nbBullet--;
                 StartCoroutine("waitBullet", weapons[nbWeap].weaponItem.wait);
                 
@@ -193,7 +198,10 @@ public class Attack : MonoBehaviour
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
-        bulletStart = weapons[nbWeap].weap.transform.Find("pos");
+        if (nbWeap == 0)
+            bulletStart = transform.Find("posStartBullet");
+        else
+            bulletStart = weapons[nbWeap].weap.transform.Find("pos");
     }
     public bool SwitchWeopen(ItemTypes type)
     {
@@ -240,12 +248,22 @@ public class Attack : MonoBehaviour
     {
         canChange = false;
         animator.SetTrigger("change");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         bool crouch = animator.GetBool("crouch");
         animator.runtimeAnimatorController = weapons[nbWeap].weaponItem.animator;
         animator.SetBool("crouch", crouch);
-        bulletStart = weapons[nbWeap].weap.transform.Find("pos");
-        
+        if (nbWeap == 0)
+        {
+            print(1);
+            bulletStart = transform.Find("posStartBullet");
+        }
+        else
+        {
+            print(2);
+            bulletStart = weapons[nbWeap].weap.transform.Find("pos");
+        }
+            
+
     }
     IEnumerator reload(int wap)
     {
@@ -284,42 +302,54 @@ public class Attack : MonoBehaviour
 
     public void changeToBlade()
     {
-        bladeStart.gameObject.active = false;
-        weapons[2].weap.active = true;
+        bladeStart.gameObject.SetActive(false);
+        pistolStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[1].weap.SetActive(false);
         canChange = true;
 
     }
     public void changeBlade()
     {
-        bladeStart.gameObject.active = true;
-        weapons[2].weap.active = false;
+        bladeStart.gameObject.SetActive(true);
+        weapons[2].weap.SetActive(false);
 
     }
 
     public void changeToAk()
     {
-        AkStart.gameObject.active = false;
-        weapons[0].weap.active = true;
+        AkStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        pistolStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(true);
+        weapons[1].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changeAk()
     {
-        AkStart.gameObject.active = true;
-        weapons[0].weap.active = false;
+        AkStart.gameObject.SetActive(true);
+        weapons[0].weap.SetActive(false);
 
     }
     public void changeToPistol()
     {
-        pistolStart.gameObject.active = false;
-        weapons[1].weap.active = true;
+        pistolStart.gameObject.SetActive(false);
+        bladeStart.gameObject.SetActive(true);
+        AkStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive(true);
+        weapons[0].weap.SetActive(false);
+        weapons[2].weap.SetActive(false);
         canChange = true;
 
     }
     public void changePistol()
     {
-        pistolStart.gameObject.active = true;
-        weapons[1].weap.active = false;
+        pistolStart.gameObject.SetActive(true);
+        weapons[1].weap.SetActive( false);
     }
 
     public bool getCanChange()

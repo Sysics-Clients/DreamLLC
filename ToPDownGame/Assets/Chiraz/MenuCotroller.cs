@@ -3,17 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+
 public class MenuCotroller : MonoBehaviour
 {
     public GameObject PlayerInSHop;
     public List<ShopItems> shopItems;
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
+    public AudioMixer soundMixer;
+public GameObject Story;
+public GameObject menu; 
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        
+        if (PlayerPrefs.HasKey("ShowStory"))
+        {
+            menu.SetActive(true);
+            Story.SetActive(false);
+        }
+        if (!PlayerPrefs.HasKey("music"))
+        {
+          
+            soundMixer.SetFloat("MasterVolume", Mathf.Log10(0.5f) * 20);
+            PlayerPrefs.SetFloat("music", 0.5f);
+        }
+        else
+        {
+            
+            float datasound = PlayerPrefs.GetFloat("music");
+            Debug.Log("We are here"+datasound);
+            if (datasound <= 0)
+            {
+                datasound = -80;
+            }
+            soundMixer.SetFloat("MasterVolume", Mathf.Log10(datasound) * 20);
+
+        }
+
+        if (!PlayerPrefs.HasKey("effect"))
+        {
+            
+            soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(0.5f) * 20);
+            PlayerPrefs.SetFloat("effect", 0.5f);
+        }
+        else
+        {
+            float datasound = PlayerPrefs.GetFloat("effect");
+           
+            if (datasound <= 0)
+            {
+                datasound = -80;
+            }
+            soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(datasound) * 20);
+
+        }
+
+    }
+    void Start ()
+    {
+        PlayerPrefs.SetFloat("ShowStory",1);
     }
 
+    public void vibration()
+    {
+       
+    }
     // Update is called once per frame
     public void shopbtn()
     {
@@ -27,6 +83,25 @@ public class MenuCotroller : MonoBehaviour
         yield return new WaitForSeconds(1);
         
 
+    }
+    IEnumerator CaroutinreLoadScene()
+    {
+        yield return new WaitForSeconds(5);
+
+        if (Singleton._instance.Level == 0)
+        {
+            SceneManager.LoadScene(Singleton._instance.Level + 2);
+        }
+        else
+        {
+            SceneManager.LoadScene(Singleton._instance.Level);
+        }
+    }
+    public void LoadScene()
+    {
+        LoadingController loadingController = GameObject.FindObjectOfType<LoadingController>();
+        loadingController.init();
+        StartCoroutine(CaroutinreLoadScene());
     }
     public void weaponbtn()
     {
@@ -48,6 +123,10 @@ public class MenuCotroller : MonoBehaviour
     public void closecoinsshop()
     {
         coins.DOAnchorPos(new Vector2(0, 2600), 0.50f);
+        if (shopMenu.anchoredPosition==Vector2.zero)
+        {
+            PlayerInSHop.SetActive(true);
+        }
     }
     public void closeshopmenu()
     {
@@ -57,5 +136,7 @@ public class MenuCotroller : MonoBehaviour
     {
         weaponsmenu.DOAnchorPos(new Vector2(2800, 0), 0.50f);
     }
+
+   
 
 }

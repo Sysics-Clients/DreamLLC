@@ -23,8 +23,8 @@ public class MovmentControler : MonoBehaviour
     Transform target;
     public float radius;
     public LayerMask targetMask;
-    Vector3 move;
-    Vector3 ShootingDir;
+     Vector3 move;
+     Vector3 ShootingDir;
     bool crouch;
 
     public AudioSource audio;
@@ -37,7 +37,7 @@ public class MovmentControler : MonoBehaviour
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
-        //StartCoroutine(FOVRoutine());
+        StartCoroutine(FOVRoutine());
         slow = 1;
 
     }
@@ -109,6 +109,7 @@ public class MovmentControler : MonoBehaviour
         }
         else
         {
+            
             if (audio.clip==walk)
             {
                 audio.Stop();
@@ -121,7 +122,12 @@ public class MovmentControler : MonoBehaviour
         }
         if (_courentState != State.roll)
         {
-            if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
+            if (target != null)
+            {
+                if(target.position.y <transform.position.y+1&& target.position.y > transform.position.y - 1)
+                    transform.LookAt(target);
+            }
+            else if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
@@ -208,7 +214,7 @@ public class MovmentControler : MonoBehaviour
 
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
         while (true)
         {
             yield return wait;
@@ -219,10 +225,18 @@ public class MovmentControler : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
-        if (rangeChecks.Length != 0)
+        List<Collider> colliders = new List<Collider>();
+        foreach (var item in rangeChecks)
         {
-            target = rangeChecks[0].transform;
+            if (item.gameObject.tag!="Drone")
+            {
+                colliders.Add(item);
+            }
+        }
+        if (colliders.Count != 0)
+        {
+            target = colliders[0].transform;
+            
         }
         else
         {

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public string AccessCode;
     public static GameManager instance;
     public GameObject MiniMapObjectDirection;
     public SpriteRenderer MiniMapDirectionSprite;
@@ -20,28 +21,75 @@ public class GameManager : MonoBehaviour
     public GameObject ContentTasks;
     public GameObject task;
     public List<GameObject> MiniMapTasks;
+    public GameObject DontDestroyObject;
+    public GameObject pad;
+    public GameObject loadingScreenGameObject;
+    LoadingScreen loadingScreen;
+    public Health playercontroller;
+    public GameObject GameOver;
+    public ObjectActivation objectActivation;
+    public GameObject GameWin;
+
+    public void GoToNewScene(string NewSceneName)
+    {
+        //InputSystem.GetComponent<Canvas>().enabled = false;
+        // loadingScreenGameObject.SetActive(true);
+        // gameManager.DontDestroyObjects();
+        // loadingScreen.sceneName = NewSceneName;
+        // loadingScreen.ToScene = true;
+        foreach (var item in objectActivation.DroneEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        foreach (var item in objectActivation.FullEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        foreach (var item in objectActivation.SniperEnemyList)
+        {
+            if (item != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        GameWin.SetActive(true);
+    }
 
     private void OnEnable()
     {
+        GeneralEvents.toNewScene += GoToNewScene;
         GeneralEvents.checkMissionCompletion += CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite += SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion += testAllCompletion;
     }
     private void OnDisable()
     {
+        GeneralEvents.toNewScene -= GoToNewScene;
         GeneralEvents.checkMissionCompletion -= CheckMissiionCompletion;
         GeneralEvents.setMissionObjectAndSprite -= SetMissionSpriteDirection;
+        GeneralEvents.testAllCompletion -= testAllCompletion;
+    }
+    public void DontDestroyObjects()
+    {
+        DontDestroyOnLoad(DontDestroyObject);
     }
     private void Awake()
     {
         
-        if (instance != null && instance != this)
-            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
+        /*if (instance != null && instance != this)
+            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)*/
         instance = this;
         currentLevel = Levels[0];
         MissionObjects = FindObjectsOfType<MissionObjects>();
         foreach (Mission m in currentLevel.missions)
         {
-           foreach(MissionObjects missionObjects in MissionObjects)
+            foreach (MissionObjects missionObjects in MissionObjects)
             {
                 if (m.missionName == missionObjects.missionName && m.missionId == missionObjects.id)
                 {
@@ -49,24 +97,103 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
-            GameObject obj=Instantiate(task, ContentTasks.transform);
+            GameObject obj = Instantiate(task, ContentTasks.transform);
             MissionObjects mo = obj.GetComponent<MissionObjects>();
             mo.missionName = m.missionName;
-            mo.id = m.missionId;
+            mo.id = (short)m.missionId;
             obj.transform.GetChild(0).GetComponent<Text>().text = m.missionText;
             MiniMapTasks.Add(obj);
         }
-        
-        
-
-
+        if (Levels.Count > 0)
+        {
+            foreach (var item in Levels[0].missions)
+            {
+                item.isCompleted = false;
+            }
+        }
+    }
+    private void Update()
+    {
+        if (GameOver.activeInHierarchy||GameWin.activeInHierarchy)
+        {
+            return;
+        }
+        if (playercontroller!=null)
+        {
+            if (playercontroller.corentHelth<=0)
+            {
+                if (!GameOver.gameObject.activeInHierarchy)
+                {
+                    GameOver.SetActive(true);
+                }
+            }
+        }
+        if (objectActivation!=null)
+        {
+            if (currentLevel!=null)
+            {
+                int count = currentLevel.missions.Count;
+                int index = 0;
+                foreach (var item in currentLevel.missions)
+                {
+                    if (item.isCompleted)
+                    {
+                        index++;
+                    }
+                }
+                if (count==index)
+                {
+                    foreach (var item in objectActivation.DroneEnemyList)
+                    {
+                        if (item!=null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.FullEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    foreach (var item in objectActivation.SniperEnemyList)
+                    {
+                        if (item != null)
+                        {
+                            Destroy(item.gameObject);
+                        }
+                    }
+                    GameWin.SetActive(true);
+                }
+            }
+        }
+    }
+    public bool testAllCompletion(MissionName mission=MissionName.NoMissionAvailale)
+    {
+        foreach(Mission m in currentLevel.missions)
+        {
+            if (m.missionName == mission)
+            {
+                continue;
+            }
+            if (m.isCompleted == false)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     private void Start()
     {
         GeneralEvents.changePlayerPos(playerPos);
         InputSystem = GameObject.Find("CanvasInput (1)");
-          InputSystem.GetComponent<Canvas>().enabled = true;
-        GeneralEvents.startBullets();
+        InputSystem.GetComponent<Canvas>().enabled = true;
+        loadingScreen = loadingScreenGameObject.GetComponent<LoadingScreen>();
+        loadingScreenGameObject.SetActive(false);
+        //GeneralEvents.startBullets();
+        
+
     }
     public void SelectLevel(string sceneName)
     {
@@ -77,6 +204,8 @@ public class GameManager : MonoBehaviour
                 currentLevel = l;
             }
         }
+        
+        
     }
     public bool CheckMissiionCompletion(MissionName missionName,int id=0)
     {
@@ -98,6 +227,7 @@ public class GameManager : MonoBehaviour
             MiniMapDirectionSprite.sprite = sprite;
             MiniMapObjectDirection.SetActive(true);
             MiniMapObjectDirection.GetComponent<RotateSprite>().iPad = obj.transform;
+            MiniMapObjectDirection.GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
         else
         {

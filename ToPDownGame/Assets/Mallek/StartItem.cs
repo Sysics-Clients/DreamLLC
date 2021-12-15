@@ -5,7 +5,7 @@ using UnityEngine;
 public class StartItem : MonoBehaviour
 {
     BoneCombiner boneCombiner;
-    public ItemObjects itemBoots,itemLegs,itemChest,itemShield,itemCasque;
+    public ItemObjects itemBoots,itemLegs,itemChest,itemCasque;
     private Transform transformBoots, transformLegs, transformChest;
     public Transform casque, shield;
     public GameObject hair,casqueObj,shieldObj;
@@ -46,10 +46,7 @@ public class StartItem : MonoBehaviour
         {
             transformChest.GetComponent<SkinnedMeshRenderer>().material = itemChest.material;
         }
-        if (itemShield.prefab != null)
-        {
-            shieldObj = Instantiate(itemShield.prefab, shield);
-        }
+        
         if (itemCasque.prefab != null)
         {
             hair.SetActive(false);
@@ -61,7 +58,8 @@ public class StartItem : MonoBehaviour
         switch (item.type)
         {
             case ItemTypes.legs:
-                Destroy(transformLegs.gameObject);
+                if (transformLegs != null)
+                    Destroy(transformLegs.gameObject);
                 transformLegs=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemLegs = item;
                 if (item.material != null)
@@ -70,7 +68,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Boots:
-                Destroy(transformBoots.gameObject);
+                if (transformBoots != null)
+                    Destroy(transformBoots.gameObject);
                 transformBoots=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemBoots = item;
                 if (item.material != null)
@@ -79,7 +78,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Chest:
-                Destroy(transformChest.gameObject);
+                if(transformChest!=null)
+                    Destroy(transformChest.gameObject);
                 transformChest=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemChest = item;
                 if (item.material != null)
@@ -88,7 +88,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Casque:
-                Destroy(casqueObj);
+                if (casqueObj != null)
+                    Destroy(casqueObj);
                 if (item.prefab != null)
                 {
                     hair.SetActive(false);
@@ -100,14 +101,7 @@ public class StartItem : MonoBehaviour
                 }
                 itemCasque = item;
                 break;
-            case ItemTypes.Shield:
-                Destroy(shieldObj);
-                if (itemShield.prefab != null)
-                {
-                    shieldObj = Instantiate(item.prefab, shield);
-                }
-                itemShield = item;
-                break;
+           
             default:
                 break;
         }
@@ -115,12 +109,12 @@ public class StartItem : MonoBehaviour
         
         
     }
-    void setClowthes(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects shield, ItemObjects casque)
+    void setClowthes(ItemObjects top, ItemObjects bot, ItemObjects shoos, ItemObjects casque)
     {
         itemChest = top;
         itemLegs = bot;
         itemCasque = casque;
         itemBoots = shoos;
-        itemShield = shield;
+        
     }
 }

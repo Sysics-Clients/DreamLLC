@@ -13,7 +13,7 @@ public class EnemyBehavior : MonoBehaviour
     }
     public bool isVisible = true;
     public float gunBloom=0;
-    public Transform playerTransform;
+    public GameObject player;
     public Canvas EnemyCanvas;
     public float TimeToDisappear = 3;
     public GameObject AccessCard;

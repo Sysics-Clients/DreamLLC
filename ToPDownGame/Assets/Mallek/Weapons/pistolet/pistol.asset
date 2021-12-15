@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: pistol
   m_EditorClassIdentifier: 
   nameItem: Pistol
-  sprite: {fileID: 21300000, guid: a193d8e696a25f34f9e628bad76e5a87, type: 3}
+  spriteChoice: {fileID: 21300000, guid: 590dd8a890dd10c48afabbdb7f75859e, type: 3}
   prefab: {fileID: 8504629447792426839, guid: 4a3e196fc7fa5ea4297307c798e29e05, type: 3}
+  material: {fileID: 0}
   type: 2
   activeted: 0
+  visible: 1
   price: 20
   description: 
+  state: 2
   boneNames: []
   bullet: {fileID: 1061504794296090223, guid: a08794d5626be6b419024c99cedda722, type: 3}
   animator: {fileID: 9100000, guid: 41d8cdc9044e2434aa4bf3c338e26d35, type: 2}
@@ -26,4 +29,4 @@ MonoBehaviour:
   wait: 1
   AudioReload: {fileID: 0}
   emptyGun: {fileID: 0}
-  speed: 5
+  speed: 7

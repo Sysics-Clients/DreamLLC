@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44590193, g: 0.49564213, b: 0.5743817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44590253, g: 0.49564296, b: 0.5743827, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -99,7 +99,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -25867,6 +25867,13 @@ MonoBehaviour:
   ContentTasks: {fileID: 0}
   task: {fileID: 0}
   MiniMapTasks: []
+  DontDestroyObject: {fileID: 0}
+  pad: {fileID: 0}
+  loadingScreenGameObject: {fileID: 0}
+  playercontroller: {fileID: 0}
+  GameOver: {fileID: 0}
+  objectActivation: {fileID: 0}
+  GameWin: {fileID: 0}
 --- !u!1001 &808738595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72644,6 +72651,7 @@ MonoBehaviour:
   MainMenu: {fileID: 0}
   savingPanel: {fileID: 486974120}
   savingIcon: {fileID: 1631270143}
+  isWin: 0
 --- !u!1 &6297197937495932726
 GameObject:
   m_ObjectHideFlags: 0
@@ -73436,7 +73444,7 @@ PrefabInstance:
     - target: {fileID: 8526649816934354945, guid: 7e36f5ff26674b941a91bf8413c122c7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 11.689804
+      value: 11.689819
       objectReference: {fileID: 0}
     - target: {fileID: 8526649817028628782, guid: 7e36f5ff26674b941a91bf8413c122c7,
         type: 3}

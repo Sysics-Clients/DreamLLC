@@ -26,7 +26,7 @@ using UnityEngine;
     public class ItemObjects : ScriptableObject
     {
         public string nameItem;
-        public Sprite spriteSelected,spriteChoice;
+        public Sprite spriteChoice;
         public GameObject prefab;
         public Material material;
         public ItemTypes type;

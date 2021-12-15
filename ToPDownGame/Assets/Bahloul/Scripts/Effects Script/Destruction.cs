@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using DG.Tweening;
 
 public class Destruction : MonoBehaviour
@@ -18,7 +18,7 @@ public class Destruction : MonoBehaviour
         {
             transform.DOShakeRotation(0.5f,5,1,5);
             SHakeNumber++;
-            if (SHakeNumber == 3)
+            if (SHakeNumber >= 3)
             {
                 DOTween.CompleteAll();
                 audioManager.GetComponent<AudioManager>().PlaySound(AudioManager.Sounds.BoxDestruction);

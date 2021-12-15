@@ -41,12 +41,16 @@ public class HostageStates : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!GeneralEvents.checkMissionCompletion(MissionName.destroyEnemy,1))
+            return;
+        print(currentState);
         switch (currentState)
         {
             case State.Sleeping:
                 distance = Vector3.Distance(transform.position, playerTransform.position);
                 if (distance < distanceToStand)
                 {
+                    GeneralEvents.onTaskFinish(GetComponent<MissionObjects>().missionName, GetComponent<MissionObjects>().id);
                     hostageBehavior.changeMovement(HostageController.Movement.standUp);
                     changeState(State.standingUp);
                 }
