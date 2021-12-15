@@ -44,7 +44,7 @@ public class StartPrefabItem : MonoBehaviour
         name = item.nameItem;
         iItem.sprite = item.spriteChoice;
         price = item.price;
-        priceText.text = price + "$";
+        priceText.text = price +"";
     }
 
     public void clicked()
@@ -127,7 +127,7 @@ public class StartPrefabItem : MonoBehaviour
         if (types!=item.type)
         {
             this.gameObject.SetActive(false);
-        }else if (item.GetType().Equals(typeof(WeaponItem))&& item.state==StateItem.current)
+        }else if (item.state==StateItem.current)
         {
             
             clicked();

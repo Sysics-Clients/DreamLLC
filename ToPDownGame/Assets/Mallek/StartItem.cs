@@ -50,7 +50,6 @@ public class StartItem : MonoBehaviour
         if (itemCasque.prefab != null)
         {
             hair.SetActive(false);
-            print("aaa");
             casqueObj = Instantiate(itemCasque.prefab, casque);
         }
     }
@@ -59,7 +58,8 @@ public class StartItem : MonoBehaviour
         switch (item.type)
         {
             case ItemTypes.legs:
-                Destroy(transformLegs.gameObject);
+                if (transformLegs != null)
+                    Destroy(transformLegs.gameObject);
                 transformLegs=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemLegs = item;
                 if (item.material != null)
@@ -68,7 +68,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Boots:
-                Destroy(transformBoots.gameObject);
+                if (transformBoots != null)
+                    Destroy(transformBoots.gameObject);
                 transformBoots=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemBoots = item;
                 if (item.material != null)
@@ -77,7 +78,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Chest:
-                Destroy(transformChest.gameObject);
+                if(transformChest!=null)
+                    Destroy(transformChest.gameObject);
                 transformChest=boneCombiner.AddLimb(item.prefab, item.boneNames);
                 itemChest = item;
                 if (item.material != null)
@@ -86,7 +88,8 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Casque:
-                Destroy(casqueObj);
+                if (casqueObj != null)
+                    Destroy(casqueObj);
                 if (item.prefab != null)
                 {
                     hair.SetActive(false);
