@@ -56,7 +56,6 @@ public class Singleton : MonoBehaviour
                             break;
                     }
                 items.items[i].state = (StateItem)data.shop[i];
-                print(data.shop[i]);
             }
         }
         

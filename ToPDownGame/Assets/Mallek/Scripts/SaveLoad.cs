@@ -17,7 +17,6 @@ public class SaveLoad
     public static GeneralPlayerData load()
     {
         string path = Application.persistentDataPath + "/player4.data";
-        Debug.Log(Application.persistentDataPath );
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
