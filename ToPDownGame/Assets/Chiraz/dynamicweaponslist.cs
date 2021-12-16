@@ -10,8 +10,8 @@ public class dynamicweaponslist : MonoBehaviour
     public Transform contentWeapon, contentClothes;
     public GameObject prefabWeap, prefabClow;
     public List<GameObject> items;
-    public Image ISelect, IPresent, btPis,btAK, btKnife,btShield,btTop,btBot,btShoos,btCasque;
-    public Text weaponSelect,damege,speed;
+    public Image ISelect, IPresent, btPis,btAK, btKnife,btTop,btBot,btShoos,btCasque;
+    public Text weaponSelect;
     public CurrentItem currentItem;
     public GameObject btnBuyClow, btnUseClow, btnAdsClow, btnBuyWeapon, btnUseWeapon;
     int coin;
@@ -191,7 +191,8 @@ public class dynamicweaponslist : MonoBehaviour
         }
         else
         {
-            GeneralEvents.setItem(item);
+            if(item!=null)
+                GeneralEvents.setItem(item);
         }
         
         

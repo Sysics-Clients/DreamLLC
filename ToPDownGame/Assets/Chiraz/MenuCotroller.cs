@@ -13,9 +13,16 @@ public class MenuCotroller : MonoBehaviour
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
     public AudioMixer soundMixer;
 public GameObject Story;
-public GameObject menu; 
+public GameObject menu,panelNoMony;
     // Start is called before the first frame update
-
+    private void OnDisable()
+    {
+        GeneralEvents.noMony -= monyPanel;
+    }
+    private void OnEnable()
+    {
+        GeneralEvents.noMony += monyPanel;
+    }
     private void Awake()
     {
         if (PlayerPrefs.HasKey("ShowStory"))
@@ -138,5 +145,8 @@ public GameObject menu;
     }
 
    
-
+    public void monyPanel()
+    {
+        panelNoMony.SetActive(true);
+    }
 }
