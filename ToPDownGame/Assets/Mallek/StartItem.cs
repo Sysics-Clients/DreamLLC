@@ -27,7 +27,7 @@ public class StartItem : MonoBehaviour
     }
     IEnumerator setupclothes()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
         boneCombiner = new BoneCombiner(gameObject);
         transformBoots = boneCombiner.AddLimb(itemBoots.prefab, itemBoots.boneNames);
         if (itemBoots.material != null)
@@ -78,10 +78,12 @@ public class StartItem : MonoBehaviour
                 }
                 break;
             case ItemTypes.Chest:
-                if(transformChest!=null)
+                if (transformChest != null)
+                {
                     Destroy(transformChest.gameObject);
-                transformChest=boneCombiner.AddLimb(item.prefab, item.boneNames);
-                itemChest = item;
+                    transformChest = boneCombiner.AddLimb(item.prefab, item.boneNames);
+                    itemChest = item;
+                }
                 if (item.material != null)
                 {
                     transformChest.GetComponent<SkinnedMeshRenderer>().material = item.material;

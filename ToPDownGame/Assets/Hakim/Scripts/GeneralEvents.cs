@@ -152,4 +152,7 @@ public class GeneralEvents
 
     public delegate void EnemyDamage(float health,Vector3 pos);
     public static EnemyDamage enemyDamage;
+
+    public delegate void PanelOpen();
+    public static PanelOpen noMony;
 } 

@@ -93,5 +93,9 @@ public class Singleton : MonoBehaviour
         GeneralEvents.setCoin(coins);
     }
 
-    
+    public void addCoin(int add)
+    {
+        GeneralEvents.setCoin(coins+add);
+        save();
+    }
 }

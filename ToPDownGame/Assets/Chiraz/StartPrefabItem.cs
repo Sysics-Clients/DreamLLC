@@ -46,7 +46,6 @@ public class StartPrefabItem : MonoBehaviour
         price = item.price;
         priceText.text = price +"";
     }
-
     public void clicked()
     {
         GeneralEvents.select();
@@ -105,8 +104,6 @@ public class StartPrefabItem : MonoBehaviour
 
     void buy()
     {
-        ///////////////////////////////////////////////////////////////////
-
         if (item.price<Singleton._instance.coins)
         {
             Singleton._instance.coins -= item.price;
@@ -117,7 +114,7 @@ public class StartPrefabItem : MonoBehaviour
         }
         else
         {
-            print("ma chrech");
+            GeneralEvents.noMony();
         }
         
     }
@@ -129,8 +126,8 @@ public class StartPrefabItem : MonoBehaviour
             this.gameObject.SetActive(false);
         }else if (item.state==StateItem.current)
         {
-            
             clicked();
+            frame.SetActive(true);
         }
       
     }
@@ -138,7 +135,6 @@ public class StartPrefabItem : MonoBehaviour
     {
         GeneralEvents.btnUseIte(item);
         clicked();
-        print(name);
         Singleton._instance.save();
     }
 }
