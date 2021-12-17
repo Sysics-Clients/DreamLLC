@@ -52,6 +52,14 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.die += die;
         GeneralEvents.sendRoll += GetRoll;
         GeneralEvents.setSpeed += setSpeed;
+      Weapon[] w= gameObject.GetComponent<Attack>().weapons;
+      foreach(var item in w)
+      {
+          if(item.weap.activeInHierarchy)
+          {
+              speed=item.weaponItem.speed;
+          }
+      }
     }
     private void OnDisable()
     {
