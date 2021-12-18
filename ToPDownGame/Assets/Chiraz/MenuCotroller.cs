@@ -25,27 +25,27 @@ public GameObject menu,panelNoMony;
     }
     private void Awake()
     {
-        if (PlayerPrefs.HasKey("ShowStory"))
+        /*if (PlayerPrefs.HasKey("ShowStory"))
         {
             menu.SetActive(true);
             Story.SetActive(false);
         }
-        if (!PlayerPrefs.HasKey("music"))
+        if (PlayerPrefs.HasKey("m"))
         {
-          
-            soundMixer.SetFloat("MasterVolume", Mathf.Log10(0.5f) * 20);
-            PlayerPrefs.SetFloat("music", 0.5f);
-        }
-        else
-        {
-            
             float datasound = PlayerPrefs.GetFloat("music");
-            Debug.Log("We are here"+datasound);
+            Debug.Log("We are here" + datasound);
             if (datasound <= 0)
             {
                 datasound = -80;
             }
             soundMixer.SetFloat("MasterVolume", Mathf.Log10(datasound) * 20);
+
+           
+        }
+        else
+        {
+            soundMixer.SetFloat("MasterVolume", Mathf.Log10(0.5f) * 20);
+            PlayerPrefs.SetFloat("music", 0.5f);
 
         }
 
@@ -65,7 +65,7 @@ public GameObject menu,panelNoMony;
             }
             soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(datasound) * 20);
 
-        }
+        }*/
 
     }
     void Start ()
