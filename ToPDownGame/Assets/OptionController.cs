@@ -17,15 +17,15 @@ public class OptionController : MonoBehaviour
     private void OnEnable()
     {
         
-        if (!PlayerPrefs.HasKey("music"))
+        if (!PlayerPrefs.HasKey("m"))
         {
             musicsSlider.value = 0.5f;
             soundMixer.SetFloat("MasterVolume", Mathf.Log10(musicsSlider.value) * 20);
-            PlayerPrefs.SetFloat("music", musicsSlider.value);
+            PlayerPrefs.SetFloat("m", musicsSlider.value);
         }
         else
         {
-            float datasound = PlayerPrefs.GetFloat("music");
+            float datasound = PlayerPrefs.GetFloat("m");
             musicsSlider.value = datasound;
             if (datasound<=0)
             {
@@ -90,10 +90,11 @@ public class OptionController : MonoBehaviour
         if (n=="Save")
         {
             PlayerPrefs.SetFloat("effect", EffectsSlider.value);
-            PlayerPrefs.SetFloat("music", musicsSlider.value);
+            PlayerPrefs.SetFloat("m", musicsSlider.value);
 
         }
         
         thisPanel.SetActive(false);
     }
+   
 }
