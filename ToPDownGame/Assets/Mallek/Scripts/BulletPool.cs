@@ -32,12 +32,12 @@ public class BulletPool : MonoBehaviour
 		}
 	}
 
-	public GameObject spownBullet(Transform pos,Vector3 direction)
+	public GameObject spownBullet(Vector3 pos,Vector3 direction)
     {
 		GameObject gameObject = pooledObjects[0];
 		pooledObjects.RemoveAt(0);
-		gameObject.transform.position = pos.position;
-		gameObject.transform.forward = pos.forward;
+		gameObject.transform.position = pos;
+		gameObject.transform.forward = direction;
 		gameObject.SetActive(true);
 		pooledObjects.Add(gameObject);
 		return gameObject;
