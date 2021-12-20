@@ -109,6 +109,11 @@ public class Attack : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            shoot(Vector3.one);
+            shot();
+        }
     }
     //Getting From GenralEvents
     public void shoot(Vector3 sh)
