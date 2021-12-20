@@ -25,7 +25,7 @@ public GameObject menu,panelNoMony;
     }
     private void Awake()
     {
-        /*if (PlayerPrefs.HasKey("ShowStory"))
+        if (PlayerPrefs.HasKey("ShowStory"))
         {
             menu.SetActive(true);
             Story.SetActive(false);
@@ -65,7 +65,7 @@ public GameObject menu,panelNoMony;
             }
             soundMixer.SetFloat("MasterVolumeEffect", Mathf.Log10(datasound) * 20);
 
-        }*/
+        }
 
     }
     void Start ()
