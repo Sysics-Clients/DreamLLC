@@ -8,6 +8,7 @@ public class SaveLoad
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player4.data";
+        Debug.Log(path);
         FileStream stream = new FileStream(path, FileMode.Create);
         GeneralPlayerData data = new GeneralPlayerData(singleton);
         formatter.Serialize(stream, data);
@@ -19,6 +20,7 @@ public class SaveLoad
         string path = Application.persistentDataPath + "/player4.data";
         if (File.Exists(path))
         {
+              Debug.Log(path);
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             GeneralPlayerData data = formatter.Deserialize(stream) as GeneralPlayerData;
