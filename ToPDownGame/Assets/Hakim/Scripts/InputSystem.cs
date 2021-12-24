@@ -10,6 +10,7 @@ public class InputSystem : MonoBehaviour
 {
     public GameObject WavesTextObject;
     public GameObject Flamethrower;
+    private int nbFalseCode = 0;
     public Text SDText;
     public GameObject AccessPanel;
     public GameObject CodePaperPanel;
@@ -40,6 +41,7 @@ public class InputSystem : MonoBehaviour
     Tween ErreurTexttween;
     bool enableMovment=false;
     public GameObject miniMapPanel;
+    private BoxCollider sdCollider;
     //MissionMessage missionMessage = null;
     private void OnEnable()
     {
@@ -56,6 +58,10 @@ public class InputSystem : MonoBehaviour
         GeneralEvents.newAccessCode += NewAccessCode;
         GeneralEvents.enableSD += ActivateAccessCode;
         GeneralEvents.waveMessage += WaveMessage;
+        if (SceneManager.GetActiveScene().name.Equals("Level7"))
+        {
+            sdCollider = GameObject.FindGameObjectWithTag("sd").GetComponent<BoxCollider>();
+        }
     }
 
     
@@ -88,6 +94,19 @@ public class InputSystem : MonoBehaviour
     public void ActivateAccessCode()
     {
         AccessPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void desactivateAccessCode()
+    {
+        AccessPanel.SetActive(false);
+        Time.timeScale = 1;
+        nbFalseCode = 0;
+        sdCollider.enabled = false;
+        Invoke("RenablingSdCollider", 2);
+    }
+    public void RenablingSdCollider()
+    {
+        sdCollider.enabled = true;
     }
     public void OnNumberClick(int i)
     {
@@ -97,8 +116,8 @@ public class InputSystem : MonoBehaviour
                 if(SDText.text.Equals(GameManager.instance.AccessCode))
                 {
                     GeneralEvents.onTaskFinish(MissionName.enterAccessCode, 0);
-                    AccessPanel.SetActive(false);
                     Flamethrower.SetActive(false);
+                    desactivateAccessCode();
                     GeneralEvents.writeErrorMessage("Flame Thrower Desactivated", Color.green);
                     GeneralEvents.hideErreurMessage(4);
                     GameObject.FindGameObjectWithTag("sd").gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -108,6 +127,11 @@ public class InputSystem : MonoBehaviour
                     SDText.text = "";
                     GeneralEvents.writeErrorMessage("Access Denied!", Color.red);
                     GeneralEvents.hideErreurMessage(4);
+                    nbFalseCode++;
+                    if (nbFalseCode >= 3)
+                    {
+                        print("endofGame");
+                    }
                 }
                 break;
             case -2:

@@ -25,7 +25,6 @@ public class PlayerBehavior : MonoBehaviour
     private void OnEnable()
     {
         GeneralEvents.changePlayerPos += changePos;
-        
     }
     private void OnDisable()
     {
