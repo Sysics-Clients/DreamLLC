@@ -32,6 +32,7 @@ using UnityEngine;
         public ItemTypes type;
         public bool activeted, visible;
         public int price;
+        public int nbVideo;
         [TextArea(15, 20)]
         public string description;
         public StateItem state;

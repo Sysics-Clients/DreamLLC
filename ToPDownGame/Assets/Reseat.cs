@@ -12,6 +12,7 @@ public class Reseat : MonoBehaviour
         foreach (var item in listitemsPrefab.items)
         {
             item.state = StateItem.toBuy;
+            item.nbVideo = item.price / 50;
         }
     }
 
