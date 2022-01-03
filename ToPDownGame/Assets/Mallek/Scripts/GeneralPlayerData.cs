@@ -7,6 +7,7 @@ public class GeneralPlayerData
     public int Level;
     public int[] shop;
     public string[] names;
+    public int[] videos;
     public GeneralPlayerData(Singleton singleton)
     {
         
@@ -14,10 +15,13 @@ public class GeneralPlayerData
         Level = singleton.Level;
         shop = new int[singleton.items.items.Count];
         names = new string[singleton.items.items.Count];
+        videos = new int[singleton.items.items.Count];
         for (int i = 0; i < singleton.items.items.Count; i++)
         {
             shop[i] =(int) singleton.items.items[i].state;
             names[i] = singleton.items.items[i].name;
+            videos[i] = singleton.items.items[i].nbVideo;
+
         }
     }
 }

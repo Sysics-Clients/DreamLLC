@@ -71,11 +71,14 @@ public class StartPrefabItem : MonoBehaviour
             if (item.type == ItemTypes.AK || item.type == ItemTypes.knife || item.type == ItemTypes.Pistol)
             {
                 GeneralEvents.buyWeapon = buy;
+                GeneralEvents.useAds= useAds;
                 GeneralEvents.toBuyWeapon();
+
             }
             else
             {
                 GeneralEvents.buyClowths = buy;
+                GeneralEvents.useAds = useAds;
                 GeneralEvents.toBuyClow();
             }
             // GeneralEvents.toBuy();
@@ -116,6 +119,19 @@ public class StartPrefabItem : MonoBehaviour
         {
             GeneralEvents.noMony();
         }
+        
+    }
+    void  useAds()
+    {
+        item.nbVideo--;
+        if (item.nbVideo<=0)
+        {
+            item.state = StateItem.toUse;
+            clicked();
+        }
+        
+        Singleton._instance.save();
+        GeneralEvents.showItem(item);
         
     }
 

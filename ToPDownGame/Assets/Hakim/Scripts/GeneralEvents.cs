@@ -155,4 +155,7 @@ public class GeneralEvents
 
     public delegate void PanelOpen();
     public static PanelOpen noMony;
+
+    public delegate void UseAds();
+    public static UseAds useAds;
 } 

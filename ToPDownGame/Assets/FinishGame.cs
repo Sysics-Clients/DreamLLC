@@ -7,6 +7,10 @@ public class FinishGame : MonoBehaviour
 {
     public GameStatePanel gameStatePanel;
     public GameObject loadingScene;
+    public Text coinswin;
+    public Text experience;
+    int coinswinValue;
+    bool isVideoRewarded;
     private void OnEnable()
     {
         if (gameStatePanel!=null)
@@ -18,6 +22,9 @@ public class FinishGame : MonoBehaviour
     IEnumerator startAnimation()
     {
         yield return new WaitForFixedUpdate();
+        coinswinValue= Random.Range(3, 8);
+        coinswin.text = "+" + coinswinValue;
+        experience.text= "+" + Random.Range(10, 30);
         if (gameStatePanel!=null)
         {
             gameStatePanel.PanelState.transform.localScale = Vector3.zero;
@@ -42,10 +49,16 @@ public class FinishGame : MonoBehaviour
     }
     public void loadScene(bool iswin)
     {
+        if (isVideoRewarded==false&&iswin==true)
+        {
+            if (AdsManager._instance.verifInter())
+            {
+                AdsManager._instance.ShowIntertiate("DefaultInterstitial");
+            }
+        }
 
         loadingScene.SetActive(true);
-        loadingScene.GetComponent<LoadingScreen>().isWin=iswin;
-       
+        loadingScene.GetComponent<LoadingScreen>().isWin = iswin;
     }
 }
 
@@ -89,6 +102,8 @@ public class Reward
     public void activateObj()
     {
         RewardObj.transform.localScale = Vector3.zero;
+        
+        
         textValue.gameObject.SetActive(false);
         RectTransform rectTransform = RewardObj.GetComponent<RectTransform>();
         Image img= RewardObj.GetComponent<Image>();

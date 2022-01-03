@@ -13,10 +13,12 @@ public class dynamicweaponslist : MonoBehaviour
     public Image ISelect, IPresent, btPis,btAK, btKnife,btTop,btBot,btShoos,btCasque;
     public Text weaponSelect;
     public CurrentItem currentItem;
-    public GameObject btnBuyClow, btnUseClow, btnAdsClow, btnBuyWeapon, btnUseWeapon;
+    public GameObject btnBuyClow, btnUseClow, btnAdsClow, btnBuyWeapon, btnUseWeapon,btnAdsWepon;
     int coin;
     public Text coinMenu, coinWeap, coinClow, coinShop, coinChar;
+    public Text nbAds,nbShowAds;
     public Image damegeBar, speedBar, rateBar, reloadBar;
+    
     private void setCoin(int coin)
     {
         coinChar.text = coin + "";
@@ -46,6 +48,9 @@ public class dynamicweaponslist : MonoBehaviour
         GeneralEvents.btnUseIte += btnUseItem;
         
         GeneralEvents.setCoin += setCoin;
+        EventController.videoRewarded += AdsRewardState;
+        EventController.chnageButtonRewardRequest += enableAdsButton;
+
     }
 
     private void OnDisable()
@@ -61,7 +66,14 @@ public class dynamicweaponslist : MonoBehaviour
 
         GeneralEvents.btnUseIte -= btnUseItem;
 
-        GeneralEvents.setCoin += setCoin;
+        GeneralEvents.setCoin -= setCoin;
+        EventController.videoRewarded -= AdsRewardState;
+        EventController.chnageButtonRewardRequest -= enableAdsButton;
+
+    }
+    void enableAdsButton(bool check)
+    {
+        btnAdsWepon.GetComponent<Button>().interactable = check;
     }
     void Start() {
         
@@ -114,7 +126,10 @@ public class dynamicweaponslist : MonoBehaviour
         }
         GeneralEvents.activeItems(ItemTypes.knife);
     }
-
+    private void Update()
+    {
+        //btnAdsWepon.GetComponent<Button>().interactable = AdsManager._instance.VerifRewarded();
+    }
     public void shopActive(string type)
     {
         
@@ -188,11 +203,35 @@ public class dynamicweaponslist : MonoBehaviour
             speedBar.fillAmount = ((WeaponItem)item).speed / 10.0f;
             rateBar.fillAmount = ((WeaponItem)item).wait / 1;
             reloadBar.fillAmount = ((WeaponItem)item).reload / 50.0f;
+            nbAds.text = item.nbVideo + " Ads";
+            
+            btnAdsWepon.SetActive(true);
+            switch (item.state)
+            {
+                case StateItem.toUse:
+                    btnBuyWeapon.SetActive(false);
+                    btnUseWeapon.SetActive(true);
+                    btnUseWeapon.GetComponent<Button>().interactable = true;
+                    break;
+                case StateItem.current:
+                    btnBuyWeapon.SetActive(false);
+                    btnUseWeapon.SetActive(true);
+                    btnUseWeapon.GetComponent<Button>().interactable = false;
+                    break;
+                case StateItem.toBuy:
+                    btnBuyWeapon.SetActive(true);
+                    break;
+
+                
+                default:
+                    break;
+            }
         }
         else
         {
             if(item!=null)
-                GeneralEvents.setItem(item);
+            GeneralEvents.setItem(item);
+            nbShowAds.text = item.nbVideo + " Ads";
         }
         
         
@@ -201,6 +240,18 @@ public class dynamicweaponslist : MonoBehaviour
     public void buyWeapon()
     {
         GeneralEvents.buyWeapon();
+    }
+    public void UseAdsWeapon()
+    {
+       
+        AdsManager._instance.ShowRewardVideo("DefaultRewardedVideo");
+    }
+    void AdsRewardState(bool check)
+    {
+        if (check==true)
+        {
+            GeneralEvents.useAds();
+        }
     }
     public void buyClowths()
     {

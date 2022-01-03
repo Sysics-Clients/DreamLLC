@@ -101,10 +101,10 @@ public class AdsManager : MonoBehaviour
         //when canShowAd false we will disable all button was request a Reward Ads
 
         AdsState = "unity-script: I got RewardedVideoAvailabilityChangedEvent, value = " + canShowAd;
-       /* if (EventController.chnageButtonRewardRequest != null)
+        if (EventController.chnageButtonRewardRequest != null)
         {
             EventController.chnageButtonRewardRequest(canShowAd);
-        }*/
+        }
 
         Debug.Log("unity-script: I got RewardedVideoAvailabilityChangedEvent, value = " + canShowAd);
     }
@@ -119,10 +119,10 @@ public class AdsManager : MonoBehaviour
 
     void RewardedVideoAdRewardedEvent(IronSourcePlacement ssp)
     {
-       /* if (EventController.videoRewarded != null)
+        if (EventController.videoRewarded != null)
         {
             EventController.videoRewarded(true);
-        }*/
+        }
         AdsState = "unity-script: I got RewardedVideoAdRewardedEvent, amount = " + ssp.getRewardAmount() + " name = " + ssp.getRewardName();
         Debug.Log("unity-script: I got RewardedVideoAdRewardedEvent, amount = " + ssp.getRewardAmount() + " name = " + ssp.getRewardName());
 
@@ -130,10 +130,10 @@ public class AdsManager : MonoBehaviour
 
     void RewardedVideoAdClosedEvent()
     {
-        /*if (EventController.videoRewarded != null)
+        if (EventController.videoRewarded != null)
         {
             EventController.videoRewarded(false);
-        }*/
+        }
         AdsState = "unity-script: I got RewardedVideoAdClosedEvent";
         Debug.Log("unity-script: I got RewardedVideoAdClosedEvent");
     }
@@ -152,14 +152,14 @@ public class AdsManager : MonoBehaviour
 
     void RewardedVideoAdShowFailedEvent(IronSourceError error)
     {
-        /*if (EventController.videoRewarded != null)
+        if (EventController.videoRewarded != null)
         {
             EventController.videoRewarded(false);
         }
         if (EventController.chnageButtonRewardRequest != null)
         {
             EventController.chnageButtonRewardRequest(false);
-        }*/
+        }
         AdsState = "unity-script: I got RewardedVideoAdShowFailedEvent, code :  " + error.getCode() + ", description : " + error.getDescription();
         Debug.Log("unity-script: I got RewardedVideoAdShowFailedEvent, code :  " + error.getCode() + ", description : " + error.getDescription());
     }
@@ -176,6 +176,7 @@ public class AdsManager : MonoBehaviour
         if (IronSource.Agent.isRewardedVideoAvailable())
         {
             IronSource.Agent.showRewardedVideo(s);
+            IronSource.Agent.loadInterstitial();
         }
 
     }
@@ -188,7 +189,8 @@ public class AdsManager : MonoBehaviour
         }
         else
         {
-            IronSource.Agent.loadInterstitial();
+            DiInitRewardVideo();
+            InitRewardVideo();
             return false;
         }
     }
@@ -201,6 +203,7 @@ public class AdsManager : MonoBehaviour
         }
         else
         {
+            IronSource.Agent.loadInterstitial();
             return false;
         }
     }
@@ -292,7 +295,7 @@ public class AdsManager : MonoBehaviour
         }
         else
         {
-            IronSource.Agent.loadInterstitial();
+            
             Debug.Log("unity-script: IronSource.Agent.isInterstitialReady - False");
         }
     }
