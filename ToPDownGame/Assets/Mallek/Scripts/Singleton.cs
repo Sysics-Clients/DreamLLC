@@ -63,16 +63,25 @@ public class Singleton : MonoBehaviour
         
     }
     #endregion
+
+
     // Start is called before the first frame update
     void Awake()
     {
-        
-         if (_instance != null) {
-     Destroy(gameObject);
-   }else{
-     _instance = this;
-     DontDestroyOnLoad(gameObject);
-   }
+        if (_instance == null)
+        {
+
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+
+            //Rest of your Awake code
+
+        }
+        else
+        {
+
+            Destroy(gameObject);
+        }
         load();
     }
     private void Start()
@@ -96,7 +105,17 @@ public class Singleton : MonoBehaviour
 
     public void addCoin(int add)
     {
-        GeneralEvents.setCoin(coins+add);
-        save();
+        
+        if (GeneralEvents.setCoin!=null)
+        {
+            GeneralEvents.setCoin(coins + add);
+            save();
+        }
+        else
+        {
+            coins += add;
+            save();
+        }
+      
     }
 }

@@ -17,14 +17,48 @@ public class FinishGame : MonoBehaviour
         {
             StartCoroutine(startAnimation());
         }
+        EventController.videoRewarded += AdsRewardState;
     }
+    private void OnDisable()
+    {
+        EventController.videoRewarded -= AdsRewardState;
 
+    }
+    public void ShowReward()
+    {
+        AdsManager._instance.ShowRewardVideo("DefaultRewardedVideo");
+
+    }
+    void AdsRewardState(bool check)
+    {
+        if (check == true)
+        {
+            isVideoRewarded = true;
+            if (coinswin != null)
+            {
+                coinswinValue = coinswinValue * 3;
+               
+                
+            }
+            loadScene(true);
+        }
+    }
     IEnumerator startAnimation()
     {
         yield return new WaitForFixedUpdate();
-        coinswinValue= Random.Range(3, 8);
-        coinswin.text = "+" + coinswinValue;
-        experience.text= "+" + Random.Range(10, 30);
+        if (coinswin!=null)
+        {
+            coinswinValue = Random.Range(3, 8);
+            coinswin.text = "+" + coinswinValue;
+            experience.text = "+" + Random.Range(10, 30);
+        }
+        else
+        {
+            coinswinValue = 0;
+        }
+
+      
+       
         if (gameStatePanel!=null)
         {
             gameStatePanel.PanelState.transform.localScale = Vector3.zero;
@@ -56,7 +90,12 @@ public class FinishGame : MonoBehaviour
                 AdsManager._instance.ShowIntertiate("DefaultInterstitial");
             }
         }
-
+        if (isVideoRewarded)
+        {
+            iswin = true;
+        }
+        Singleton._instance.addCoin(coinswinValue);
+        Singleton._instance.save();
         loadingScene.SetActive(true);
         loadingScene.GetComponent<LoadingScreen>().isWin = iswin;
     }

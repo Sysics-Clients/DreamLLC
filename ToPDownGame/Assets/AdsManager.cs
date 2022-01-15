@@ -20,7 +20,7 @@ public class AdsManager : MonoBehaviour
         // AppsFlyer.validateReceipt();
         IronSource.Agent.shouldTrackNetworkState(true);
 #if UNITY_ANDROID
-        string appKey = "10d69db1d"; 
+        string appKey = "12e64caa5"; 
 #elif UNITY_IPHONE
         string appKey = "8545d445";
 #else
