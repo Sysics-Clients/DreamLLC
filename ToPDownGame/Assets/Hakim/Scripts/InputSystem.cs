@@ -439,21 +439,21 @@ public class InputSystem : MonoBehaviour
         if (armor< sliderArmor.fillAmount)
         {
             sliderArmor.fillAmount -= 0.01f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSecondsRealtime(0.01f);
             sliderArmor.fillAmount = (int)(sliderArmor.fillAmount * 100) / 100.0f;
             c = StartCoroutine(smoothHealth(health, armor));
         }
         else if (armor > sliderArmor.fillAmount)
         {
             sliderArmor.fillAmount += 0.03f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSecondsRealtime(0.01f);
             c = StartCoroutine(smoothHealth(health, armor));
         }
         else if (health < sliderHelth.fillAmount)
         {
             sliderHelth.color = gradient.Evaluate(health);
             sliderHelth.fillAmount -= 0.01f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSecondsRealtime(0.01f);
             sliderHelth.fillAmount = (int)(sliderHelth.fillAmount * 100) / 100.0f;
             c = StartCoroutine(smoothHealth(health, armor));
         }
@@ -461,7 +461,7 @@ public class InputSystem : MonoBehaviour
         {
             sliderHelth.color = gradient.Evaluate(health);
             sliderHelth.fillAmount += 0.03f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSecondsRealtime(0.01f);
             c = StartCoroutine(smoothHealth(health, armor));
         }
 

@@ -76,6 +76,11 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 		Debug.Log("Unsupported Platform");
 	}
 
+	public void setNetworkData(string networkKey, string networkDataJson)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
 	//******************* SDK Init *******************//
 
 	public void setUserId (string userId)
@@ -294,5 +299,5 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 		Debug.Log("Unsupported Platform");
 	}
 
-	#endregion
+    #endregion
 }

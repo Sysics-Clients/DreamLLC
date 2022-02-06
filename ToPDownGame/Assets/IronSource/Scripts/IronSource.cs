@@ -7,7 +7,7 @@ public class IronSource : IronSourceIAgent
 {
 	private IronSourceIAgent _platformAgent;
 	private static IronSource _instance;
-	private const string UNITY_PLUGIN_VERSION = "7.1.13-r";
+	private const string UNITY_PLUGIN_VERSION = "7.1.14.1-r";
 	private static bool isUnsupportedPlatform;
 
 	private IronSource()
@@ -111,6 +111,11 @@ public class IronSource : IronSourceIAgent
 	public void setManualLoadRewardedVideo(bool isOn)
 	{
 		_platformAgent.setManualLoadRewardedVideo(isOn);
+	}
+
+	public void setNetworkData(string networkKey, string networkData)
+	{
+		_platformAgent.setNetworkData(networkKey, networkData);
 	}
 
 	//******************* SDK Init *******************//
@@ -323,5 +328,5 @@ public class IronSource : IronSourceIAgent
 		_platformAgent.setAdRevenueData( dataSource , impressionData);
 	}
 
-	#endregion
+    #endregion
 }

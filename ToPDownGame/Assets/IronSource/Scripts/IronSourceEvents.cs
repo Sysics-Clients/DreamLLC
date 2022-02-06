@@ -10,16 +10,39 @@
         private const string ERROR_CODE = "error_code";
         private const string ERROR_DESCRIPTION = "error_description";
         private const string INSTANCE_ID_KEY = "instanceId";
-        private const string PLACEMENT_KEY = "placement";   
-        
-        void Awake ()
+        private const string PLACEMENT_KEY = "placement";
+
+#if UNITY_ANDROID
+    private IronSourceImpressionDataListener impressionDataListenerAndroid;
+#endif
+
+    public static event Action<IronSourceImpressionData> onImpressionDataReadyEvent;
+
+    void Awake ()
         {
-            gameObject.name = "IronSourceEvents";           //Change the GameObject name to IronSourceEvents.
+#if UNITY_ANDROID
+        impressionDataListenerAndroid = new IronSourceImpressionDataAndroid();
+        registerImpressionDataEvent();
+#endif
+        gameObject.name = "IronSourceEvents";           //Change the GameObject name to IronSourceEvents.
             DontDestroyOnLoad (gameObject);                 //Makes the object not be destroyed automatically when loading a new scene.
         }
-    
-        // ******************************* Rewarded Video Events *******************************
-        private static event Action<IronSourceError> _onRewardedVideoAdShowFailedEvent;
+
+#if UNITY_ANDROID
+    private void registerImpressionDataEvent()
+    {
+        impressionDataListenerAndroid.OnImpressionDataReady += (impressionData) =>
+        {
+            if (onImpressionDataReadyEvent != null)
+            {
+                onImpressionDataReadyEvent(impressionData);
+            }
+        };
+    }
+#endif
+
+    // ******************************* Rewarded Video Events *******************************
+    private static event Action<IronSourceError> _onRewardedVideoAdShowFailedEvent;
 
         public static event Action<IronSourceError> onRewardedVideoAdShowFailedEvent {
             add {
@@ -1070,18 +1093,25 @@
 
         public void onImpressionSuccess(string args)
         {
+            IronSourceImpressionData impressionData = new IronSourceImpressionData(args);
+
+#if UNITY_IOS
+            if (onImpressionDataReadyEvent != null)
+            {
+                onImpressionDataReadyEvent(impressionData);
+            }
+#endif
             if (_onImpressionSuccessEvent != null)
             {
-                IronSourceImpressionData impressionData = new IronSourceImpressionData(args);
-                _onImpressionSuccessEvent(impressionData);
+            _onImpressionSuccessEvent(impressionData);
             }
-
         }
 
-        // ******************************* ConsentView Callbacks *******************************   
 
-        //iOS callbacks only - in order to prevent using macro for iOS it's not only iOS
-        private static event Action<string, IronSourceError> _onConsentViewDidFailToLoadWithErrorEvent;
+    // ******************************* ConsentView Callbacks *******************************   
+
+    //iOS callbacks only - in order to prevent using macro for iOS it's not only iOS
+    private static event Action<string, IronSourceError> _onConsentViewDidFailToLoadWithErrorEvent;
 
         public static event Action<string, IronSourceError> onConsentViewDidFailToLoadWithErrorEvent
         {
@@ -1304,4 +1334,40 @@
 
             return ssp;
         }
+
+#if UNITY_ANDROID
+    internal class IronSourceImpressionDataAndroid : AndroidJavaProxy, IronSourceImpressionDataListener
+    {
+        public event Action<IronSourceImpressionData> OnImpressionDataReady = delegate { };
+        private AndroidJavaObject impressionDataObject;
+
+        //implements UnityImpressionDataListener java interface
+        public IronSourceImpressionDataAndroid() : base(IronSourceConstants.impressionDataBridgeListenerClass)
+        {
+            try
+            {
+                using (var pluginClass = new AndroidJavaClass(IronSourceConstants.bridgeClass))
+                {
+                    impressionDataObject = pluginClass.CallStatic<AndroidJavaObject>(IronSourceConstants.GET_INSTANCE_KEY);
+                }
+                impressionDataObject.Call("setUnityImpressionDataListener", this);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("setUnityImpressionDataListener method doesn't exist, error: " + e.Message);
+            }
+
+        }
+
+        //implements UnityImpressionDataListener from AndroidBridge
+        public void onImpressionDataReady(string data)
+        {
+            if (OnImpressionDataReady != null)
+            {
+                IronSourceImpressionData impressionData = new IronSourceImpressionData(data);
+                OnImpressionDataReady(impressionData);
+            }
+        }
     }
+#endif
+}

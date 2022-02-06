@@ -94,6 +94,8 @@ public class IronSourceDemoScript : MonoBehaviour
 
         //Add ImpressionSuccess Event
         IronSourceEvents.onImpressionSuccessEvent += ImpressionSuccessEvent;
+        IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
+
     }
 
     void OnApplicationPause(bool isPaused)
@@ -420,6 +422,12 @@ public class IronSourceDemoScript : MonoBehaviour
     {
         Debug.Log("unity - script: I got ImpressionSuccessEvent ToString(): " + impressionData.ToString());
         Debug.Log("unity - script: I got ImpressionSuccessEvent allData: " + impressionData.allData);
+    }
+
+    void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
+    {
+        Debug.Log("unity - script: I got ImpressionDataReadyEvent ToString(): " + impressionData.ToString());
+        Debug.Log("unity - script: I got ImpressionDataReadyEvent allData: " + impressionData.allData);
     }
 
     #endregion

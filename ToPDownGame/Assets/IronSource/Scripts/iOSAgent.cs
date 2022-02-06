@@ -42,6 +42,9 @@ public class iOSAgent : IronSourceIAgent
 	[DllImport("__Internal")]
 	private static extern string CFSetManualLoadRewardedVideo(bool isOn);
 
+	[DllImport("__Internal")]
+	private static extern string CFSetNetworkData(string networkKey, string networkData);
+
 	//******************* SDK Init *******************//
 
 	[DllImport("__Internal")]
@@ -140,7 +143,7 @@ public class iOSAgent : IronSourceIAgent
 	//******************* Banner API *******************//
 	
 	[DllImport("__Internal")]
-	private static extern void CFLoadBanner (string description, int width, int height, int position, string placementName);
+	private static extern void CFLoadBanner (string description, int width, int height, int position, string placementName, bool isAdaptive);
 	
 	[DllImport("__Internal")]
 	private static extern void CFDestroyBanner ();
@@ -243,6 +246,10 @@ public class iOSAgent : IronSourceIAgent
 		CFSetManualLoadRewardedVideo(isOn);
 	}
 
+	public void setNetworkData(string networkKey, string networkData)
+	{
+		CFSetNetworkData(networkKey, networkData);
+	}
 
 	//******************* SDK Init *******************//
 
@@ -416,7 +423,7 @@ public class iOSAgent : IronSourceIAgent
 	
 	public void loadBanner (IronSourceBannerSize size, IronSourceBannerPosition position, string placementName)
 	{
-		CFLoadBanner (size.Description, (int)size.Width, (int)size.Height, (int)position, placementName);
+		CFLoadBanner (size.Description, (int)size.Width, (int)size.Height, (int)position, placementName,(bool)size.IsAdaptiveEnabled());
 	}
 	
 	public void destroyBanner ()

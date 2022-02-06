@@ -6,11 +6,18 @@ public class Collect : MonoBehaviour
 {
     public int value;
     public Type type;
-
+    public GameObject effect;
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag=="Player")
         {
+            if (effect!=null)
+            {
+                GameObject obj = Instantiate(effect, other.transform);
+                obj.transform.SetParent(other.transform);
+                Destroy(obj, 3);
+            }
+            
             switch (type)
             {
                 case Type.bulletAK:

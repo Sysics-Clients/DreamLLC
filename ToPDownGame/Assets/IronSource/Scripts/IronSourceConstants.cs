@@ -32,4 +32,8 @@
     public const string IRONSOURCE_MEDIATED_NETWORK_SETTING_NAME = "IronSourceMediatedNetworkSettings";
     public const string IRONSOURCE_RESOURCES_PATH = "Assets/IronSource/Resources";
     public const string IRONSOURCE_SKAN_ID_KEY = "su67r6k2v3.skadnetwork";
+
+    public const string impressionDataBridgeListenerClass = "com.ironsource.unity.androidbridge.UnityImpressionDataListener";
+    public const string GET_INSTANCE_KEY = "getInstance";
+
 }

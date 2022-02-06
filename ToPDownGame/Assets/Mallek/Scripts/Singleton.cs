@@ -57,6 +57,8 @@ public class Singleton : MonoBehaviour
                     }
                 items.items[i].state = (StateItem)data.shop[i];
                 items.items[i].nbVideo = data.videos[i];
+                items.items[i].price = data.prices[i];
+
             }
         }
         

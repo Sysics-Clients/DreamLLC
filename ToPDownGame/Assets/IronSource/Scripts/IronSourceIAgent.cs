@@ -26,6 +26,8 @@ public interface IronSourceIAgent
 
 	void setManualLoadRewardedVideo(bool isOn);
 
+	void setNetworkData(string networkKey, string networkData);
+
 	//******************* SDK Init *******************//
 
 	void setUserId (string userId);
@@ -141,37 +143,49 @@ public static class IronSourceAdUnits
 
 public class IronSourceBannerSize
 {
-    private int width;
-    private int height;
-    private string description;
+	private int width;
+	private int height;
+	private string description;
+	private bool isAdaptive;
 
-    public static IronSourceBannerSize BANNER = new IronSourceBannerSize("BANNER");
-    public static IronSourceBannerSize LARGE = new IronSourceBannerSize("LARGE");
-    public static IronSourceBannerSize RECTANGLE = new IronSourceBannerSize("RECTANGLE");
-    public static IronSourceBannerSize SMART = new IronSourceBannerSize("SMART");
+	public static IronSourceBannerSize BANNER = new IronSourceBannerSize("BANNER");
+	public static IronSourceBannerSize LARGE = new IronSourceBannerSize("LARGE");
+	public static IronSourceBannerSize RECTANGLE = new IronSourceBannerSize("RECTANGLE");
+	public static IronSourceBannerSize SMART = new IronSourceBannerSize("SMART");
 
-    private IronSourceBannerSize() {
+	private IronSourceBannerSize()
+	{
 
-    }
+	}
 
-    public IronSourceBannerSize(int width, int height)
-    {
-        this.width = width;
-        this.height = height;
-        this.description = "CUSTOM";
-    }
+	public IronSourceBannerSize(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
+		this.description = "CUSTOM";
+	}
 
-    public IronSourceBannerSize(string description)
-    {
-        this.description = description;
-        this.width = 0;
-        this.height = 0;
-    }
+	public IronSourceBannerSize(string description)
+	{
+		this.description = description;
+		this.width = 0;
+		this.height = 0;
+	}
 
-    public string Description { get { return description; } }
-    public int Width { get { return width; } }
-    public int Height { get { return height; } }
-};
+	public void SetAdaptive(bool adaptive)
+	{
+		this.isAdaptive = adaptive;
+	}
+
+	public bool IsAdaptiveEnabled()
+	{
+		return this.isAdaptive;
+	}
+
+	public string Description { get { return description; } }
+	public int Width { get { return width; } }
+	public int Height{ get { return height;} }
+}
 
 public enum IronSourceBannerPosition
 {
