@@ -27,7 +27,7 @@ public class FinishGame : MonoBehaviour
     public void ShowReward()
     {
         AdsManager._instance.ShowRewardVideo("DefaultRewardedVideo");
-
+        AdsRewardState(true);
     }
     void AdsRewardState(bool check)
     {
@@ -37,10 +37,12 @@ public class FinishGame : MonoBehaviour
             if (coinswin != null)
             {
                 coinswinValue = coinswinValue * 3;
-               
-                
+                loadScene(true);
             }
-            loadScene(true);
+            else
+            {
+                loadScene(false);
+            }
         }
     }
     IEnumerator startAnimation()
@@ -90,10 +92,7 @@ public class FinishGame : MonoBehaviour
                 AdsManager._instance.ShowIntertiate("DefaultInterstitial");
             }
         }
-        if (isVideoRewarded)
-        {
-            iswin = true;
-        }
+        
         Singleton._instance.addCoin(coinswinValue);
         Singleton._instance.save();
         loadingScene.SetActive(true);
@@ -120,12 +119,16 @@ public class GameStatePanel
         adsrect.DOMoveX(adsrect.position.x + 60, 1).SetEase(easeBG);
         adsButton.image.DOFade(1, 0.3f);
 
-        RectTransform collectrect = collectButton.GetComponent<RectTransform>();
-        collectrect.position = new Vector3(collectrect.position.x + 60, adsrect.position.y, adsrect.position.z);
-        collectButton.image.DOFade(0, 0.0f);
-        collectButton.gameObject.SetActive(true);
-        collectrect.DOMoveX(collectrect.position.x - 60, 1).SetEase(easeBG);
-        collectButton.image.DOFade(1, 0.3f);
+        if (collectButton!=null)
+        {
+            RectTransform collectrect = collectButton.GetComponent<RectTransform>();
+            collectrect.position = new Vector3(collectrect.position.x + 60, adsrect.position.y, adsrect.position.z);
+            collectButton.image.DOFade(0, 0.0f);
+            collectButton.gameObject.SetActive(true);
+            collectrect.DOMoveX(collectrect.position.x - 60, 1).SetEase(easeBG);
+            collectButton.image.DOFade(1, 0.3f);
+        }
+       
 
 
     }
