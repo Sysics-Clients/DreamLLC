@@ -149,4 +149,10 @@ public GameObject menu,panelNoMony;
     {
         panelNoMony.SetActive(true);
     }
+
+    public void OnCompletePurchase(int coins)
+    {
+        Singleton._instance.addCoin(coins);
+        Singleton._instance.save();
+    }
 }

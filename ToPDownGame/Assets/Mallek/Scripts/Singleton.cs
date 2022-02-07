@@ -24,6 +24,7 @@ public class Singleton : MonoBehaviour
         if (data!=null)
         {
             coins = data.coins;
+            Debug.Log(coins);
             Level=data.Level;
             for (int i = 0; i < data.shop.Length; i++)
             {
@@ -110,12 +111,13 @@ public class Singleton : MonoBehaviour
         
         if (GeneralEvents.setCoin!=null)
         {
-            GeneralEvents.setCoin(coins + add);
+            coins = coins + add;
+            GeneralEvents.setCoin(coins);
             save();
         }
         else
         {
-            coins += add;
+            coins = coins + add;
             save();
         }
       

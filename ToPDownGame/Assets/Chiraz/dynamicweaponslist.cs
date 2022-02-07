@@ -128,7 +128,11 @@ public class dynamicweaponslist : MonoBehaviour
     }
     private void Update()
     {
-        //btnAdsWepon.GetComponent<Button>().interactable = AdsManager._instance.VerifRewarded();
+        coinMenu.text = Singleton._instance.coins + "$";
+        coinWeap.text = Singleton._instance.coins + "$";
+        coinClow.text = Singleton._instance.coins + "$";
+        coinShop.text = Singleton._instance.coins + "$";
+        coinChar.text = Singleton._instance.coins + "$";
     }
     public void shopActive(string type)
     {
