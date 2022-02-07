@@ -41,7 +41,7 @@ public class FinishGame : MonoBehaviour
             }
             else
             {
-                loadScene(false);
+                loadScene(true);
             }
         }
     }
@@ -118,7 +118,10 @@ public class GameStatePanel
         adsButton.gameObject.SetActive(true);
         adsrect.DOMoveX(adsrect.position.x + 60, 1).SetEase(easeBG);
         adsButton.image.DOFade(1, 0.3f);
-
+        if (Singleton._instance.Level==11)
+        {
+            adsButton.interactable = false;
+        }
         if (collectButton!=null)
         {
             RectTransform collectrect = collectButton.GetComponent<RectTransform>();

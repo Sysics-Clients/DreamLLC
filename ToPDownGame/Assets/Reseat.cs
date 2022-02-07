@@ -84,9 +84,9 @@ public class Reseat : MonoBehaviour
                         case ItemTypes.AK:
                             if (item.price >= 50)
                             {
-                                item.price = item.price / 10;
+                                item.price = item.price / 3;
                                 item.state = StateItem.toBuy;
-                                item.nbVideo = item.price / 3;
+                                item.nbVideo = item.price / 30;
                                 if (item.nbVideo < 1)
                                 {
                                     item.nbVideo = 1;
@@ -102,9 +102,9 @@ public class Reseat : MonoBehaviour
                         case ItemTypes.knife:
                             if (item.price >= 50)
                             {
-                                item.price = item.price / 10;
+                                item.price = item.price / 3;
                                 item.state = StateItem.toBuy;
-                                item.nbVideo = item.price / 3;
+                                item.nbVideo = item.price / 30;
                                 if (item.nbVideo < 1)
                                 {
                                     item.nbVideo = 1;
@@ -119,9 +119,9 @@ public class Reseat : MonoBehaviour
                         case ItemTypes.Pistol:
                             if (item.price >= 50)
                             {
-                                item.price = item.price / 10;
+                                item.price = item.price / 3;
                                 item.state = StateItem.toBuy;
-                                item.nbVideo = item.price / 3;
+                                item.nbVideo = item.price / 30;
                                 if (item.nbVideo < 1)
                                 {
                                     item.nbVideo = 1;
@@ -134,7 +134,7 @@ public class Reseat : MonoBehaviour
                             }
                             break;
                         case ItemTypes.legs:
-                            item.price = (item.price / 10) + (l * Random.Range(1, 3));
+                            item.price = (item.price / 10) + (l * Random.Range(1, 5));
                             l++;
                             item.state = StateItem.toBuy;
                             item.nbVideo = item.price / 3;
@@ -148,7 +148,7 @@ public class Reseat : MonoBehaviour
                             }
                             break;
                         case ItemTypes.Boots:
-                            item.price = (item.price / 10) + (k * Random.Range(1, 3));
+                            item.price = (item.price / 10) + (k * Random.Range(1, 5));
                             k++;
                             item.state = StateItem.toBuy;
                             item.nbVideo = item.price / 3;
@@ -162,7 +162,7 @@ public class Reseat : MonoBehaviour
                             }
                             break;
                         case ItemTypes.Chest:
-                            item.price = (item.price / 10) + (i * Random.Range(1, 3));
+                            item.price = (item.price / 10) + (i * Random.Range(1, 5));
                             i++;
                             item.state = StateItem.toBuy;
                             item.nbVideo = item.price / 3;
@@ -176,7 +176,7 @@ public class Reseat : MonoBehaviour
                             }
                             break;
                         case ItemTypes.Casque:
-                            item.price = (item.price / 10) + (j * Random.Range(1, 3));
+                            item.price = (item.price / 10) + (j * Random.Range(1, 5));
                             j++;
                             item.state = StateItem.toBuy;
                             item.nbVideo = item.price / 3;
