@@ -9,6 +9,8 @@ using UnityEngine.Audio;
 public class MenuCotroller : MonoBehaviour
 {
     public GameObject PlayerInSHop;
+    public GameObject ThanksInApp;
+    public Text thanksText;
     public List<ShopItems> shopItems;
     public RectTransform shopMenu, changechar, weaponsmenu, coins;
     public AudioMixer soundMixer;
@@ -152,6 +154,8 @@ public GameObject menu,panelNoMony;
 
     public void OnCompletePurchase(int coins)
     {
+        ThanksInApp.SetActive(true);
+        thanksText.text = "You purchased " + coins + " coins";  
         Singleton._instance.addCoin(coins);
         Singleton._instance.save();
     }

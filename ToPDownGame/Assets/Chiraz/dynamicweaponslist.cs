@@ -128,11 +128,11 @@ public class dynamicweaponslist : MonoBehaviour
     }
     private void Update()
     {
-        coinMenu.text = Singleton._instance.coins + "$";
-        coinWeap.text = Singleton._instance.coins + "$";
-        coinClow.text = Singleton._instance.coins + "$";
-        coinShop.text = Singleton._instance.coins + "$";
-        coinChar.text = Singleton._instance.coins + "$";
+        coinMenu.text = Singleton._instance.coins + "C";
+        coinWeap.text = Singleton._instance.coins + "C";
+        coinClow.text = Singleton._instance.coins + "C";
+        coinShop.text = Singleton._instance.coins + "C";
+        coinChar.text = Singleton._instance.coins + "C";
     }
     public void shopActive(string type)
     {
