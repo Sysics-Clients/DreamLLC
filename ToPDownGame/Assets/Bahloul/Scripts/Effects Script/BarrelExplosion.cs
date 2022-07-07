@@ -1,26 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using DG.Tweening;
 
 public class BarrelExplosion : MonoBehaviour
 {
     public GameObject ExplosionVfx;
-    [SerializeField] int ShotNumber = 0;
+    private int ShotNumber = 0;
+    [SerializeField] float ShotMax;
     [SerializeField] float DistanceToDamage;
     [SerializeField] float damage;
+    [SerializeField] float UpSpeed;
+    [SerializeField] float ForwardSpeed;
     public LayerMask EnemyLayer;
     private GameObject player;
+    private Rigidbody PlayerRb;
+    
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        PlayerRb = player.GetComponent<Rigidbody>();
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bullet"&&ShotNumber<=1)
+        if (other.gameObject.tag == "Bullet"&&ShotNumber<= ShotMax)
         {
-            if (ShotNumber == 1)
+            if (ShotNumber == ShotMax)
             {
                 ExplosionVfx.SetActive(true);
                 ExplosionVfx.GetComponent<ParticleSystem>().Play();
@@ -48,21 +55,53 @@ public class BarrelExplosion : MonoBehaviour
                 if (rangeChecks[i].transform.tag == "enemy")
                 {
                     rangeChecks[i].gameObject.GetComponent<EnemyBehavior>().takeDamage(damage);
+                    rangeChecks[i].gameObject.GetComponent<NavMeshAgent>().enabled = false;
                 }
                 else if (rangeChecks[i].transform.tag == "Sniper")
                 {
                     rangeChecks[i].gameObject.GetComponent<SniperBehavior>().takeDamage(damage);
+                    rangeChecks[i].gameObject.GetComponent<NavMeshAgent>().enabled = false;
                 }
-                rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
-                rangeChecks[i].transform.DOShakePosition(0.5f, 0.5f, 1, 5);
+                else if(rangeChecks[i].transform.tag == "Drone")
+                {
+                    DroneBehavior  droneBehavior = rangeChecks[i].gameObject.GetComponent<DroneBehavior>();
+                    Rigidbody  droneRb = rangeChecks[i].gameObject.GetComponent<Rigidbody>();
+                    droneBehavior.disableOrEnableRenderingFov(false);
+                    droneBehavior.Death();
+                    droneRb.isKinematic = false;
+                    droneRb.AddForce(Vector3.up * Random.Range(50,100));
+                    droneRb.AddForce(Vector3.forward * Random.Range(50, 100));
+                     rangeChecks[i].transform.DOShakeRotation(1, 50, 20, 5);
+                     //rangeChecks[i].transform.DOShakePosition(1, 1, 1, 1);
+
+
+
+                }
+                /*rangeChecks[i].transform.DOShakeRotation(0.5f, 5, 1, 5);
+                rangeChecks[i].transform.DOShakePosition(1, 10,12, 12);*/
+                Rigidbody rb = rangeChecks[i].GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                // rb.AddForce(Vector3.up * UpSpeed);
+                // rb.AddForce(Vector3.forward * ForwardSpeed);
+                rb.AddExplosionForce(700, transform.position, 5);
             }
 
         }
         if (Vector3.Distance(player.transform.position, transform.position) < DistanceToDamage)
         {
             player.gameObject.GetComponent<PlayerBehavior>().damege(damage);
-            player.transform.DOShakeRotation(0.5f, 5, 1, 5);
-            player.transform.DOShakePosition(0.5f, 0.5f, 1, 5);
+            PlayerRb.isKinematic = false;
+            player.GetComponent<CharacterController>().enabled = false;
+            PlayerRb.AddForce(Vector3.up * UpSpeed,ForceMode.Force);
+            PlayerRb.AddForce(Vector3.forward * ForwardSpeed,ForceMode.Force);
+            
+            /*PlayerRb.isKinematic = false;
+             PlayerRb.AddForce(Vector3.up * UpSpeed);
+             PlayerRb.AddForce(Vector3.forward * ForwardSpeed);*/
+
+            /*player.transform.DOShakeRotation(0.5f, 5, 1, 5);
+            player.transform.DOShakePosition(1, 10, 12, 12);*/
+
         }
     }
 

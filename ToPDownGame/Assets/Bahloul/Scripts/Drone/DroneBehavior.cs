@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DroneBehavior : MonoBehaviour
 {
+    public AudioManager audioManager;
+    public GameObject SmokeVfx;
     public bool isVisible = true;
     public float walkSpeed;
     public float runSpeed;
@@ -12,6 +14,10 @@ public class DroneBehavior : MonoBehaviour
     private Coroutine CheckFOV;
     public GameObject Drone;
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
     public void DisableDroneObject()
     {
         Drone.SetActive(false);
@@ -60,7 +66,21 @@ public class DroneBehavior : MonoBehaviour
     {
        
     }
-    
+    public void Death()
+    {
+
+        changeState(DroneStates.State.Death);
+        StopCoroutine(CheckFOV);
+        SmokeVfx.SetActive(true);
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            audioManager.PlaySound(AudioManager.Sounds.droneHitGround);
+        }
+    }
     private IEnumerator CheckPlayerFOV()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -73,9 +93,10 @@ public class DroneBehavior : MonoBehaviour
                     StopCoroutine(WaitInChase);*/
                 if (getDroneState() != DroneStates.State.Chasing)
                 {
-                        changeState(DroneStates.State.Chasing);
+                //changeState(DroneStates.State.Roaming);
+                toIdle();
                         callForHelp();
-                        changeSpeed(runSpeed);
+                        //changeSpeed(runSpeed);
                 }
             }
             else 

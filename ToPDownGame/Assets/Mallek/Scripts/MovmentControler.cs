@@ -6,34 +6,39 @@ public class MovmentControler : MonoBehaviour
 {
     public CharacterController characterController;
 
-    public float speed = 12;
+    public float speed ;
 
     Animator animator;
     public Joystick joystick;
 
-    private State _courentState;
+    public State _courentState;
     public PlayerBehavior playerBehavior;
 
-    private Vector3 playerVelocity;
+    public Vector3 playerVelocity;
     private bool groundedPlayer;
     private float gravityValue = -9.81f;
     public float speedRotation;
-
+    [Range(0,1)]
     float slow;
     Transform target;
     public float radius;
     public LayerMask targetMask;
-    Vector3 move;
-    Vector3 ShootingDir;
+     Vector3 move;
+     Vector3 ShootingDir;
     bool crouch;
+
+    public AudioSource audio;
+    public AudioClip walk;
 
     // Start is called before the first frame update
     void Start()
     {
+        
         joystick = GameObject.FindObjectOfType<FixedJoystick>();
         animator = GetComponent<Animator>();
         _courentState = State.walk;
         StartCoroutine(FOVRoutine());
+        slow = 1;
 
     }
 
@@ -46,6 +51,15 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.getState += getState;
         playerBehavior.die += die;
         GeneralEvents.sendRoll += GetRoll;
+        GeneralEvents.setSpeed += setSpeed;
+      Weapon[] w= gameObject.GetComponent<Attack>().weapons;
+      foreach(var item in w)
+      {
+          if(item.weap.activeInHierarchy)
+          {
+              speed=item.weaponItem.speed;
+          }
+      }
     }
     private void OnDisable()
     {
@@ -55,6 +69,7 @@ public class MovmentControler : MonoBehaviour
         playerBehavior.getState -= getState;
         playerBehavior.die -= die;
         GeneralEvents.sendRoll -= GetRoll;
+        GeneralEvents.setSpeed -= setSpeed;
 
     }
 
@@ -71,26 +86,43 @@ public class MovmentControler : MonoBehaviour
         {
             roll();
         }
+        /*
         if (Input.GetKeyUp(KeyCode.W))
         {
             changeMvt();
         }
-
+        */
         //animator.SetFloat("speed", Mathf.Abs(move.magnitude * Time.deltaTime * speed));
         //animator.SetFloat("speed", 1);
         if (_courentState == State.roll)
         {
-            characterController.Move(transform.forward * Time.smoothDeltaTime *speed);
+            characterController.Move(transform.forward * Time.smoothDeltaTime *speed*1.5f);
+            
         }
         else if (move != Vector3.zero)
         {
+            audio.clip = walk;
+            if (!audio.isPlaying)
+            {
+                audio.Play();
+            }
             move.y = 0;
             characterController.Move(move.normalized * Time.smoothDeltaTime * speed);
-            animator.SetFloat("speed", 1);
-            slow = 1;
+            animator.SetFloat("speed", slow);
+            if (slow <1)
+            {
+                slow += 0.1f;
+            }
+            
         }
         else
         {
+            
+            if (audio.clip==walk)
+            {
+                audio.Stop();
+            }
+            
             if (slow > 0.01f)
                 slow = slow * 3 / 4;
 
@@ -98,7 +130,12 @@ public class MovmentControler : MonoBehaviour
         }
         if (_courentState != State.roll)
         {
-            if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
+            if (target != null)
+            {
+                if(target.position.y <transform.position.y+1&& target.position.y > transform.position.y - 1)
+                    transform.LookAt(target);
+            }
+            else if (ShootingDir != Vector3.zero&&ShootingDir.magnitude>0.5f)
             {
                 LockOnTarget(ShootingDir.normalized);
             }
@@ -185,7 +222,7 @@ public class MovmentControler : MonoBehaviour
 
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
         while (true)
         {
             yield return wait;
@@ -196,10 +233,18 @@ public class MovmentControler : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
-        if (rangeChecks.Length != 0)
+        List<Collider> colliders = new List<Collider>();
+        foreach (var item in rangeChecks)
         {
-            target = rangeChecks[0].transform;
+            if (item.gameObject.tag!="Drone")
+            {
+                colliders.Add(item);
+            }
+        }
+        if (colliders.Count != 0)
+        {
+            target = colliders[0].transform;
+            
         }
         else
         {
@@ -209,7 +254,12 @@ public class MovmentControler : MonoBehaviour
 
     private void die()
     {
+        audio.clip = null;
         animator.SetBool("die", true);
         this.enabled = false;
+    }
+    public void setSpeed(float v)
+    {
+        speed = v;
     }
 }

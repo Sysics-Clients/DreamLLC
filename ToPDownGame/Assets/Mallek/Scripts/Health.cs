@@ -59,12 +59,16 @@ public class Health : MonoBehaviour
         }
         if (player != null && corentHelth <= 0)
         {
+            print("aa");
             player.die();
             //player = null;
+            player.damege -= damege;
             StartCoroutine(SleppGame());
             
         }
-           
+        //if (corentHelth < 30)
+        //    GeneralEvents.changeColorHealth();
+        GeneralEvents.takeDamege();   
         GeneralEvents.health(corentHelth, armor);
 
     }

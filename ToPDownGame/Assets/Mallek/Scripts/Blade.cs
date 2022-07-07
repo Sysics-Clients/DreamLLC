@@ -43,6 +43,7 @@ public class Blade : MonoBehaviour
     }
     IEnumerator attack()
     {
+        yield return new WaitForSeconds(0.2f);
         damege.enabled = true;
         yield return new WaitForSeconds(1);
         damege.enabled = false;

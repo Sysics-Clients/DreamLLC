@@ -34,7 +34,7 @@ public class EnemyShooting : MonoBehaviour
         //GameObject clone = Instantiate(bullet_, firePoint.position, firePoint.rotation);
         GameObject newBullet = enemyBehavior.getBullet();
         newBullet.transform.position = firePoint.position;
-        newBullet.GetComponent<Rigidbody>().velocity = transform.forward * speed+transform.up*gunBloom+transform.right*gunBloom;
+        newBullet.GetComponent<Rigidbody>().velocity = transform.forward * speed;
         newBullet.GetComponent<EnemyBullet>().sender = gameObject;
     }
     public void ShootBullet()

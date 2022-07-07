@@ -6,7 +6,9 @@ public class aileRotation : MonoBehaviour
 {
     // Start is called before the first frame update
     public float RotSpeed = 0.5f;
-    void Start()
+
+    
+void Start()
     {
         
     }

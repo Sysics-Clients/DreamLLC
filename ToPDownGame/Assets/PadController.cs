@@ -11,6 +11,10 @@ public class PadController : MonoBehaviour
     public RectTransform ImageText;
     public Ease ImageEase;
     public GameObject ChatSreen;
+    public AudioSource audioSource;
+    public AudioClip openPanel;
+    
+    public GameObject canvasInput;
     void Start()
     {
         float y = spriteTransform.localPosition.y;
@@ -39,6 +43,8 @@ public class PadController : MonoBehaviour
             spriteTransform.gameObject.SetActive(false);
              PadObject.SetActive(false);
             Sequence mySequence = DOTween.Sequence();
+            audioSource.clip = openPanel;
+            audioSource.Play();
             mySequence.Append(ImageText.DOScaleY(1, 0.3f)).SetEase(ImageEase);
             mySequence.OnComplete(() =>
             {
@@ -49,13 +55,24 @@ public class PadController : MonoBehaviour
             
             thisColloder.enabled = false;
             Canvas.SetActive(true);
-            GameObject canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+            canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+            canvasInput.GetComponent<InputSystem>().MvtJoystic.Init();
+            canvasInput.GetComponent<InputSystem>().ShootJoystic.Init();
+            if (GeneralEvents.sendMvt!=null)
+            {
+                GeneralEvents.sendMvt(Vector3.zero);
+            }
+            if (GeneralEvents.sendShooting != null)
+            {
+                GeneralEvents.sendShooting(Vector3.zero);
+            }
             canvasInput.SetActive(false);
         }
     }
     public void SkipButton()
     {
         Time.timeScale = 1;
+       
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(ImageText.DOScaleY(0, 0.3f)).SetEase(Ease.InBack);
         mySequence.OnComplete(() =>
@@ -66,12 +83,23 @@ public class PadController : MonoBehaviour
             }
             else
             {
-                GameObject canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
+                 //canvasInput = GameObject.FindObjectOfType<InputSystem>().gameObject;
                 canvasInput.SetActive(true);
+                 GeneralEvents.onTaskFinish(MissionName.collectPad, gameObject.GetComponent<MissionObjects>().id);
+
             }
-            Destroy(gameObject);
+            
+            if (GeneralEvents.sendMvt != null)
+            {
+                GeneralEvents.sendMvt(Vector3.zero);
+            }
+            if (GeneralEvents.sendShooting != null)
+            {
+                GeneralEvents.sendShooting(Vector3.zero);
+            }
+            //Destroy(gameObject);
             //PadObject.SetActive(false);
         });
-
+        
     }
 }

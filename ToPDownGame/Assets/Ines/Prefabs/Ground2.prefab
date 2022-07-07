@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 3852035247015021197}
   - component: {fileID: 205747422080681256}
   - component: {fileID: 2683584048714133986}
-  - component: {fileID: 7546438774340551370}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Ground2
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3852035247015021197
 Transform:
@@ -26,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4485300495785463863}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 141.32, y: 1.21, z: 123.913124}
   m_LocalScale: {x: 8.453513, y: 0.16081952, z: 8.453513}
   m_Children: []
@@ -80,16 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &7546438774340551370
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4485300495785463863}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.0431105, y: 0.20945495, z: 1.0326434}
-  m_Center: {x: 0, y: 0.39527252, z: 0.0052335258}

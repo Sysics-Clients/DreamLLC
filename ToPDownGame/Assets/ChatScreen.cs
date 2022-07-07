@@ -11,6 +11,9 @@ public class ChatScreen : MonoBehaviour
     public Text SgtText;
     public GameObject SgtMessage;
     public GameObject ContinueButton;
+    public AudioSource audioSource;
+    public AudioClip popup;
+    public PadController padController;
     private void OnEnable()
     {
         Time.timeScale = 0;
@@ -25,13 +28,15 @@ public class ChatScreen : MonoBehaviour
         for (int i = 0; i < messages.Count; i++)
         {
             messages[i].SetActive(true);
-            yield return new WaitForSecondsRealtime(2f);
+            audioSource.clip = popup;
+            audioSource.Play();
+            yield return new WaitForSecondsRealtime(1f);
             if (i<messages.Count-1)
             {
                 for (int k = 0; k < 10; k++)
                 {
                     yield return new WaitForSecondsRealtime(0.02f);
-                    MaskImage.Translate(Vector3.up*30);
+                    MaskImage.Translate(Vector3.up*Screen.height/50);
                 }
                 
                 
@@ -43,6 +48,10 @@ public class ChatScreen : MonoBehaviour
                 {
                     yield return new WaitForSecondsRealtime(0.02f);
                     SgtText.text += SgtSmithText[j];
+                    if (j==SgtSmithText.Length-11)
+                    {
+                        ContinueButton.SetActive(true);
+                    }
                 }
             }
             yield return new WaitForSecondsRealtime(0.1f);
@@ -50,5 +59,13 @@ public class ChatScreen : MonoBehaviour
         
         
 
+    }
+    public void DisableCanvas()
+    {
+        padController.canvasInput.SetActive(true);
+        padController.gameObject.SetActive(false);
+        Time.timeScale = 1;
+        GeneralEvents.onTaskFinish(MissionName.collectPad, padController.gameObject.GetComponent<MissionObjects>().id);
+        
     }
 }

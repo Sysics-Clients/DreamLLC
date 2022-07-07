@@ -2,15 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapons")]
-public class WeaponItem : ScriptableObject
+public class WeaponItem : ItemObjects
 {
-    public string nameWeap;
-    public string desc;
-    public GameObject Prefab;
+    public Sprite presentation;
     public GameObject bullet;
     public RuntimeAnimatorController animator;
+    public AudioClip AudioReload, emptyGun;
+    public int damege;
     public int reload;
     public float wait;
-    public WeopenType weopenType;
+    public float speed;
+
+    private void OnValidate()
+    {
+        if(bullet!=null)
+            bullet.GetComponent<Bullet>().damege = damege;
+    }
+    
 }
-public enum WeopenType { AK, Gun }
+

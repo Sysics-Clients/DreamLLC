@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7865351989538672218}
   m_Layer: 0
   m_Name: bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,8 +108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14783c70cc406c488f443679d9fb72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  damege: 10
+  speed: 40
+  damege: 50
+  BloodEffect: {fileID: 9079954193815246395, guid: 67edb71a9f3977e44b94edffcc208722,
+    type: 3}
+  MetalEffect: {fileID: 195742, guid: c83fb3ef04bb383408bb2064b89690b2, type: 3}
+  WoodEffect: {fileID: 138890, guid: 85c42c69cd6a99a44baea39f65c67510, type: 3}
+  vfxBlood: {fileID: 152964, guid: f6eb67a55d6576d4989beaefc580ff08, type: 3}
 --- !u!54 &-7865351989538672218
 Rigidbody:
   m_ObjectHideFlags: 0

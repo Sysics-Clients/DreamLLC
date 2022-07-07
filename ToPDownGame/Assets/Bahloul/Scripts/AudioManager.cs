@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager instance;
+ 
+  private void Awake() {
+   if (instance != null) {
+     Destroy(gameObject);
+   }else{
+     instance = this;
+     DontDestroyOnLoad(gameObject);
+   }
+ }
+ 
     public GeneralEvents generalEvents;
-
+    public AudioSource MetalHit;
+    public AudioSource WoodHit;
+    public AudioSource BoxDestruction;
+    public AudioSource EnemyDie;
+    public AudioSource DroneHitGround;
     public enum Sounds
     {
         Metal,
         Wood,
         BoxDestruction,
+        enemyDie,
+        droneHitGround,
     }
-    public AudioSource MetalHit;
-    public AudioSource WoodHit;
-    public AudioSource BoxDestruction;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+
     public void PlaySound(Sounds s)
     {
         switch (s)
@@ -33,13 +44,15 @@ public class AudioManager : MonoBehaviour
             case Sounds.BoxDestruction:
                 BoxDestruction.Play();
                 break;
+            case Sounds.enemyDie:
+                EnemyDie.Play();
+                break;
+            case Sounds.droneHitGround:
+                DroneHitGround.Play();
+                break;
         }
         
     }
     
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

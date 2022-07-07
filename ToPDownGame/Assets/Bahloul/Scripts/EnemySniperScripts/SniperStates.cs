@@ -6,7 +6,11 @@ using UnityEngine.AI;
 public class SniperStates : MonoBehaviour
 {
     public SniperBehavior sniperBehavior;
-    
+    private AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
     public enum State
     {
         Idle,
@@ -17,6 +21,7 @@ public class SniperStates : MonoBehaviour
     }
     private void OnEnable()
     {
+        GeneralEvents.stopEnemies += StopShooting;
         sniperBehavior.changeGun += changeGun;
         sniperBehavior.getState += getCurrentState;
         sniperBehavior.changeState += changeState;
@@ -24,6 +29,7 @@ public class SniperStates : MonoBehaviour
     }
     private void OnDisable()
     {
+        GeneralEvents.stopEnemies -= StopShooting;
         sniperBehavior.changeGun -= changeGun;
         sniperBehavior.getState -= getCurrentState;
         sniperBehavior.changeState -= changeState;
@@ -43,7 +49,7 @@ public class SniperStates : MonoBehaviour
     private State currentState;
     private int currentGun=0;//2: attack gun ,0:idle gun,1:roaming gun  , -1: no Gun
     public List<GameObject> guns;
-    Transform playerTransform;
+    GameObject player;
     Animator anim;
     Coroutine WaitIdle;
     [SerializeField] float timeToWaitIdle;
@@ -59,9 +65,13 @@ public class SniperStates : MonoBehaviour
         WaitIdle = StartCoroutine(WaitOnIdle());
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         anim.SetBool("isShooting", false);
         guns[0].SetActive(true);
+    }
+    void StopShooting()
+    {
+        anim.SetBool("isShooting", false);
     }
     public void toHelp(Vector3 pos)
     {
@@ -91,13 +101,13 @@ public class SniperStates : MonoBehaviour
     {
         if (!sniperBehavior.isVisible)
             return;
-
+        print(currentState);
         switch (currentState)
         {
             case State.Idle:
-                if ((Vector3.Distance(transform.position, Positions[currentPos].position) < 40f) && Mathf.Abs(transform.position.y - playerTransform.position.y) < 0.5f)
+                if ((Vector3.Distance(transform.position, Positions[currentPos].position) < 40f) && Mathf.Abs(transform.position.y - player.transform.position.y) < 0.5f)
                 {
-                    transform.LookAt(playerTransform.position);
+                    transform.LookAt(player.transform.position);
                     sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
                     agent.speed = 0;
                     changeState(State.Attack);
@@ -108,27 +118,28 @@ public class SniperStates : MonoBehaviour
                 {
                     toIdle();
                 }
-                if((Vector3.Distance(transform.position, Positions[currentPos].position) < 40f)&& Mathf.Abs( transform.position.y-playerTransform.position.y)<0.5f)
+                if((Vector3.Distance(transform.position, player.transform.position) < 30f)&& Mathf.Abs( transform.position.y- player.transform.position.y)<0.5f)
                 {
-                    transform.LookAt(playerTransform.position);
+                    transform.LookAt(player.transform.position);
                     sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
                     agent.speed = 0;
                     changeState(State.Attack);
                 }
                     break;
             case State.Attack:
-                transform.LookAt(playerTransform.position);
+                transform.LookAt(player.transform.position);
                 break;
             case State.Chase:
                 if (!agent.hasPath && LookAtPlayer)
                 {
-                    transform.LookAt(playerTransform.position);
+                    transform.LookAt(player.transform.position);
                     sniperBehavior.enemyMovement(SniperMovement.Movement.ThrowGrenade);
                     agent.speed = 0;
                     changeState(State.Attack);
                 }
                 break;
             case State.Death:
+                audioManager.PlaySound(AudioManager.Sounds.enemyDie);
                 StopAllCoroutines();
                 sniperBehavior.EnemyCanvas.enabled = false;
                 anim.SetBool("isShooting", false);
@@ -136,6 +147,11 @@ public class SniperStates : MonoBehaviour
                 agent.speed = 0;
                 guns[currentGun].SetActive(false);
                 enabled = false;
+                MissionObjects mo = GetComponent<MissionObjects>();
+                gameObject.tag = "Untagged";
+                gameObject.layer = 0;
+                if (mo != null)
+                    GeneralEvents.onTaskFinish(MissionName.destroyEnemy, mo.id);
                 break;
 
         }
